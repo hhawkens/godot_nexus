@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <IsPackable>false</IsPackable>
+        <GenerateProgramFile>false</GenerateProgramFile>
+        <AssemblyName>App.$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>App.$(MSBuildProjectName)</RootNamespace>
+        <Authors>Oliver Hawk</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FsCheck.NUnit" Version="2.15.2" />
+        <PackageReference Include="NUnit" Version="3.13.2" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Content Include="TestData\**\*.*">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="WorkFlowsTests.fs" />
+        <Compile Include="OperatorsTests.fs" />
+        <Compile Include="EnumsTests.fs" />
+        <Compile Include="CompareTests.fs" />
+        <Compile Include="MonadExtensionTests.fs" />
+        <Compile Include="PercentTests.fs" />
+        <Compile Include="RandTests.fs" />
+        <Compile Include="SetOnceTests.fs" />
+        <Compile Include="FileSizeTests.fs" />
+        <Compile Include="ActiveSetTests.fs" />
+        <Compile Include="DirectoryDataTests.fs" />
+        <Compile Include="FileDataTests.fs" />
+        <Compile Include="SystemsTests.fs" />
+        <Compile Include="Program.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Utilities\Utilities.fsproj" />
+      <ProjectReference Include="..\TestHelpers\TestHelpers.fsproj" />
+    </ItemGroup>
+
+</Project>

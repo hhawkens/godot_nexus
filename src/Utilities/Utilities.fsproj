@@ -1,0 +1,33 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>App.$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>App.$(MSBuildProjectName)</RootNamespace>
+        <IsPackable>false</IsPackable>
+        <Authors>Oliver Hawk</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="WorkFlows.fs" />
+        <Compile Include="Operators.fs" />
+        <Compile Include="Enums.fs" />
+        <Compile Include="Compare.fs" />
+        <Compile Include="Reflec.fs" />
+        <Compile Include="Extensions\MonadExtensions.fs" />
+        <Compile Include="Types\FileData.fs" />
+        <Compile Include="Types\DirectoryData.fs" />
+        <Compile Include="Types\IODataExtensions.fs" />
+        <Compile Include="Types\Percent.fs" />
+        <Compile Include="Types\Rand.fs" />
+        <Compile Include="Types\SetOnce.fs" />
+        <Compile Include="Types\FileSize.fs" />
+        <Compile Include="Types\Web.fs" />
+        <Compile Include="Collections\ActiveSet.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FSharpPlus" Version="1.1.7" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <IsPackable>false</IsPackable>
+        <GenerateProgramFile>false</GenerateProgramFile>
+        <AssemblyName>App.$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>App.$(MSBuildProjectName)</RootNamespace>
+        <Authors>Oliver Hawk</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FsCheck.NUnit" Version="2.15.2" />
+        <PackageReference Include="NUnit" Version="3.13.2" />
+        <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="JobStatusMachineTests.fs" />
+        <Compile Include="Program.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Core\Core.Domain\Core.Domain.fsproj" />
+    </ItemGroup>
+
+</Project>

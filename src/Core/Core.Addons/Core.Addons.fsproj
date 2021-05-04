@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>App.$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>App.$(MSBuildProjectName)</RootNamespace>
+        <IsPackable>false</IsPackable>
+        <Authors>Oliver Hawk</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="Assembly.fs" />
+      <Compile Include="AddonTaskTypes.fs" />
+      <Compile Include="IAddon.fs" />
+      <Compile Include="DefaultAddon.fs" />
+      <Compile Include="TickerContainer.fs" />
+      <Compile Include="AddonManager.fs" />
+      <Compile Include="OnlineExtensions.fs" />
+      <Compile Include="Addons\UpdateOnlineEngines\TextHelpers.fs" />
+      <Compile Include="Addons\UpdateOnlineEngines\EnginesFinder.fs" />
+      <Compile Include="Addons\UpdateOnlineEngines\Addon.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Core.State\Core.State.fsproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="AngleSharp" Version="0.15.0">
+          <PrivateAssets>compile</PrivateAssets>
+      </PackageReference>
+    </ItemGroup>
+
+</Project>

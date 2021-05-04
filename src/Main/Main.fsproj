@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <OutputType>WinExe</OutputType>
+        <AssemblyName>App.$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>App.$(MSBuildProjectName)</RootNamespace>
+        <IsPackable>false</IsPackable>
+        <Authors>Oliver Hawk</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="Installation.fs" />
+      <Compile Include="ProgramEntry.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Presentation\Presentation.Frontend\Presentation.Frontend.csproj" />
+      <ProjectReference Include="..\Presentation\Presentation.Gui\Presentation.Gui.csproj" />
+    </ItemGroup>
+
+</Project>

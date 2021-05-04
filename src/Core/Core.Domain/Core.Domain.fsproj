@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>App.$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>App.$(MSBuildProjectName)</RootNamespace>
+        <IsPackable>false</IsPackable>
+        <Authors>Oliver Hawk</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="TypeAliases.fs" />
+      <Compile Include="Tick.fs" />
+      <Compile Include="Error.fs" />
+      <Compile Include="SimpleResult.fs" />
+      <Compile Include="Id.fs" />
+      <Compile Include="IdPrefixes.fs" />
+      <Compile Include="Engine.fs" />
+      <Compile Include="Project.fs" />
+      <Compile Include="Theme.fs" />
+      <Compile Include="ConfigData.fs" />
+      <Compile Include="Preferences.fs" />
+      <Compile Include="Job\JobStatus.fs" />
+      <Compile Include="Job\IJob.fs" />
+      <Compile Include="Job\JobDef.fs" />
+      <Compile Include="Job\JobStatusMachine.fs" />
+      <Compile Include="AppState.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Utilities\Utilities.fsproj" />
+    </ItemGroup>
+
+</Project>

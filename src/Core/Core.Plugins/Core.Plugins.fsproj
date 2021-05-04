@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>App.$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>App.$(MSBuildProjectName)</RootNamespace>
+        <IsPackable>false</IsPackable>
+        <Authors>Oliver Hawk</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Core.PluginDefinitions\Core.PluginDefinitions.fsproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Include="Assembly.fs" />
+      <Compile Include="Caching\Caching.fs" />
+      <Compile Include="EnginesDirectoryGetter\EnginesDirectoryGetter.fs" />
+      <Compile Include="DownloadEngine\DownloadEngineJob.fs" />
+      <Compile Include="DownloadEngine\DownloadEngine.fs" />
+      <Compile Include="DefaultPreferences\DefaultPreferences.fs" />
+      <Compile Include="PersistPreferences\ConfigSerializer.fs" />
+      <Compile Include="PersistPreferences\PersistPreferences.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="SharpConfig" Version="3.2.9.1">
+          <PrivateAssets>compile</PrivateAssets>
+      </PackageReference>
+    </ItemGroup>
+
+</Project>

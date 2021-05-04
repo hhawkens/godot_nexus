@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>App.$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>App.$(MSBuildProjectName)</RootNamespace>
+        <IsPackable>false</IsPackable>
+        <Authors>Oliver Hawk</Authors>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Include="AppStateChangedEvent.fs" />
+      <Compile Include="IAppStateManager.fs" />
+      <Compile Include="AppStateManager.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Core.Domain\Core.Domain.fsproj" />
+      <ProjectReference Include="..\Core.PluginDefinitions\Core.PluginDefinitions.fsproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,71 @@
+/*
+ * Cheat sheet for pre-defined GTK theme colors:
+ * @borders
+ * @theme_bg_color
+ * @theme_fg_color
+ * @theme_base_color
+ * @theme_text_color
+ * @theme_selected_bg_color
+ * @theme_selected_fg_color
+ * @theme_tooltip_bg_color
+ * @theme_tooltip_fg_color
+*/
+
+.test {
+    background-color: darkmagenta;
+}
+
+.base-color {
+    background-color: @theme_base_color;
+}
+
+.heading {
+    font-weight: bold;
+    font-size: large;
+}
+
+.header {
+    border-bottom: 1px solid @borders;
+}
+.icon-button {
+    border-radius: 100px;
+}
+
+.sidebar {
+    border-right: 1px solid @borders;
+}
+
+.sidebar .list-entry {
+    background-color: transparent;
+    border-left: 3px solid transparent;
+    margin-top: 6px;
+    margin-left: 3px;
+}
+
+.sidebar .list-entry:hover {
+    background-color: alpha(@theme_selected_bg_color, 0.6);
+}
+
+.sidebar .list-entry:selected {
+    border-left: 3px solid @theme_selected_bg_color;
+}
+
+.sidebar .list-entry image {
+    padding-left: 9px;
+}
+
+.sidebar .list-entry label {
+    padding-left: 18px;
+}
+
+.sidebar .list-entry:selected label {
+    color: @theme_fg_color;
+}
+
+.sidebar .list-entry:hover label {
+    color: @theme_selected_fg_color;
+}
+
+.footer {
+    border-top: 1px solid @borders;
+}
