@@ -11,6 +11,7 @@ let private defaultAppState = {
     EngineInstalls = ActiveSet.createEmpty ()
     Projects = Set.empty
 }
+
 let private serializer =
     let jSer = JsonSerializer()
     jSer.ReferenceLoopHandling <- ReferenceLoopHandling.Ignore
