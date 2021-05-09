@@ -16,6 +16,10 @@
       <Compile Include="Assembly.fs" />
       <Compile Include="PluginConstants.fs" />
       <Compile Include="Caching\Caching.fs" />
+      <Compile Include="PersistAppState\SerializableTypes.fs" />
+      <Compile Include="PersistAppState\CustomConverters.fs" />
+      <Compile Include="PersistAppState\AppStateSerializer.fs" />
+      <Compile Include="PersistAppState\PersistAppState.fs" />
       <Compile Include="PersistPreferences\ConfigSerializer.fs" />
       <Compile Include="PersistPreferences\PersistPreferences.fs" />
       <Compile Include="DefaultPreferences\DefaultPreferences.fs" />
@@ -25,6 +29,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2">
+          <PrivateAssets>compile</PrivateAssets>
+      </PackageReference>
       <PackageReference Include="SharpConfig" Version="3.2.9.1">
           <PrivateAssets>compile</PrivateAssets>
       </PackageReference>

@@ -57,10 +57,10 @@ let private UnsafeLoadFrom defaultPrefs (file: FileData) =
         }
     }
 
-let internal LoadFrom defaultPrefs (file: FileData) =
+let internal LoadFrom fallBack (file: FileData) =
     if File.Exists file.FullPath |> not || FileInfo(file.FullPath).Length = 0L then
-        LoadedDefaults defaultPrefs
+        LoadedDefaults fallBack
     else
-        match exnToResult (fun () -> UnsafeLoadFrom defaultPrefs file) with
+        match exnToResult (fun () -> UnsafeLoadFrom fallBack file) with
         | Ok prefs -> Loaded prefs
         | Error err -> LoadFailed err

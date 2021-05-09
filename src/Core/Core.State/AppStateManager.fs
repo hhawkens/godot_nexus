@@ -7,9 +7,10 @@ open App.Utilities
 open FSharpPlus
 
 // TODO split up into domain specific sub-state-managers
+// TODO rename to state controller
 type internal AppStateManager(cachingPlugin: UCaching,
-    persistPreferencesPlugin: UPersistPreferences,
     persistAppStatePlugin: UPersistAppState,
+    persistPreferencesPlugin: UPersistPreferences,
     defaultPreferencesPlugin: UDefaultPreferences,
 
     enginesDirectoryPlugin: UEnginesDirectoryGetter,

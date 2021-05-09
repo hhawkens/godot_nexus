@@ -5,7 +5,7 @@ open App.Core.Domain
 open App.Core.PluginDefinitions
 open App.Utilities
 
-type internal PersistPreferences(defaultPreferences: Preferences) =
+type internal PersistPreferences (defaultPreferences: Preferences) =
 
     [<Literal>]
     let file = "UserSettings.ini"

@@ -16,8 +16,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Include="DownloadEngineJobTests.fs" />
+        <Compile Include="PersistAppStateTests.fs" />
         <Compile Include="PersistPreferencesTests.fs" />
+        <Compile Include="DownloadEngineJobTests.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 
