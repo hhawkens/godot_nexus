@@ -14,13 +14,14 @@
 
     <ItemGroup>
       <Compile Include="Assembly.fs" />
+      <Compile Include="PluginConstants.fs" />
       <Compile Include="Caching\Caching.fs" />
+      <Compile Include="PersistPreferences\ConfigSerializer.fs" />
+      <Compile Include="PersistPreferences\PersistPreferences.fs" />
+      <Compile Include="DefaultPreferences\DefaultPreferences.fs" />
       <Compile Include="EnginesDirectoryGetter\EnginesDirectoryGetter.fs" />
       <Compile Include="DownloadEngine\DownloadEngineJob.fs" />
       <Compile Include="DownloadEngine\DownloadEngine.fs" />
-      <Compile Include="DefaultPreferences\DefaultPreferences.fs" />
-      <Compile Include="PersistPreferences\ConfigSerializer.fs" />
-      <Compile Include="PersistPreferences\PersistPreferences.fs" />
     </ItemGroup>
 
     <ItemGroup>

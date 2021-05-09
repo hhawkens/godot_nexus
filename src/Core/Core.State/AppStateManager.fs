@@ -10,8 +10,8 @@ open FSharpPlus
 type internal AppStateManager(cachingPlugin: UCaching,
     persistPreferencesPlugin: UPersistPreferences,
     persistAppStatePlugin: UPersistAppState,
-
     defaultPreferencesPlugin: UDefaultPreferences,
+
     enginesDirectoryPlugin: UEnginesDirectoryGetter,
     downloadEnginePlugin: UDownloadEngine,
     installEnginePlugin: UInstallEngine,

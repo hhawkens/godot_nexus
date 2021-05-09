@@ -1,5 +1,6 @@
 namespace App.Core.Plugins
 
+open System.IO
 open App.Core.Domain
 open App.Core.PluginDefinitions
 open App.Utilities
@@ -7,12 +8,12 @@ open App.Utilities
 type public Caching () =
 
     [<Literal>]
-    let cacheDirName = "app_cache_01"
+    let cacheDirName = "app_cache"
 
     let initializationError = SetOnce<string option>(None)
 
     let cacheDirectoryOption =
-        match cacheDirName |> DirectoryData.TryCreate with
+        match Path.Combine(AppDataPath, cacheDirName) |> DirectoryData.TryCreate with
         | Ok dir -> Some dir
         | Error err ->
             initializationError.SetOrFail(Some $"Could not create cache directory \"{cacheDirName}\, reason:\n{err}")

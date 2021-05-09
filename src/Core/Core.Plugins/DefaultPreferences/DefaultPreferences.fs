@@ -1,25 +1,29 @@
 module internal App.Core.Plugins.DefaultPreferences
 
+open System.IO
 open App.Core.Domain
 open App.Core.PluginDefinitions
 open App.Utilities
 
 [<Literal>]
-let private enginesPath = "01_engines"
+let private enginesPath = "engines"
 
 [<Literal>]
-let private projectsPath = "01_projects"
+let private projectsPath = "projects"
+
+let private enginesDirectoryInfo = Path.Combine(AppDataPath, enginesPath) |> DirectoryData.TryCreate |> unwrap
+let private projectsDirectoryInfo = Path.Combine(AppDataPath, projectsPath) |> DirectoryData.TryCreate |> unwrap
 
 let private defaultEnginesPath = {
     Description = "Directory the downloaded engines are saved to"
-    DefaultValue = DirectoryData.TryCreate enginesPath |> unwrap
-    CurrentValue = DirectoryData.TryCreate enginesPath |> unwrap
+    DefaultValue = enginesDirectoryInfo
+    CurrentValue = enginesDirectoryInfo
 }
 
 let private defaultProjectsPath = {
     Description = "Directory the application looks for projects at"
-    DefaultValue = DirectoryData.TryCreate projectsPath |> unwrap
-    CurrentValue = DirectoryData.TryCreate projectsPath |> unwrap
+    DefaultValue = projectsDirectoryInfo
+    CurrentValue = projectsDirectoryInfo
 }
 
 let private defaultGeneralSettings = {

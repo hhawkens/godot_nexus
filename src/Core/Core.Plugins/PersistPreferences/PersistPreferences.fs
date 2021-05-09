@@ -8,9 +8,6 @@ open App.Utilities
 type internal PersistPreferences(defaultPreferences: Preferences) =
 
     [<Literal>]
-    let path = "01_preferences"
-
-    [<Literal>]
     let file = "UserSettings.ini"
 
     let mutable configFile = SetOnce(FileData.Empty)
@@ -24,6 +21,6 @@ type internal PersistPreferences(defaultPreferences: Preferences) =
             ConfigSerializer.Save configFile.Value prefs
 
         member this.TryInitialize() =
-            match FileData.TryCreate (Path.Combine(path, file)) with
+            match FileData.TryCreate (Path.Combine(AppDataPath, file)) with
             | Ok f -> configFile.SetOrFail(f) |> Ok
             | Error err -> Error err

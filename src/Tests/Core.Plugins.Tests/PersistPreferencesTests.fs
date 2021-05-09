@@ -8,12 +8,10 @@ open App.Utilities
 open NUnit.Framework
 
 [<Literal>]
-let private prefsFolder = "01_preferences"
-[<Literal>]
 let private prefsFile = "UserSettings.ini"
 
-let private enginesPath = $"{prefsFolder}/engines" |> DirectoryData.TryCreate |> unwrap
-let private projectsPath = $"{prefsFolder}/projects" |> DirectoryData.TryCreate |> unwrap
+let private enginesPath = $"{AppDataPath}/engines" |> DirectoryData.TryCreate |> unwrap
+let private projectsPath = $"{AppDataPath}/projects" |> DirectoryData.TryCreate |> unwrap
 
 let private defaultPreferences = {
     General = {
@@ -66,7 +64,7 @@ let private newPlugin () =
 
 [<TearDown>]
 let public Cleanup () =
-    (DirectoryData.TryCreate prefsFolder |> unwrap).TryDelete() |> unwrap
+    (DirectoryData.TryCreate AppDataPath |> unwrap).TryDelete() |> unwrap
 
 [<Test>]
 let public ``Valid Saved And Loaded Prefs Have Consistent Data`` () =
@@ -99,7 +97,7 @@ let public ``Loading Preferences Without Existing File Yields Defaults`` () =
 
 [<Test>]
 let public ``Loading Faulty File Yields Error`` () =
-    let fileData = FileData.TryCreate (Path.Combine(prefsFolder, prefsFile)) |> unwrap
+    let fileData = FileData.TryCreate (Path.Combine(AppDataPath, prefsFile)) |> unwrap
     File.WriteAllText(fileData.FullPath, "[Bla]\nBla=Bla")
     let plugin = newPlugin()
     match plugin.Load() with
