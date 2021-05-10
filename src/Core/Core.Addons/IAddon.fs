@@ -14,7 +14,7 @@ type public IAddon =
     abstract BeforeInitializeTask: unit AddonTask option
 
     /// Called after app is initialized.
-    abstract AfterInitializeTask: IAppStateManager AddonTask option
+    abstract AfterInitializeTask: IAppStateController AddonTask option
 
     /// Called repeatedly in certain intervals.
     abstract TickTask: TickTask option

@@ -10,8 +10,8 @@
 
     <ItemGroup>
       <Compile Include="AppStateChangedEvent.fs" />
-      <Compile Include="IAppStateManager.fs" />
-      <Compile Include="AppStateManager.fs" />
+      <Compile Include="IAppStateController.fs" />
+      <Compile Include="AppStateController.fs" />
     </ItemGroup>
 
     <ItemGroup>

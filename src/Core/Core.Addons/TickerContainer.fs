@@ -13,15 +13,15 @@ type internal TickerContainer (tickTask) =
     let alterTicks fn = setTicks (fn ticksSinceExecution)
     let resetTicks () = setTicks 1u
 
-    let callAddonTask tick appStateManager =
+    let callAddonTask tick appStateController =
         match tickTask.Task with
             | AddonSync task ->
-                task (tick, appStateManager)
+                task (tick, appStateController)
                 resetTicks ()
             | AddonAsync task ->
                 isExecuting <- true
                 Async.Start (async {
-                    let! _ = task (tick, appStateManager)
+                    let! _ = task (tick, appStateController)
                     isExecuting <- false
                     threadSafe resetTicks
                 })
@@ -34,5 +34,5 @@ type internal TickerContainer (tickTask) =
         else do
             alterTicks ((+)1u)
 
-    member public this.Update tick appStateManager =
-        threadSafe (fun _ -> update tick appStateManager)
+    member public this.Update tick appStateController =
+        threadSafe (fun _ -> update tick appStateController)

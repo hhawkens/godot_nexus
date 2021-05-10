@@ -7,8 +7,7 @@ open App.Utilities
 open FSharpPlus
 
 // TODO split up into domain specific sub-state-managers
-// TODO rename to state controller
-type internal AppStateManager(cachingPlugin: UCaching,
+type internal AppStateController(cachingPlugin: UCaching,
     persistAppStatePlugin: UPersistAppState,
     persistPreferencesPlugin: UPersistPreferences,
     defaultPreferencesPlugin: UDefaultPreferences,
@@ -77,7 +76,7 @@ type internal AppStateManager(cachingPlugin: UCaching,
     let engineIsInstalled (engine: Engine) =
         state.EngineInstalls |> exists (fun ei -> ei.Id = engine.Id)
 
-    interface IAppStateManager with
+    interface IAppStateController with
 
         member this.ErrorOccurred = errorOccurred.Publish
         member this.State = state:>IAppState

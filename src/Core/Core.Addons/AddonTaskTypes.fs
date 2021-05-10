@@ -9,5 +9,5 @@ type public AddonTask<'a> =
 
 type public TickTask = {
     ExecuteEvery: Ticks
-    Task: (Tick * IAppStateManager) AddonTask
+    Task: (Tick * IAppStateController) AddonTask
 }

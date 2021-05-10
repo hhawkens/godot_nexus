@@ -14,16 +14,16 @@ let sleepEpsilon = 5
 let mutable private addonManager = AddonManager()
 let private iAddonHook () = (addonManager:>IAddonHook)
 let private iAddonManager () = (addonManager:>IAddonManager)
-let private appStateManager = Mock.Of<IAppStateManager>()
+let private appStateController = Mock.Of<IAppStateController>()
 let sleep (ms: int) = System.Threading.Thread.Sleep ms
 let last ls = Seq.reduce (fun _ -> id) ls
 
 let mutable private beforeCounter1 = 0
 let mutable private beforeCounter2 = 0
-let mutable private afterStates1 = ResizeArray<IAppStateManager>()
-let mutable private afterStates2 = ResizeArray<IAppStateManager>()
-let mutable private tickState1 = (ref appStateManager, ResizeArray<Tick>())
-let mutable private tickState2 = (ref appStateManager, ResizeArray<Tick>())
+let mutable private afterStates1 = ResizeArray<IAppStateController>()
+let mutable private afterStates2 = ResizeArray<IAppStateController>()
+let mutable private tickState1 = (ref appStateController, ResizeArray<Tick>())
+let mutable private tickState2 = (ref appStateController, ResizeArray<Tick>())
 
 let private SetUpAddons (addonHook: IAddonHook) =
     let before1 () = async {
@@ -42,14 +42,14 @@ let private SetUpAddons (addonHook: IAddonHook) =
         sleep (sleepTime * 2)
         afterStates2.Add(state)
     }
-    let tick1 (tick, stateManager) = async {
+    let tick1 (tick, stateController) = async {
         sleep sleepTime
-        (fst tickState1) := stateManager
+        (fst tickState1) := stateController
         (snd tickState1).Add(tick)
     }
-    let tick2 (tick, stateManager) = async {
+    let tick2 (tick, stateController) = async {
         sleep (sleepTime * 2)
-        (fst tickState2) := stateManager
+        (fst tickState2) := stateController
         (snd tickState2).Add(tick)
     }
     let addon1 = {
@@ -92,7 +92,7 @@ let public ``Before Initialize Tasks Are Called Once`` () =
 let public ``After Initialize Tasks Are Called Once`` () =
     SetUpAddons (iAddonHook())
     let manager = iAddonManager()
-    manager.CallAfterInitialize appStateManager
+    manager.CallAfterInitialize appStateController
     Assert.That(afterStates1.Count, Is.EqualTo(0))
     Assert.That(afterStates2.Count, Is.EqualTo(0))
     sleep (sleepTime + sleepEpsilon)
@@ -101,7 +101,7 @@ let public ``After Initialize Tasks Are Called Once`` () =
     sleep (sleepTime + sleepEpsilon)
     Assert.That(afterStates1.Count, Is.EqualTo(1))
     Assert.That(afterStates2.Count, Is.EqualTo(1))
-    manager.CallAfterInitialize appStateManager
+    manager.CallAfterInitialize appStateController
     sleep (sleepTime * 2 + sleepEpsilon)
     Assert.That(afterStates1.Count, Is.EqualTo(1))
     Assert.That(afterStates2.Count, Is.EqualTo(1))
@@ -110,10 +110,10 @@ let public ``After Initialize Tasks Are Called Once`` () =
 let public ``After Initialize Tasks Are Called With Correct State`` () =
     SetUpAddons (iAddonHook())
     let manager = iAddonManager()
-    manager.CallAfterInitialize appStateManager
+    manager.CallAfterInitialize appStateController
     sleep (sleepTime * 2 + sleepEpsilon)
-    Assert.That(afterStates1 |> Seq.forall (fun state -> state = appStateManager))
-    Assert.That(afterStates2 |> Seq.forall (fun state -> state = appStateManager))
+    Assert.That(afterStates1 |> Seq.forall (fun state -> state = appStateController))
+    Assert.That(afterStates2 |> Seq.forall (fun state -> state = appStateController))
 
 [<Test>]
 let public ``Tick Events Are Called With Correct Manager And Ticks`` () =
@@ -122,10 +122,10 @@ let public ``Tick Events Are Called With Correct Manager And Ticks`` () =
 
     for n in 0UL..10UL do
         sleep (sleepTime + sleepEpsilon)
-        manager.Update {TimeStamp = n} appStateManager
+        manager.Update {TimeStamp = n} appStateController
 
-    Assert.That(!(fst tickState1), Is.EqualTo(appStateManager))
-    Assert.That(!(fst tickState2), Is.EqualTo(appStateManager))
+    Assert.That(!(fst tickState1), Is.EqualTo(appStateController))
+    Assert.That(!(fst tickState2), Is.EqualTo(appStateController))
 
     Assert.That((snd tickState1).Count, Is.LessThan(6))
     Assert.That((snd tickState2).Count, Is.LessThan(4))

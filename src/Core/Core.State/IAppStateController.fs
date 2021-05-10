@@ -2,7 +2,7 @@ namespace App.Core.State
 
 open App.Core.Domain
 
-type public IAppStateManager =
+type public IAppStateController =
     abstract ErrorOccurred: IEvent<Error>
 
     abstract State: IAppState

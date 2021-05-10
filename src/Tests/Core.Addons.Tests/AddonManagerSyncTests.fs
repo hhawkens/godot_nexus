@@ -9,25 +9,25 @@ open NUnit.Framework
 let mutable private addonManager = AddonManager()
 let private iAddonHook () = (addonManager:>IAddonHook)
 let private iAddonManager () = (addonManager:>IAddonManager)
-let private appStateManager = Mock.Of<IAppStateManager>()
+let private appStateController = Mock.Of<IAppStateController>()
 
 let mutable private beforeCounter1 = 0
 let mutable private beforeCounter2 = 0
-let mutable private afterStates1 = ResizeArray<IAppStateManager>()
-let mutable private afterStates2 = ResizeArray<IAppStateManager>()
-let mutable private tickState1 = (ref appStateManager, ResizeArray<Tick>())
-let mutable private tickState2 = (ref appStateManager, ResizeArray<Tick>())
+let mutable private afterStates1 = ResizeArray<IAppStateController>()
+let mutable private afterStates2 = ResizeArray<IAppStateController>()
+let mutable private tickState1 = (ref appStateController, ResizeArray<Tick>())
+let mutable private tickState2 = (ref appStateController, ResizeArray<Tick>())
 
 let private SetUpAddons (addonHook: IAddonHook) =
     let before1 () = beforeCounter1 <- beforeCounter1 + 1
     let before2 () = beforeCounter2 <- beforeCounter2 + 1
     let after1 state = afterStates1.Add(state)
     let after2 state = afterStates2.Add(state)
-    let tick1 (tick, stateManager) =
-        (fst tickState1) := stateManager
+    let tick1 (tick, stateController) =
+        (fst tickState1) := stateController
         (snd tickState1).Add(tick)
-    let tick2 (tick, stateManager) =
-        (fst tickState2) := stateManager
+    let tick2 (tick, stateController) =
+        (fst tickState2) := stateController
         (snd tickState2).Add(tick)
     let addon1 = {
         Id = "Uno"
@@ -64,8 +64,8 @@ let public ``After Initialize Tasks Are Called Once`` () =
     let manager = iAddonManager()
     Assert.That(afterStates1.Count, Is.EqualTo(0))
     Assert.That(afterStates2.Count, Is.EqualTo(0))
-    manager.CallAfterInitialize appStateManager
-    manager.CallAfterInitialize appStateManager
+    manager.CallAfterInitialize appStateController
+    manager.CallAfterInitialize appStateController
     Assert.That(afterStates1.Count, Is.EqualTo(1))
     Assert.That(afterStates2.Count, Is.EqualTo(1))
 
@@ -73,9 +73,9 @@ let public ``After Initialize Tasks Are Called Once`` () =
 let public ``After Initialize Tasks Are Called With Correct State`` () =
     SetUpAddons (iAddonHook())
     let manager = iAddonManager()
-    manager.CallAfterInitialize appStateManager
-    Assert.That(afterStates1 |> Seq.forall (fun state -> state = appStateManager))
-    Assert.That(afterStates2 |> Seq.forall (fun state -> state = appStateManager))
+    manager.CallAfterInitialize appStateController
+    Assert.That(afterStates1 |> Seq.forall (fun state -> state = appStateController))
+    Assert.That(afterStates2 |> Seq.forall (fun state -> state = appStateController))
 
 [<Test>]
 let public ``Tick Events Are Called With Correct Manager And Ticks`` () =
@@ -83,10 +83,10 @@ let public ``Tick Events Are Called With Correct Manager And Ticks`` () =
     let manager = iAddonManager()
 
     for n in 0UL..10UL do
-        manager.Update {TimeStamp = n} appStateManager
+        manager.Update {TimeStamp = n} appStateController
 
-    Assert.That(!(fst tickState1), Is.EqualTo(appStateManager))
-    Assert.That(!(fst tickState2), Is.EqualTo(appStateManager))
+    Assert.That(!(fst tickState1), Is.EqualTo(appStateController))
+    Assert.That(!(fst tickState2), Is.EqualTo(appStateController))
 
     Assert.That((snd tickState1).Count, Is.EqualTo(6))
     Assert.That((snd tickState2).Count, Is.EqualTo(3))

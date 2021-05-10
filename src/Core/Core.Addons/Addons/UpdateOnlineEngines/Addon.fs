@@ -5,11 +5,11 @@ open App.Core.State
 
 // TODO OS specific code
 
-let private updateOnlineEngines (appStateManager: IAppStateManager) = async {
+let private updateOnlineEngines (appStateController: IAppStateController) = async {
     let! enginesResult = EnginesFinder.find TextHelpers.GodotDownloadUrl
     match enginesResult with
-    | Ok engines -> appStateManager.SetOnlineEngines engines
-    | Error err -> appStateManager.ThrowError (Error.general err)
+    | Ok engines -> appStateController.SetOnlineEngines engines
+    | Error err -> appStateController.ThrowError (Error.general err)
 }
 
 /// Update Engines Online Addon Instance

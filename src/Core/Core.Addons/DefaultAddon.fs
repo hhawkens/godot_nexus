@@ -9,7 +9,7 @@ type public DefaultAddon =
     {
         Id: string
         BeforeInitializeTask: unit AddonTask option
-        AfterInitializeTask: IAppStateManager AddonTask option
+        AfterInitializeTask: IAppStateController AddonTask option
         TickTask: TickTask option
     }
 

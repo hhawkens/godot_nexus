@@ -20,10 +20,10 @@ type public IAddonManager =
     abstract CallBeforeInitialize: unit -> unit
 
     /// Needs to be called by the system right after it is initialized.
-    abstract CallAfterInitialize: IAppStateManager -> unit
+    abstract CallAfterInitialize: IAppStateController -> unit
 
     /// Updates time based hooks.
-    abstract Update: Tick -> IAppStateManager -> unit
+    abstract Update: Tick -> IAppStateController -> unit
 
     /// Closes all running addons
     abstract ShutDown: unit -> SimpleResult
@@ -62,13 +62,13 @@ type internal AddonManager () =
                 callAllAddonTasks (fun adn -> adn.BeforeInitializeTask) ()
                 beforeInitialized.Set(true)
 
-        member this.CallAfterInitialize appStateManager =
+        member this.CallAfterInitialize appStateController =
             if not afterInitialized.Value then
-                callAllAddonTasks (fun adn -> adn.AfterInitializeTask) appStateManager
+                callAllAddonTasks (fun adn -> adn.AfterInitializeTask) appStateController
                 afterInitialized.Set(true)
 
-        member this.Update tick appStateManager =
+        member this.Update tick appStateController =
             for tickerContainer in tickerContainers do
-                tickerContainer.Update tick appStateManager
+                tickerContainer.Update tick appStateController
 
         member this.ShutDown() = failwith "todo"
