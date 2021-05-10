@@ -1,4 +1,4 @@
-module public App.Core.Addons.Tests.AddonManagerSyncTests
+module public App.Core.Addons.Tests.AddonControllerSyncTests
 
 open App.Core.Addons
 open App.Core.Domain
@@ -6,9 +6,9 @@ open App.Core.State
 open Moq
 open NUnit.Framework
 
-let mutable private addonManager = AddonManager()
-let private iAddonHook () = (addonManager:>IAddonHook)
-let private iAddonManager () = (addonManager:>IAddonManager)
+let mutable private sut = AddonController()
+let private iSutHook () = (sut:>IAddonHook)
+let private iSutController () = (sut:>IAddonController)
 let private appStateController = Mock.Of<IAppStateController>()
 
 let mutable private beforeCounter1 = 0
@@ -45,45 +45,45 @@ let private SetUpAddons (addonHook: IAddonHook) =
     addonHook.RegisterAddon addon2
 
 [<SetUp>]
-let public SetUp () = addonManager <- AddonManager()
+let public SetUp () = sut <- AddonController()
 
 [<Test>]
 let public ``Before Initialize Tasks Are Called Once`` () =
-    SetUpAddons (iAddonHook())
-    let manager = iAddonManager()
+    SetUpAddons (iSutHook())
+    let controller = iSutController()
     Assert.That(beforeCounter1, Is.EqualTo(0))
     Assert.That(beforeCounter2, Is.EqualTo(0))
-    manager.CallBeforeInitialize()
-    manager.CallBeforeInitialize()
+    controller.CallBeforeInitialize()
+    controller.CallBeforeInitialize()
     Assert.That(beforeCounter1, Is.EqualTo(1))
     Assert.That(beforeCounter2, Is.EqualTo(1))
 
 [<Test>]
 let public ``After Initialize Tasks Are Called Once`` () =
-    SetUpAddons (iAddonHook())
-    let manager = iAddonManager()
+    SetUpAddons (iSutHook())
+    let controller = iSutController()
     Assert.That(afterStates1.Count, Is.EqualTo(0))
     Assert.That(afterStates2.Count, Is.EqualTo(0))
-    manager.CallAfterInitialize appStateController
-    manager.CallAfterInitialize appStateController
+    controller.CallAfterInitialize appStateController
+    controller.CallAfterInitialize appStateController
     Assert.That(afterStates1.Count, Is.EqualTo(1))
     Assert.That(afterStates2.Count, Is.EqualTo(1))
 
 [<Test>]
 let public ``After Initialize Tasks Are Called With Correct State`` () =
-    SetUpAddons (iAddonHook())
-    let manager = iAddonManager()
-    manager.CallAfterInitialize appStateController
+    SetUpAddons (iSutHook())
+    let controller = iSutController()
+    controller.CallAfterInitialize appStateController
     Assert.That(afterStates1 |> Seq.forall (fun state -> state = appStateController))
     Assert.That(afterStates2 |> Seq.forall (fun state -> state = appStateController))
 
 [<Test>]
-let public ``Tick Events Are Called With Correct Manager And Ticks`` () =
-    SetUpAddons (iAddonHook())
-    let manager = iAddonManager()
+let public ``Tick Events Are Called With Correct controller And Ticks`` () =
+    SetUpAddons (iSutHook())
+    let controller = iSutController()
 
     for n in 0UL..10UL do
-        manager.Update {TimeStamp = n} appStateController
+        controller.Update {TimeStamp = n} appStateController
 
     Assert.That(!(fst tickState1), Is.EqualTo(appStateController))
     Assert.That(!(fst tickState2), Is.EqualTo(appStateController))

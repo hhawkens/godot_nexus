@@ -14,7 +14,7 @@
       <Compile Include="IAddon.fs" />
       <Compile Include="DefaultAddon.fs" />
       <Compile Include="TickerContainer.fs" />
-      <Compile Include="AddonManager.fs" />
+      <Compile Include="AddonController.fs" />
       <Compile Include="OnlineExtensions.fs" />
       <Compile Include="Addons\UpdateOnlineEngines\TextHelpers.fs" />
       <Compile Include="Addons\UpdateOnlineEngines\EnginesFinder.fs" />

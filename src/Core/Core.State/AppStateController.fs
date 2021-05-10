@@ -6,7 +6,7 @@ open App.Core.State
 open App.Utilities
 open FSharpPlus
 
-// TODO split up into domain specific sub-state-managers
+// TODO split up into domain specific sub-state-controllers
 type internal AppStateController(cachingPlugin: UCaching,
     persistAppStatePlugin: UPersistAppState,
     persistPreferencesPlugin: UPersistPreferences,

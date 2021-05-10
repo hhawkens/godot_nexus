@@ -14,7 +14,7 @@ type public IAddonHook =
 
 
 /// Manages + updates addon hooks.
-type public IAddonManager =
+type public IAddonController =
 
     /// Needs to be called by the system before it is initialized.
     abstract CallBeforeInitialize: unit -> unit
@@ -29,7 +29,7 @@ type public IAddonManager =
     abstract ShutDown: unit -> SimpleResult
 
 
-type internal AddonManager () =
+type internal AddonController () =
 
     let mutable addons = Set.empty
     let mutable tickerContainers: TickerContainer list = []
@@ -55,7 +55,7 @@ type internal AddonManager () =
                 tickerContainers <- tc::tickerContainers
             | None -> ()
 
-    interface IAddonManager with
+    interface IAddonController with
 
         member this.CallBeforeInitialize () =
             if not beforeInitialized.Value then

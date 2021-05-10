@@ -1,4 +1,4 @@
-module public App.Core.Addons.Tests.AddonManagerAsyncTests
+module public App.Core.Addons.Tests.AddonControllerAsyncTests
 
 open App.Core.Addons
 open App.Core.Domain
@@ -11,9 +11,9 @@ let sleepTime = 25
 [<Literal>]
 let sleepEpsilon = 5
 
-let mutable private addonManager = AddonManager()
-let private iAddonHook () = (addonManager:>IAddonHook)
-let private iAddonManager () = (addonManager:>IAddonManager)
+let mutable private sut = AddonController()
+let private iSutHook () = (sut:>IAddonHook)
+let private iSutController () = (sut:>IAddonController)
 let private appStateController = Mock.Of<IAppStateController>()
 let sleep (ms: int) = System.Threading.Thread.Sleep ms
 let last ls = Seq.reduce (fun _ -> id) ls
@@ -68,13 +68,13 @@ let private SetUpAddons (addonHook: IAddonHook) =
     addonHook.RegisterAddon addon2
 
 [<SetUp>]
-let public SetUp () = addonManager <- AddonManager()
+let public SetUp () = sut <- AddonController()
 
 [<Test>]
 let public ``Before Initialize Tasks Are Called Once`` () =
-    SetUpAddons (iAddonHook())
-    let manager = iAddonManager()
-    manager.CallBeforeInitialize()
+    SetUpAddons (iSutHook())
+    let controller = iSutController()
+    controller.CallBeforeInitialize()
     Assert.That(beforeCounter1, Is.EqualTo(0))
     Assert.That(beforeCounter2, Is.EqualTo(0))
     sleep (sleepTime + sleepEpsilon)
@@ -83,16 +83,16 @@ let public ``Before Initialize Tasks Are Called Once`` () =
     sleep (sleepTime + sleepEpsilon)
     Assert.That(beforeCounter1, Is.EqualTo(1))
     Assert.That(beforeCounter2, Is.EqualTo(1))
-    manager.CallBeforeInitialize()
+    controller.CallBeforeInitialize()
     sleep (sleepTime * 2 + sleepEpsilon)
     Assert.That(beforeCounter1, Is.EqualTo(1))
     Assert.That(beforeCounter2, Is.EqualTo(1))
 
 [<Test>]
 let public ``After Initialize Tasks Are Called Once`` () =
-    SetUpAddons (iAddonHook())
-    let manager = iAddonManager()
-    manager.CallAfterInitialize appStateController
+    SetUpAddons (iSutHook())
+    let controller = iSutController()
+    controller.CallAfterInitialize appStateController
     Assert.That(afterStates1.Count, Is.EqualTo(0))
     Assert.That(afterStates2.Count, Is.EqualTo(0))
     sleep (sleepTime + sleepEpsilon)
@@ -101,28 +101,28 @@ let public ``After Initialize Tasks Are Called Once`` () =
     sleep (sleepTime + sleepEpsilon)
     Assert.That(afterStates1.Count, Is.EqualTo(1))
     Assert.That(afterStates2.Count, Is.EqualTo(1))
-    manager.CallAfterInitialize appStateController
+    controller.CallAfterInitialize appStateController
     sleep (sleepTime * 2 + sleepEpsilon)
     Assert.That(afterStates1.Count, Is.EqualTo(1))
     Assert.That(afterStates2.Count, Is.EqualTo(1))
 
 [<Test>]
 let public ``After Initialize Tasks Are Called With Correct State`` () =
-    SetUpAddons (iAddonHook())
-    let manager = iAddonManager()
-    manager.CallAfterInitialize appStateController
+    SetUpAddons (iSutHook())
+    let controller = iSutController()
+    controller.CallAfterInitialize appStateController
     sleep (sleepTime * 2 + sleepEpsilon)
     Assert.That(afterStates1 |> Seq.forall (fun state -> state = appStateController))
     Assert.That(afterStates2 |> Seq.forall (fun state -> state = appStateController))
 
 [<Test>]
-let public ``Tick Events Are Called With Correct Manager And Ticks`` () =
-    SetUpAddons (iAddonHook())
-    let manager = iAddonManager()
+let public ``Tick Events Are Called With Correct controller And Ticks`` () =
+    SetUpAddons (iSutHook())
+    let controller = iSutController()
 
     for n in 0UL..10UL do
         sleep (sleepTime + sleepEpsilon)
-        manager.Update {TimeStamp = n} appStateController
+        controller.Update {TimeStamp = n} appStateController
 
     Assert.That(!(fst tickState1), Is.EqualTo(appStateController))
     Assert.That(!(fst tickState2), Is.EqualTo(appStateController))
