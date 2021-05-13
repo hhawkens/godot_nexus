@@ -1,43 +1,33 @@
 namespace App.Core.State
 
 open App.Core.Domain
-open App.Core.PluginDefinitions
 open App.Core.State
 
-// TODO split up into domain specific sub-state-controllers
-// TODO create another controller for initialization
-// TODO bind error events from sub controllers
+// TODO create another controller for AppStateController initialization
+// TODO propagate errors from sub controllers
+// TODO (maybe?) interfaces for sub controllers
 type internal AppStateController
-    (defaultPreferencesPlugin: UDefaultPreferences,
+    (appStateInstance: AppStateInstance,
      jobsController: JobsController,
-     appStateInstance: AppStateInstance,
      engineStateController: EngineStateController,
-     projectStateController: ProjectStateController) =
+     projectStateController: ProjectStateController,
+     preferencesStateController: PreferencesStateController) =
 
     let errorOccurred = Event<Error>()
-    let prefsChanged = Event<unit>()
-
-    let mutable prefs = defaultPreferencesPlugin ()
-
-    let setPreferences = function
-        | newPrefs when newPrefs <> prefs ->
-            prefs <- newPrefs
-            prefsChanged.Trigger ()
-        | _ -> ()
 
     interface IAppStateController with
 
         member this.ErrorOccurred = errorOccurred.Publish
         member this.State = appStateInstance.State:>IAppState
         member this.StateChanged = appStateInstance.StateChanged
-        member this.Preferences = prefs
-        member this.PreferencesChanged = prefsChanged.Publish
+        member this.Preferences = preferencesStateController.Preferences
+        member this.PreferencesChanged = preferencesStateController.PreferencesChanged
         member this.JobStarted = jobsController.JobStarted
 
         member this.AbortJob id = jobsController.AbortJob id
         member this.ThrowError err = errorOccurred.Trigger err
 
-        member this.SetPreferences newPrefs = setPreferences newPrefs
+        member this.SetPreferences newPrefs = preferencesStateController.SetPreferences newPrefs
 
         member this.SetOnlineEngines engines = engineStateController.SetOnlineEngines engines
         member this.InstallEngine engine = engineStateController.InstallEngine engine

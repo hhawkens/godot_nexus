@@ -14,6 +14,7 @@
       <Compile Include="SubControllers\AppStateInstance.fs" />
       <Compile Include="SubControllers\EngineStateController.fs" />
       <Compile Include="SubControllers\ProjectStateController.fs" />
+      <Compile Include="SubControllers\PreferencesStateController.fs" />
       <Compile Include="IAppStateController.fs" />
       <Compile Include="AppStateController.fs" />
     </ItemGroup>
