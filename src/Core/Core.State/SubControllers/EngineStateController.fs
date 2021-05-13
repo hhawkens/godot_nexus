@@ -28,7 +28,7 @@ type public EngineStateController
         | Error err -> errorOccurred.Trigger (Error.general err)
 
     let engineIsInstalled (engine: EngineOnline) =
-        state().EngineInstalls |> exists (fun ei -> ei.Id = engine.Id)
+        state().EngineInstalls |> exists (fun ei -> ei.Data.Id = engine.Data.Id)
 
     member public this.ErrorOccurred = errorOccurred.Publish
 

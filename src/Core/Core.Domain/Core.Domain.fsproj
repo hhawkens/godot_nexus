@@ -15,6 +15,7 @@
       <Compile Include="SimpleResult.fs" />
       <Compile Include="Id.fs" />
       <Compile Include="IdPrefixes.fs" />
+      <Compile Include="EngineData.fs" />
       <Compile Include="Engine.fs" />
       <Compile Include="Project.fs" />
       <Compile Include="Theme.fs" />

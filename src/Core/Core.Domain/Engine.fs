@@ -1,44 +1,14 @@
 namespace App.Core.Domain
 
-open System
 open App.Utilities
 
-/// Shows what kind of dotnet support, if any, an engine variation of Godot has.
-[<Struct>]
-type public DotNetSupport =
-    | NoSupport
-    | Mono
-    | DotNetCore
-with
-
-    override this.ToString() =
-        match this with
-        | NoSupport -> ""
-        | Mono -> nameof Mono
-        | DotNetCore -> ".NET Core"
-
-/// Fundamental info about a godot engine instance.
-type public EngineData = {
-    Version: Version
-    DotNetSupport: DotNetSupport
-} with
-
-    override this.ToString() =
-        let dotnetSupport = this.DotNetSupport.ToString()
-        let dotnetText = if dotnetSupport <> "" then $" ({dotnetSupport})" else ""
-        $"v{this.Version}{dotnetText}"
-
-// TODO create type that is either Engine or EngineInstall, so both cannot be true at the same time
-
-/// Represents an engine version of Godot that has not been installed yet.
-and public EngineOnline = private {
-    id: Id // TODO make id part of data
+/// Engine version of Godot that has not been installed yet (but can be downloaded online).
+type public EngineOnline = private {
     data: EngineData
     url: string
     fileSize: FileSize
 } with
 
-    member this.Id = this.id
     member this.Data = this.data
     member this.Url = this.url
     member this.FileSize = this.fileSize
@@ -46,27 +16,35 @@ and public EngineOnline = private {
     override this.ToString() = $"Godot{this.data}"
 
     static member New data url fileSize = {
-        id = (IdPrefixes.engine, HashCode.Combine(data, url) |> IdVal) ||> Id.WithPrefix
         data = data
         url = url
         fileSize = fileSize
     }
 
-/// Represents an engine version of Godot that has been installed.
-and public EngineInstall = private {
-    id: Id // TODO make id part of data
+/// Engine version of Godot that has been installed.
+type public EngineInstall = private {
     data: EngineData
     path: DirectoryData
 } with
 
-    member this.Id = this.id
     member this.Data = this.data
     member this.Path = this.path
 
     override this.ToString() = $"Godot{this.data}"
 
     static member New data path = {
-        id = (IdPrefixes.engineInstall, HashCode.Combine(data, path) |> IdVal) ||> Id.WithPrefix
         data = data
         path = path
     }
+
+
+// Engine version of Godot.
+type public Engine =
+    | EngineOnline of EngineOnline
+    | EngineInstall of EngineInstall
+with
+
+    member this.Data =
+        match this with
+        | EngineOnline x -> x.Data
+        | EngineInstall x -> x.Data
