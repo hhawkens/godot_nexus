@@ -4,21 +4,21 @@ open App.Core.Domain
 open App.Utilities
 
 type public IAppState =
-    abstract Engines: Engines
+    abstract Engines: EnginesOnline
     abstract EngineInstalls: EngineInstalls
     abstract Projects: Projects
 
 and public AppState =
     {
-        Engines: Engines
+        EnginesOnline: EnginesOnline
         EngineInstalls: EngineInstalls
         Projects: Projects
     }
     interface IAppState with
-        member this.Engines = this.Engines
+        member this.Engines = this.EnginesOnline
         member this.EngineInstalls = this.EngineInstalls
         member this.Projects = this.Projects
 
-and public Engines = EngineOnline Set
+and public EnginesOnline = EngineOnline Set
 and public EngineInstalls = EngineInstall ActiveSet
 and public Projects = Project Set

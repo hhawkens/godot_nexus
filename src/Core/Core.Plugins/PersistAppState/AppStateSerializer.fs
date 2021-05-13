@@ -7,7 +7,7 @@ open Newtonsoft.Json
 open Newtonsoft.Json.Bson
 
 let private defaultAppState = {
-    Engines = Set.empty
+    EnginesOnline = Set.empty
     EngineInstalls = ActiveSet.createEmpty ()
     Projects = Set.empty
 }

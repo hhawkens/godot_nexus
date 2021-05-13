@@ -34,7 +34,7 @@ type public EngineStateController
 
     member public this.SetOnlineEngines engines =
         let notInstalledEngines = engines |> filter (not << engineIsInstalled) |> Set
-        setState {state() with Engines = notInstalledEngines}
+        setState {state() with EnginesOnline = notInstalledEngines}
 
     member public this.InstallEngine engine =
         let downloadJob = downloadEnginePlugin cachingPlugin.CacheDirectory

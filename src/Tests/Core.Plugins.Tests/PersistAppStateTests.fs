@@ -16,7 +16,7 @@ let activeEngineInstall =
     EngineInstall.New {Version = Version(7,7,7); DotNetSupport = Mono} DirectoryData.Current
 
 let private testAppState = {
-    Engines = [
+    EnginesOnline = [
         EngineOnline.New {Version = Version(1,2,3); DotNetSupport = NoSupport} "url" (FileSize.FromMegabytes 100.0)
         EngineOnline.New {Version = Version(3,2,1); DotNetSupport = Mono} "test" (FileSize.FromMegabytes 99.0)
     ] |> Set.ofSeq
@@ -54,7 +54,7 @@ let public ``App State Is Loaded With The Same Data It Was Saved With`` () =
 [<Test>]
 let public ``Empty App State Can Be Saved And Loaded`` () =
     let empty = {
-        Engines = Set.empty
+        EnginesOnline = Set.empty
         EngineInstalls = ActiveSet.createEmpty ()
         Projects = Set.empty
     }
