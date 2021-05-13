@@ -4,16 +4,17 @@ open App.Core.Domain
 open App.Core.State
 
 // TODO create another controller for AppStateController initialization
-// TODO propagate errors from sub controllers
 // TODO (maybe?) interfaces for sub controllers
 type internal AppStateController
-    (appStateInstance: AppStateInstance,
+    (errorOccurred: Event<Error>,
+     appStateInstance: AppStateInstance,
      jobsController: JobsController,
      engineStateController: EngineStateController,
      projectStateController: ProjectStateController,
      preferencesStateController: PreferencesStateController) =
 
-    let errorOccurred = Event<Error>()
+    do
+        engineStateController.ErrorOccurred.Add errorOccurred.Trigger
 
     interface IAppStateController with
 
