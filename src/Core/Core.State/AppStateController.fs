@@ -6,6 +6,7 @@ open App.Core.State
 open FSharpPlus
 
 // TODO split up into domain specific sub-state-controllers
+// TODO create another controller for initialization
 type internal AppStateController(cachingPlugin: UCaching,
     persistAppStatePlugin: UPersistAppState,
     persistPreferencesPlugin: UPersistPreferences,
@@ -13,12 +14,7 @@ type internal AppStateController(cachingPlugin: UCaching,
 
     jobsController: JobsController,
     appStateInstance: AppStateInstance,
-
-    enginesDirectoryPlugin: UEnginesDirectoryGetter,
-    downloadEnginePlugin: UDownloadEngine,
-    installEnginePlugin: UInstallEngine,
-    removeEnginePlugin: URemoveEngine,
-    runEnginePlugin: URunEngine,
+    engineStateController: EngineStateController,
 
     projectsDirectoryPlugin: UProjectsDirectoryGetter,
     createNewProjectPlugin: UCreateNewProject,
@@ -26,7 +22,6 @@ type internal AppStateController(cachingPlugin: UCaching,
     removeProjectPlugin: URemoveProject,
     openProjectPlugin: UOpenProject) =
 
-    let enginesDir = enginesDirectoryPlugin()
     let projectsDir = projectsDirectoryPlugin()
     let errorOccurred = Event<Error>()
     let prefsChanged = Event<unit>()
@@ -49,13 +44,6 @@ type internal AppStateController(cachingPlugin: UCaching,
     let removeProject project =
         let newState = {state() with Projects = state().Projects.Remove project}
         setState newState
-
-    let installEngine engineZipFile engine =
-        match installEnginePlugin engineZipFile enginesDir engine with
-        | Ok engineInstall ->
-            let newState = {state() with EngineInstalls = state().EngineInstalls.Add engineInstall}
-            setState newState
-        | Error err -> errorOccurred.Trigger (Error.general err)
 
     let engineIsInstalled (engine: Engine) =
         state().EngineInstalls |> exists (fun ei -> ei.Id = engine.Id)
@@ -81,26 +69,10 @@ type internal AppStateController(cachingPlugin: UCaching,
             let notInstalledEngines = engines |> filter (not << engineIsInstalled) |> Set
             setState {state() with Engines = notInstalledEngines}
 
-        member this.InstallEngine engine =
-            let downloadJob = downloadEnginePlugin cachingPlugin.CacheDirectory
-            jobsController.AddJob (DownloadEngine downloadJob)
-            downloadJob.Updated.Add (fun _ ->
-                match downloadJob.EndStatus with
-                | Succeeded (file, engine) -> installEngine file engine
-                | _ -> ())
-            downloadJob.Run engine |> Async.StartChild |> ignore
-
-        member this.RemoveEngine engineInstall =
-            removeEnginePlugin engineInstall
-
-        member this.SetActiveEngine engineInstall =
-            match state().EngineInstalls.SetActive engineInstall with
-            | Some newActive ->
-                setState {state() with EngineInstalls = newActive} |> Ok
-            | None -> Error $"Cannot set engine {engineInstall} as active because it is not installed"
-
-        member this.RunEngine engineInstall =
-            runEnginePlugin engineInstall
+        member this.InstallEngine engine = engineStateController.InstallEngine engine
+        member this.RemoveEngine engineInstall = engineStateController.RemoveEngine engineInstall
+        member this.SetActiveEngine engineInstall = engineStateController.SetActiveEngine engineInstall
+        member this.RunEngine engineInstall = engineStateController.RunEngine engineInstall
 
         member this.CreateNewProject name =
             let job = createNewProjectPlugin projectsDir
