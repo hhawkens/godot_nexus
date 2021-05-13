@@ -28,9 +28,11 @@ type public EngineData = {
         let dotnetText = if dotnetSupport <> "" then $" ({dotnetSupport})" else ""
         $"v{this.Version}{dotnetText}"
 
+// TODO create type that is either Engine or EngineInstall, so both cannot be true at the same time
+
 /// Represents an engine version of Godot that has not been installed yet.
 and public Engine = private {
-    id: Id
+    id: Id // TODO make id part of data
     data: EngineData
     url: string
     fileSize: FileSize
@@ -52,7 +54,7 @@ and public Engine = private {
 
 /// Represents an engine version of Godot that has been installed.
 and public EngineInstall = private {
-    id: Id
+    id: Id // TODO make id part of data
     data: EngineData
     path: DirectoryData
 } with

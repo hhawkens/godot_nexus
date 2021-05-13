@@ -13,6 +13,7 @@
       <Compile Include="SubControllers\JobsController.fs" />
       <Compile Include="SubControllers\AppStateInstance.fs" />
       <Compile Include="SubControllers\EngineStateController.fs" />
+      <Compile Include="SubControllers\ProjectStateController.fs" />
       <Compile Include="IAppStateController.fs" />
       <Compile Include="AppStateController.fs" />
     </ItemGroup>

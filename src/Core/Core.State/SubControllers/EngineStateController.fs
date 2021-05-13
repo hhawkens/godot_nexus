@@ -1,5 +1,6 @@
 namespace App.Core.State
 
+open FSharpPlus
 open App.Core.Domain
 open App.Core.PluginDefinitions
 
@@ -26,7 +27,14 @@ type public EngineStateController
             setState newState
         | Error err -> errorOccurred.Trigger (Error.general err)
 
+    let engineIsInstalled (engine: Engine) =
+        state().EngineInstalls |> exists (fun ei -> ei.Id = engine.Id)
+
     member public this.ErrorOccurred = errorOccurred.Publish
+
+    member public this.SetOnlineEngines engines =
+        let notInstalledEngines = engines |> filter (not << engineIsInstalled) |> Set
+        setState {state() with Engines = notInstalledEngines}
 
     member public this.InstallEngine engine =
         let downloadJob = downloadEnginePlugin cachingPlugin.CacheDirectory
