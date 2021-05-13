@@ -16,15 +16,15 @@ type internal DirectoryDataConverter () =
 
 
 type internal EngineConverter () =
-    inherit JsonConverter<Engine>()
+    inherit JsonConverter<EngineOnline>()
 
-    override this.WriteJson (writer: JsonWriter, value: Engine, serializer: JsonSerializer): unit =
+    override this.WriteJson (writer: JsonWriter, value: EngineOnline, serializer: JsonSerializer): unit =
         let e = SerializableEngine(value.Data, value.Url, value.FileSize)
         serializer.Serialize(writer, e)
 
     override this.ReadJson (reader, _, _, _, serializer) =
         let e = serializer.Deserialize<SerializableEngine>(reader)
-        Engine.New e.Data e.Url e.FileSize
+        EngineOnline.New e.Data e.Url e.FileSize
 
 
 type internal EngineInstallConverter () =

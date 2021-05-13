@@ -8,7 +8,7 @@ open App.Utilities
 type public DownloadEngineJob (cacheDirectory: CacheDirectory, downloaderAsync) =
 
     let mutable statusMachine =
-        JobStatusMachine.New<EngineZipFile * Engine, ErrorMessage> ()
+        JobStatusMachine.New<EngineZipFile * EngineOnline, ErrorMessage> ()
 
     let id =
         let idVal = Rand.NextI32() |> IdVal

@@ -6,6 +6,6 @@ open App.Core.Domain
 
 type public UEnginesDirectoryGetter = unit -> EnginesDirectory
 type public UDownloadEngine = CacheDirectory -> IDownloadEngineJob
-type public UInstallEngine = EngineZipFile -> EnginesDirectory -> Engine -> Result<EngineInstall, ErrorMessage>
+type public UInstallEngine = EngineZipFile -> EnginesDirectory -> EngineOnline -> Result<EngineInstall, ErrorMessage>
 type public URemoveEngine = EngineInstall -> SimpleResult
 type public URunEngine = EngineInstall -> SimpleResult

@@ -17,8 +17,8 @@ let activeEngineInstall =
 
 let private testAppState = {
     Engines = [
-        Engine.New {Version = Version(1,2,3); DotNetSupport = NoSupport} "url" (FileSize.FromMegabytes 100.0)
-        Engine.New {Version = Version(3,2,1); DotNetSupport = Mono} "test" (FileSize.FromMegabytes 99.0)
+        EngineOnline.New {Version = Version(1,2,3); DotNetSupport = NoSupport} "url" (FileSize.FromMegabytes 100.0)
+        EngineOnline.New {Version = Version(3,2,1); DotNetSupport = Mono} "test" (FileSize.FromMegabytes 99.0)
     ] |> Set.ofSeq
     EngineInstalls =
         ActiveSet.createFrom [

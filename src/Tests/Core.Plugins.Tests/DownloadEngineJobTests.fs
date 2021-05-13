@@ -15,7 +15,7 @@ module public DownloadEngineJobTests =
     let private testSuccess = async{ return Result<FileData, ErrorMessage>.Ok  testFileData}
     let private testEngineData = {Version = Version(1, 2, 3); DotNetSupport = NoSupport}
     let private testUri = "https://downloads.tuxfamily.org/godotengine/3.2.1/Godot_v3.2.1-stable_x11.64.zip"
-    let private testEngine = Engine.New testEngineData testUri (FileSize.FromMegabytes 20.0)
+    let private testEngine = EngineOnline.New testEngineData testUri (FileSize.FromMegabytes 20.0)
 
     [<Test>]
     let public ``Has Unique Id With Correct Prefix`` () =

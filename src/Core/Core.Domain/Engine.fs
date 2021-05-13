@@ -31,7 +31,7 @@ type public EngineData = {
 // TODO create type that is either Engine or EngineInstall, so both cannot be true at the same time
 
 /// Represents an engine version of Godot that has not been installed yet.
-and public Engine = private {
+and public EngineOnline = private {
     id: Id // TODO make id part of data
     data: EngineData
     url: string

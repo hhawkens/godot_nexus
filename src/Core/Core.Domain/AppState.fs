@@ -19,6 +19,6 @@ and public AppState =
         member this.EngineInstalls = this.EngineInstalls
         member this.Projects = this.Projects
 
-and public Engines = Engine Set
+and public Engines = EngineOnline Set
 and public EngineInstalls = EngineInstall ActiveSet
 and public Projects = Project Set

@@ -37,7 +37,7 @@ let private findGodotEnginesBy (archiveChecker: string -> Version option) dotnet
 
     return
         validRowInfos
-        |> map (fun (size, ver, url) ->  Engine.New {Version = ver; DotNetSupport = dotnet} url size)
+        |> map (fun (size, ver, url) ->  EngineOnline.New {Version = ver; DotNetSupport = dotnet} url size)
 }
 
 let private findGodotEngines url =

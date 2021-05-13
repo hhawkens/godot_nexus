@@ -18,8 +18,8 @@ type public IAppStateController =
 
     abstract SetPreferences: Preferences -> unit
 
-    abstract SetOnlineEngines: Engine seq -> unit
-    abstract InstallEngine: Engine -> unit
+    abstract SetOnlineEngines: EngineOnline seq -> unit
+    abstract InstallEngine: EngineOnline -> unit
     abstract RemoveEngine: EngineInstall -> SimpleResult
     abstract SetActiveEngine: EngineInstall -> SimpleResult
     abstract RunEngine: EngineInstall -> SimpleResult

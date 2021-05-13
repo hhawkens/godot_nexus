@@ -1,6 +1,6 @@
 namespace App.Core.Domain
 
-type public IDownloadEngineJob = IJob<Engine, EngineZipFile * Engine, ErrorMessage>
+type public IDownloadEngineJob = IJob<EngineOnline, EngineZipFile * EngineOnline, ErrorMessage>
 type public ICreateNewProjectJob = IJob<ProjectName, Project, ErrorMessage>
 
 
