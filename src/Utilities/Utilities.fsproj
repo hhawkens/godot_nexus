@@ -23,6 +23,7 @@
         <Compile Include="Types\SetOnce.fs" />
         <Compile Include="Types\FileSize.fs" />
         <Compile Include="Types\Web.fs" />
+        <Compile Include="Collections\Sequence.fs" />
         <Compile Include="Collections\ActiveSet.fs" />
     </ItemGroup>
 

@@ -4,9 +4,10 @@ open App.Core.Domain
 open App.Utilities
 
 type public IAppState =
-    abstract Engines: EnginesOnline
+    abstract EnginesOnline: EnginesOnline
     abstract EngineInstalls: EngineInstalls
     abstract Projects: Projects
+
 
 and public AppState =
     {
@@ -14,10 +15,18 @@ and public AppState =
         EngineInstalls: EngineInstalls
         Projects: Projects
     }
+
     interface IAppState with
-        member this.Engines = this.EnginesOnline
+
+        member this.EnginesOnline =
+            (this.EnginesOnline, this.EngineInstalls)
+            ||> Sequence.difference (fun a b -> a.Data.Id = b.Data.Id)
+            |> Set
+
         member this.EngineInstalls = this.EngineInstalls
+
         member this.Projects = this.Projects
+
 
 and public EnginesOnline = EngineOnline Set
 and public EngineInstalls = EngineInstall ActiveSet

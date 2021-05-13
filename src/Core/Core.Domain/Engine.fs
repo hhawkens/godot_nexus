@@ -36,15 +36,3 @@ type public EngineInstall = private {
         data = data
         path = path
     }
-
-
-// Engine version of Godot.
-type public Engine =
-    | EngineOnline of EngineOnline
-    | EngineInstall of EngineInstall
-with
-
-    member this.Data =
-        match this with
-        | EngineOnline x -> x.Data
-        | EngineInstall x -> x.Data
