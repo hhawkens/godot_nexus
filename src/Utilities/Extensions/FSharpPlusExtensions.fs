@@ -1,6 +1,5 @@
-module public App.Utilities.Sequence
-
-open FSharpPlus
+[<AutoOpen>]
+module public FSharpPlus.FSharpPlusExtensions
 
 /// Returns all elements of collection a that are not contained in collection b
 /// (using given equality function).

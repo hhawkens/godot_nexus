@@ -1,7 +1,7 @@
-module public App.Utilities.Tests.SequenceTests
+module public App.Utilities.Tests.FSharpPlusExtensionsTests
 
 open NUnit.Framework
-open App.Utilities
+open FSharpPlus
 
 let public differenceTestCases = [|
     [|[]; []; []|]
@@ -12,7 +12,7 @@ let public differenceTestCases = [|
 
 [<TestCaseSource(nameof differenceTestCases)>]
 let public ``Difference Returns The Expected Subset of Elements`` (a, b, expected) =
-    Assert.That(Sequence.difference (fun x y -> x = y) a b, Is.EqualTo(expected))
+    Assert.That(difference (fun x y -> x = y) a b, Is.EqualTo(expected))
 
 [<Test>]
 let public ``Difference Uses Equality Check Correctly`` () =
@@ -20,4 +20,4 @@ let public ``Difference Uses Equality Check Correctly`` () =
     let b = ["1"; "2"; "3"; "4"; "5"]
     let equalityCheck x y = x.ToString() = y
     let expectedResult = [7; 9]
-    Assert.That(Sequence.difference equalityCheck a b, Is.EqualTo(expectedResult))
+    Assert.That(difference equalityCheck a b, Is.EqualTo(expectedResult))

@@ -2,6 +2,7 @@ namespace App.Core.Domain
 
 open App.Core.Domain
 open App.Utilities
+open FSharpPlus
 
 type public IAppState =
     abstract EnginesOnline: EnginesOnline
@@ -20,7 +21,7 @@ and public AppState =
 
         member this.EnginesOnline =
             (this.EnginesOnline, this.EngineInstalls)
-            ||> Sequence.difference (fun a b -> a.Data.Id = b.Data.Id)
+            ||> difference (fun a b -> a.Data.Id = b.Data.Id)
             |> Set
 
         member this.EngineInstalls = this.EngineInstalls

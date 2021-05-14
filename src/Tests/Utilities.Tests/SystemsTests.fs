@@ -72,15 +72,18 @@ let public ``Check If All Code Files Use The Correct Name Space`` () =
 
     let projectFiles =
         msBuildSolutionFolder.FindFilesRecWhere (fun f -> f.Extension = ".csproj" || f.Extension = ".fsproj")
+
     Assert.That(projectFiles.Length, Is.GreaterThan(5)) // Arbitrary number, should be low enough to pass if correct
+
     let errors =
         projectFiles
         |> map (fun projectFile ->
             let sourceFiles =
                 (DirectoryData.Of projectFile).FindFilesRecWhere (fun f ->
                     let isSourceFile = f.Extension = ".cs" || f.Extension = ".fs"
-                    let isNotGenerated = not (f.FullPath.Contains$"{__}obj{__}")
-                    isSourceFile && isNotGenerated)
+                    let isNotGenerated = not <| f.FullPath.Contains $"{__}obj{__}"
+                    let isNoException = not <| f.Name.ToLower().Contains "fsharpplus"
+                    isSourceFile && isNotGenerated && isNoException)
             findAllNamespaceErrors projectFile sourceFiles)
         |> flatten
         |> toList
