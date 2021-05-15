@@ -16,7 +16,7 @@ type public IAppStateController =
     abstract AbortJob: Id -> SimpleResult
     abstract ThrowError: Error -> unit
 
-    abstract SetPreferences: Preferences -> unit
+    abstract SetPreferences: Preferences -> SimpleResult
 
     abstract SetOnlineEngines: EngineOnline seq -> unit
     abstract InstallEngine: EngineOnline -> unit

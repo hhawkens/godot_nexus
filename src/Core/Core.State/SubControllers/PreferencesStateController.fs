@@ -3,8 +3,9 @@ namespace App.Core.State
 open App.Core.PluginDefinitions
 open App.Utilities
 
-// TODO prefs serialization
-type public PreferencesStateController (defaultPreferencesPlugin: UDefaultPreferences) =
+type public PreferencesStateController
+    (defaultPreferencesPlugin: UDefaultPreferences,
+     persistPreferencesPlugin: UPersistPreferences) =
 
     let mutable prefs = defaultPreferencesPlugin ()
     let prefsChanged = Event<unit>()
@@ -13,9 +14,10 @@ type public PreferencesStateController (defaultPreferencesPlugin: UDefaultPrefer
 
     let setPreferences = function
         | newPrefs when newPrefs <> prefs ->
-            prefs <- newPrefs
-            prefsChanged.Trigger ()
-        | _ -> ()
+            persistPreferencesPlugin.Save newPrefs |> Result.bind (fun _ ->
+                prefs <- newPrefs
+                prefsChanged.Trigger () |> Ok)
+        | _ -> Ok ()
 
     member public this.Preferences = prefs
     member public this.PreferencesChanged = prefsChanged.Publish
