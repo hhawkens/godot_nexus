@@ -64,7 +64,7 @@ module private WebInternal =
 /// Utility functions to interact with the WWW.
 module public Web =
 
-    /// Checks internet connection by pinging given IP address.
+    /// Checks if we can ping given IP address.
     let public pingAsync (ip: string) = async {
         let myPing = new Ping()
         let timeout = 1500
@@ -74,9 +74,14 @@ module public Web =
         with | _ -> return false
     }
 
-    /// Checks internet connection by pinging given IP address.
-    let public ping ip =
-        pingAsync ip |> Async.RunSynchronously
+    /// Checks if we can ping given IP address.
+    let public ping ip = pingAsync ip |> Async.RunSynchronously
+
+    /// Checks if we are connected to the internet.
+    let checkWebConnectionAsync () = pingAsync "1.1.1.1"
+
+    /// Checks if we are connected to the internet.
+    let checkWebConnection () = checkWebConnectionAsync () |> Async.RunSynchronously
 
     /// Downloads file from a web source. Deletes partially downloaded file if something went wrong.
     let public downloadFileAsync (uri: Uri) (folder: DirectoryData) cancel progressHook = async {

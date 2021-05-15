@@ -9,7 +9,7 @@ open NUnit.Framework
 [<Test>]
 [<Ignore("Test needs internet connection + is OS specific. Manual testing only.")>]
 let public ``Godot Engines Can Be Found Online`` () =
-    let updateOnlineEngines = UpdateOnlineEnginesAddon.mac // Change addon OS here
+    let updateOnlineEngines = UpdateOnlineEnginesAddon.linux // Change addon OS here
     let controller = Mock.Of<IAppStateController>()
     let mutable foundEngines = None
     Mock.Get(controller)

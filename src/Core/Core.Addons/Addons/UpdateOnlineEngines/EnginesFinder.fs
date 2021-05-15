@@ -48,24 +48,27 @@ let private findGodotEngines (godotVersionQuery: IGodotVersionQuery) url =
 let private findGodotMonoEngines (godotVersionQuery: IGodotVersionQuery) url =
     findGodotEnginesBy godotVersionQuery.GetMonoArchiveVersion Mono url
 
+let private findOnline godotVersionQuery url = async {
+    let! godotVersionLinks = findGodotVersionLinks godotVersionQuery url
+
+    let! enginesAsync = godotVersionLinks |> Seq.map (findGodotEngines godotVersionQuery) |> startParallel
+    let! monoEnginesAsync =
+        godotVersionLinks
+        |> Seq.map (fun gv -> findGodotMonoEngines godotVersionQuery $"{gv}mono/") |> startParallel
+
+    let! enginesNested = enginesAsync
+    let! monoEnginesNested = monoEnginesAsync
+
+    let engines = enginesNested |> flatten
+    let monoEngines = monoEnginesNested |> flatten
+    let allEngines = Seq.append engines monoEngines |> List.ofSeq
+
+    if allEngines.Length > 0 then return Ok allEngines else return Error $"{ErrorMsg}!"
+}
+
 let internal find godotVersionQuery url = async {
-    let! webConnection = checkWebConnection ()
-    if not webConnection then
-        return Error $"{ErrorMsg}, no internet connection!"
-    else
-        let! godotVersionLinks = findGodotVersionLinks godotVersionQuery url
-
-        let! enginesAsync = godotVersionLinks |> Seq.map (findGodotEngines godotVersionQuery) |> startParallel
-        let! monoEnginesAsync =
-            godotVersionLinks
-            |> Seq.map (fun gv -> findGodotMonoEngines godotVersionQuery $"{gv}mono/") |> startParallel
-
-        let! enginesNested = enginesAsync
-        let! monoEnginesNested = monoEnginesAsync
-
-        let engines = enginesNested |> flatten
-        let monoEngines = monoEnginesNested |> flatten
-        let allEngines = Seq.append engines monoEngines |> List.ofSeq
-
-        if allEngines.Length > 0 then return Ok allEngines else return Error $"{ErrorMsg}!"
+    let! connectedToWeb = Web.checkWebConnectionAsync ()
+    match connectedToWeb with
+    | true -> return! findOnline godotVersionQuery url
+    | false -> return Error $"{ErrorMsg}, no internet connection!"
 }

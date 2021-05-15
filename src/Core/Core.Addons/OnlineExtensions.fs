@@ -6,8 +6,6 @@ open AngleSharp.Html.Dom
 open FSharpPlus
 open App.Utilities
 
-let internal checkWebConnection () = Web.pingAsync "1.1.1.1"
-
 let internal getWebContent (url: string) =
     let ctx = BrowsingContext.New(Configuration.Default.WithDefaultLoader())
     ctx.OpenAsync url |> Async.AwaitTask
