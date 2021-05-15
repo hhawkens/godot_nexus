@@ -1,5 +1,6 @@
 namespace App.Core.State
 
+open FSharpPlus
 open App.Core.Domain
 open App.Utilities
 
@@ -14,9 +15,10 @@ type public AppStateInstance (state: AppState) =
 
     let setState = function
         | newState when newState <> state ->
-            let diff = (Compare.allPropertyDiffs state newState).[0] // TODO check for more than one change
+            let diffs = (Compare.allPropertyDiffs state newState)
             state <- newState
-            stateChanged.Trigger {PropertyName = diff.Name; PropertyType = diff.DeclaringType}
+            let changed = diffs |> map (fun diff -> {PropertyName = diff.Name; PropertyType = diff.DeclaringType})
+            stateChanged.Trigger {ChangedProperties = changed}
         | _ -> ()
 
     member public this.StateChanged = stateChanged.Publish
