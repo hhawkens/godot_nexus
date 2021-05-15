@@ -5,6 +5,7 @@ open App.Core.State
 
 // TODO create another controller for AppStateController initialization
 // TODO (maybe?) interfaces for sub controllers
+// TODO check for 64 bit OS (32 bit not supported)
 type internal AppStateController
     (errorOccurred: Event<Error>,
      appStateInstance: AppStateInstance,

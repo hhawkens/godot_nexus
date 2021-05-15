@@ -17,7 +17,8 @@
       <Compile Include="AddonControllerInterfaces.fs" />
       <Compile Include="AddonController.fs" />
       <Compile Include="OnlineExtensions.fs" />
-      <Compile Include="Addons\UpdateOnlineEngines\TextHelpers.fs" />
+      <Compile Include="Addons\UpdateOnlineEngines\IGodotVersionQuery.fs" />
+      <Compile Include="Addons\UpdateOnlineEngines\GodotVersionQueries.fs" />
       <Compile Include="Addons\UpdateOnlineEngines\EnginesFinder.fs" />
       <Compile Include="Addons\UpdateOnlineEngines\Addon.fs" />
     </ItemGroup>
