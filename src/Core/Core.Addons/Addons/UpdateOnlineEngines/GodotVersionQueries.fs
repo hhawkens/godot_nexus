@@ -2,6 +2,7 @@ namespace App.Core.Addons
 
 open System
 open System.Text.RegularExpressions
+open App.Utilities
 
 [<AutoOpen>]
 module private Common =
@@ -34,6 +35,16 @@ module internal GodotVersionQuery =
 
     let internal mac = { new IGodotVersionQuery with
         member this.IsVersion url = isGodotVersion url
-        member this.GetArchiveVersion url = urlToVersion @"Godot.v(.*)?.stable.osx.universal.zip" url
-        member this.GetMonoArchiveVersion url = urlToVersion @"Godot.v(.*)?.stable.mono.osx.64.zip" url
+
+        member this.GetArchiveVersion url = maybe {
+            return! urlToVersion @"Godot.v(.*)?.stable.osx.universal.zip" url
+            return! urlToVersion @"Godot.v(.*)?.stable.osx.fat.zip" url
+            return! urlToVersion @"Godot.v(.*)?.stable.osx64.zip" url
+        }
+
+        member this.GetMonoArchiveVersion url = maybe {
+            return! urlToVersion @"Godot.v(.*)?.stable.mono.osx.64.zip" url
+            return! urlToVersion @"Godot.v(.*)?.stable.mono.osx.fat.zip" url
+            return! urlToVersion @"Godot.v(.*)?.stable.mono.osx64.zip" url
+        }
     }

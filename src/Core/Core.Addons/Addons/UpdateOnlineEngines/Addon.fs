@@ -3,8 +3,6 @@ module public App.Core.Addons.UpdateOnlineEnginesAddon
 open App.Core.Domain
 open App.Core.State
 
-// TODO create test with ignore attribute (for manual usage)
-
 [<Literal>]
 let internal GodotDownloadUrl = "https://downloads.tuxfamily.org/godotengine/"
 

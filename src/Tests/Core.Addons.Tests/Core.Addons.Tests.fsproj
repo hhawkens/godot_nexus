@@ -19,6 +19,7 @@
     <ItemGroup>
       <Compile Include="AddonControllerSyncTests.fs" />
       <Compile Include="AddonControllerAsyncTests.fs" />
+      <Compile Include="EnginesFinderTests.fs" />
       <Compile Include="Program.fs" />
     </ItemGroup>
 
