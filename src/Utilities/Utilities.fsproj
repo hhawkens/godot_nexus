@@ -9,11 +9,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="WorkFlows.fs" />
-        <Compile Include="Operators.fs" />
-        <Compile Include="Enums.fs" />
-        <Compile Include="Compare.fs" />
-        <Compile Include="Reflec.fs" />
+        <Compile Include="Modules\WorkFlows.fs" />
+        <Compile Include="Modules\Operators.fs" />
+        <Compile Include="Modules\Enums.fs" />
+        <Compile Include="Modules\Compare.fs" />
+        <Compile Include="Modules\Reflec.fs" />
+        <Compile Include="Modules\Platform.fs" />
         <Compile Include="Extensions\MonadExtensions.fs" />
         <Compile Include="Extensions\FSharpPlusExtensions.fs" />
         <Compile Include="Types\FileData.fs" />
