@@ -23,7 +23,7 @@ module public DownloadEngineJobTests =
         let mutable prefixSubs = Set.empty
 
         for i in 0..100 do
-            let job = DownloadEngineJob(testCacheDir, (nothing4 testError))
+            let job = DownloadEngineJob(testCacheDir, testEngine, (nothing4 testError))
             let id = (job:>IDownloadEngineJob).Id
             prefixSubs <- if prefixSubs.IsEmpty then prefixSubs.Add id.PrefixSub else prefixSubs
             Assert.That(id.Prefix, Is.EqualTo(IdPrefixes.job))
@@ -38,12 +38,12 @@ module public DownloadEngineJobTests =
                 DownloadProgress struct{|Current = {bytes = 10UL}; Total = {bytes = 100UL}|} |> hook
             testError
 
-        let job = DownloadEngineJob(testCacheDir, downloader)
+        let job = DownloadEngineJob(testCacheDir, testEngine, downloader)
         let iJob = job:>IDownloadEngineJob
 
         let mutable states = [iJob.Status, iJob.EndStatus]
         iJob.Updated.Add (fun _ -> states <- (iJob.Status, iJob.EndStatus)::states)
-        iJob.Run(testEngine) |> Async.RunSynchronously
+        iJob.Run() |> Async.RunSynchronously
 
         match states with
         | (Ended, Failed err)::(Running run2, NotEnded)::(Running run1, NotEnded)::[Waiting, NotEnded] ->
@@ -54,12 +54,12 @@ module public DownloadEngineJobTests =
 
     [<Test>]
     let public ``Correct Status Change Propagated On Success`` () =
-        let job = DownloadEngineJob(testCacheDir, (nothing4 testSuccess))
+        let job = DownloadEngineJob(testCacheDir, testEngine, (nothing4 testSuccess))
         let iJob = job:>IDownloadEngineJob
 
         let mutable states = [iJob.Status, iJob.EndStatus]
         iJob.Updated.Add (fun _ -> states <- (iJob.Status, iJob.EndStatus)::states)
-        iJob.Run(testEngine) |> Async.RunSynchronously
+        iJob.Run() |> Async.RunSynchronously
 
         match states with
         | (Ended, Succeeded (file, engine))::(Running _, NotEnded)::[Waiting, NotEnded] ->
@@ -76,12 +76,12 @@ module public DownloadEngineJobTests =
                 countdown <- countdown - 1
             failwith "Test is taking too long!"
 
-        let job = DownloadEngineJob(testCacheDir, downloader)
+        let job = DownloadEngineJob(testCacheDir, testEngine, downloader)
         let iJob = job:>IDownloadEngineJob
 
         let mutable states = [iJob.Status, iJob.EndStatus]
         iJob.Updated.Add (fun _ -> states <- (iJob.Status, iJob.EndStatus)::states)
-        iJob.Run(testEngine) |> Async.StartChild |> Async.RunSynchronously |> ignore
+        iJob.Run() |> Async.StartChild |> Async.RunSynchronously |> ignore
 
         Thread.Sleep 25
         iJob.Abort()

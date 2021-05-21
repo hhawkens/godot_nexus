@@ -26,9 +26,9 @@ type public ProjectStateController
         setState newState
 
     member public this.CreateNewProject name =
-        let job = createNewProjectPlugin projectsDir
+        let job = createNewProjectPlugin projectsDir name
         jobsController.AddJob (CreateProject job)
-        job.Run name |> Async.StartChild |> ignore
+        job.Run () |> Async.StartChild |> ignore
 
     member public this.AddExistingProject file =
         match addExistingProjectPlugin file with

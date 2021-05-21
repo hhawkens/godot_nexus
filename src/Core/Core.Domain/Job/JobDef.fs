@@ -1,7 +1,7 @@
 namespace App.Core.Domain
 
-type public IDownloadEngineJob = IJob<EngineOnline, EngineZipFile * EngineOnline, ErrorMessage>
-type public ICreateNewProjectJob = IJob<ProjectName, Project, ErrorMessage>
+type public IDownloadEngineJob = IJob<EngineZipFile * EngineOnline, ErrorMessage>
+type public ICreateNewProjectJob = IJob<Project, ErrorMessage>
 
 
 /// Contains all possible jobs this app can run.

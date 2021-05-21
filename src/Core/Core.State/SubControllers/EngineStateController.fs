@@ -37,13 +37,13 @@ type public EngineStateController
         setState {state() with EnginesOnline = notInstalledEngines}
 
     member public this.InstallEngine engine =
-        let downloadJob = downloadEnginePlugin cachingPlugin.CacheDirectory
+        let downloadJob = downloadEnginePlugin cachingPlugin.CacheDirectory engine
         jobsController.AddJob (DownloadEngine downloadJob)
         downloadJob.Updated.Add (fun _ ->
             match downloadJob.EndStatus with
             | Succeeded (file, engine) -> installDownloadedEngine file engine
             | _ -> ())
-        downloadJob.Run engine |> Async.StartChild |> ignore
+        downloadJob.Run () |> Async.StartChild |> ignore
 
     member public this.RemoveEngine engineInstall =
             removeEnginePlugin engineInstall

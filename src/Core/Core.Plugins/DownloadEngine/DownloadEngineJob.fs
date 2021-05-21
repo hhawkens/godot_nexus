@@ -5,7 +5,7 @@ open System.Threading
 open App.Core.Domain
 open App.Utilities
 
-type public DownloadEngineJob (cacheDirectory: CacheDirectory, downloaderAsync) =
+type public DownloadEngineJob (cacheDirectory: CacheDirectory, engine: EngineOnline, downloaderAsync) =
 
     let mutable statusMachine =
         JobStatusMachine.New<EngineZipFile * EngineOnline, ErrorMessage> ()
@@ -67,7 +67,7 @@ type public DownloadEngineJob (cacheDirectory: CacheDirectory, downloaderAsync) 
             cancelSource.Cancel()
             this.SetEndStatus Aborted
 
-        member this.Run engine = async {
+        member this.Run () = async {
             let actionName = $"Downloading {engine}"
             this.SetStatus ({Action = actionName; Progress = None} |> Running)
 

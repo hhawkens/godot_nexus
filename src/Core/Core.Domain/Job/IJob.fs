@@ -9,7 +9,7 @@ type public IJob =
     abstract Abort: unit -> unit
 
 /// A Job signifies a long-running process, usually IO-bound.
-type public IJob<'input, 'output, 'error> =
+type public IJob<'output, 'error> =
     inherit IJob
-    abstract Run: 'input -> unit Async
+    abstract Run: unit -> unit Async
     abstract EndStatus: JobEndStatus<'output, 'error>

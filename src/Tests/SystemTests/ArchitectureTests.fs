@@ -23,13 +23,13 @@ let shouldNotDependOn (b: GivenTypesConjunctionWithDescription) (a: GivenTypesCo
     forbiddenLayerAccess.Check architecture
 
 [<OneTimeSetUp>]
-let public SetUp () =
+let public OneTimeSetUp () =
     let allProjectAssemblies =
         SystemAssembly.GetExecutingAssembly() |> getReferencedAssemblies |> toArray |> sortBy (fun x -> x.FullName)
     architecture <- ArchLoader().LoadAssemblies(allProjectAssemblies).Build()
 
 [<Test>]
-let public Test () =
+let public ``All Layers Only Reference Lower Level Layers`` () =
 
     let utilsLayer = Types().That().ResideInAssembly(@"App.Utilities*", true).As("Utils Layer")
     let coreLayer = Types().That().ResideInAssembly(@"App.Core*", true).As("Core Layer")
