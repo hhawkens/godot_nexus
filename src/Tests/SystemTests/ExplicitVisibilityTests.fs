@@ -12,7 +12,7 @@ let private __ = Path.DirectorySeparatorChar
 
 let private findErrorsInFile (file: FileData) =
     let moduleRegex = @"(?<!\/\/.*)\bmodule\s+(?!private|public|internal)" |> Regex
-    let typeRegex = @"(?<!\/\/.*)\btype\s+(?!private|public|internal)" |> Regex
+    let typeRegex = @"(?<!(?:\/\/|open).*)\btype\s+(?!private|public|internal)" |> Regex
     let andRegex = @"(?<!\/\/.*)\band\s+(?!private|public|internal)" |> Regex
     let fileLines = File.ReadAllText file.FullPath |> String.split [Environment.NewLine]
 
