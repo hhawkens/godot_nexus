@@ -21,11 +21,9 @@ type public EngineStateController
     let setState appState = appStateInstance.SetState appState
 
     let installDownloadedEngine engineZipFile engine =
-        match installEnginePlugin engineZipFile enginesDir engine with
-        | Ok engineInstall ->
-            let newState = {state() with EngineInstalls = state().EngineInstalls.Add engineInstall}
-            setState newState
-        | Error err -> errorOccurred.Trigger (Error.general err)
+        let installEngineJob = installEnginePlugin engineZipFile enginesDir engine
+        jobsController.AddJob (InstallEngine installEngineJob)
+        installEngineJob.Run () |> Async.StartChild |> ignore
 
     let engineIsInstalled (engine: EngineOnline) =
         state().EngineInstalls |> exists (fun ei -> ei.Data.Id = engine.Data.Id)
