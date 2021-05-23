@@ -24,15 +24,18 @@ type public EngineOnline = private {
 /// Engine version of Godot that has been installed.
 type public EngineInstall = private {
     data: EngineData
-    path: DirectoryData
+    directory: DirectoryData
+    executableFile: FileData
 } with
 
-    member this.Data = this.data
-    member this.Path = this.path
+    member public this.Data = this.data
+    member public this.Directory = this.directory
+    member public this.ExecutableFile = this.executableFile
 
     override this.ToString() = $"Godot{this.data}"
 
-    static member New data path = {
+    static member New data directory executableFile = {
         data = data
-        path = path
+        directory = directory
+        executableFile = executableFile
     }

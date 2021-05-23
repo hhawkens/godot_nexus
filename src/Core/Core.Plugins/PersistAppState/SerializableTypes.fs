@@ -9,9 +9,10 @@ type public SerializableEngine (data: EngineData, url: string, fileSize: FileSiz
     member val public FileSize = fileSize
 
 
-type public SerializableEngineInstall (data: EngineData, path: DirectoryData) =
+type public SerializableEngineInstall (data: EngineData, directory: DirectoryData, executableFile: FileData) =
     member val public Data = data
-    member val public Path = path
+    member val public Directory = directory
+    member val public ExecutableFile = executableFile
 
 
 type public SerializableEngineInstalls (set: Set<EngineInstall>, active: EngineInstall option) =

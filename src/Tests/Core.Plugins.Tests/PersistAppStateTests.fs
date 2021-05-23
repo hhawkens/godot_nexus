@@ -12,8 +12,9 @@ let private newPlugin () =
     plugin.TryInitialize() |> unwrap
     plugin
 
+let godotFile = FileData.TryCreate "TestData/Godot.bin" |> unwrap
 let activeEngineInstall =
-    EngineInstall.New {Version = Version(7,7,7); DotNetSupport = Mono} DirectoryData.Current
+    EngineInstall.New {Version = Version(7,7,7); DotNetSupport = Mono} DirectoryData.Current godotFile
 
 let private testAppState = {
     EnginesOnline = [
@@ -23,7 +24,7 @@ let private testAppState = {
     EngineInstalls =
         ActiveSet.createFrom [
             activeEngineInstall
-            EngineInstall.New {Version = Version(11,88,0); DotNetSupport = DotNetCore} DirectoryData.Current
+            EngineInstall.New {Version = Version(11,88,0); DotNetSupport = DotNetCore} DirectoryData.Current godotFile
         ]
             activeEngineInstall
         |> unwrap
@@ -35,6 +36,7 @@ let private testAppState = {
                 EngineInstall.New
                     {Version = Version(3,2,1); DotNetSupport = Mono}
                     DirectoryData.Current
+                    godotFile
                 |> Some
         }
     ] |> Set.ofSeq

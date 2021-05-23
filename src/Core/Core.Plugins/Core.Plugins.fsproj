@@ -26,6 +26,7 @@
       <Compile Include="EnginesDirectoryGetter\EnginesDirectoryGetter.fs" />
       <Compile Include="DownloadEngine\DownloadEngineJob.fs" />
       <Compile Include="DownloadEngine\DownloadEngine.fs" />
+      <Compile Include="InstallEngine\InstallEngineJob.fs" />
     </ItemGroup>
 
     <ItemGroup>

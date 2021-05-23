@@ -16,6 +16,7 @@ let private serializer =
     let jSer = JsonSerializer()
     jSer.ReferenceLoopHandling <- ReferenceLoopHandling.Ignore
     jSer.Converters.Add (DirectoryDataConverter())
+    jSer.Converters.Add (FileDataConverter())
     jSer.Converters.Add (EngineConverter())
     jSer.Converters.Add (EngineInstallConverter())
     jSer.Converters.Add (EngineInstallsConverter())

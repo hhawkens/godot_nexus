@@ -4,6 +4,8 @@ open App.Core.Domain
 open App.Utilities
 open Newtonsoft.Json
 
+// The use of "unwrap" in this file is ok because this code is used by C#, which throws anyway
+
 type internal DirectoryDataConverter () =
     inherit JsonConverter<DirectoryData>()
 
@@ -13,6 +15,17 @@ type internal DirectoryDataConverter () =
     override this.ReadJson (reader, _, _, _, _) =
         let fullPath = reader.Value:?>string
         DirectoryData.TryCreate fullPath |> unwrap
+
+
+type internal FileDataConverter () =
+    inherit JsonConverter<FileData>()
+
+    override this.WriteJson (writer: JsonWriter, value: FileData, _: JsonSerializer): unit =
+        writer.WriteValue value.FullPath
+
+    override this.ReadJson (reader, _, _, _, _) =
+        let fullPath = reader.Value:?>string
+        FileData.TryCreate fullPath |> unwrap
 
 
 type internal EngineConverter () =
@@ -31,12 +44,12 @@ type internal EngineInstallConverter () =
     inherit JsonConverter<EngineInstall>()
 
     override this.WriteJson (writer: JsonWriter, value: EngineInstall, serializer: JsonSerializer): unit =
-        let e = SerializableEngineInstall(value.Data, value.Path)
+        let e = SerializableEngineInstall(value.Data, value.Directory, value.ExecutableFile)
         serializer.Serialize(writer, e)
 
     override this.ReadJson (reader, _, _, _, serializer) =
         let e = serializer.Deserialize<SerializableEngineInstall>(reader)
-        EngineInstall.New e.Data e.Path
+        EngineInstall.New e.Data e.Directory e.ExecutableFile
 
 
 type internal EngineInstallsConverter () =

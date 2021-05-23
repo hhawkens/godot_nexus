@@ -16,6 +16,12 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Content Include="TestData\**\*.*">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </Content>
+    </ItemGroup>
+
+    <ItemGroup>
         <Compile Include="PersistAppStateTests.fs" />
         <Compile Include="PersistPreferencesTests.fs" />
         <Compile Include="DownloadEngineJobTests.fs" />
