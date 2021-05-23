@@ -85,7 +85,6 @@ module public DownloadEngineJobTests =
 
         Thread.Sleep 25
         iJob.Abort()
-        iJob.Abort()
         Thread.Sleep 25
 
         match states with

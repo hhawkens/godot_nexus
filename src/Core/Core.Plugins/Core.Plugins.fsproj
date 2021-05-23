@@ -14,7 +14,8 @@
 
     <ItemGroup>
       <Compile Include="Assembly.fs" />
-      <Compile Include="PluginConstants.fs" />
+      <Compile Include="Common\PluginConstants.fs" />
+      <Compile Include="Common\ObservableJobStatusMachine.fs" />
       <Compile Include="Caching\Caching.fs" />
       <Compile Include="PersistAppState\SerializableTypes.fs" />
       <Compile Include="PersistAppState\CustomConverters.fs" />
