@@ -5,10 +5,9 @@ open System.Threading
 open App.Core.Domain
 open App.Utilities
 
-type public DownloadEngineJob (cacheDirectory: CacheDirectory, engine: EngineOnline, downloaderAsync) =
+type public DownloadEngineJob (cacheDirectory: CacheDirectory, engineOnline: EngineOnline, downloaderAsync) =
 
-    let mutable statusMachine =
-        JobStatusMachine.New<EngineZipFile * EngineOnline, ErrorMessage> ()
+    let mutable statusMachine = JobStatusMachine.New<EngineZipFile * EngineOnline, ErrorMessage> ()
 
     let id =
         let idVal = Rand.NextI32() |> IdVal
@@ -16,7 +15,7 @@ type public DownloadEngineJob (cacheDirectory: CacheDirectory, engine: EngineOnl
         Id.WithPrefixSub IdPrefixes.job prefixSub idVal
 
     let cancelSource = new CancellationTokenSource()
-    let updateEvent = Event<IJob> ()
+    let updated = Event<IJob> ()
     let threadSafe = threadSafeFactory ()
 
     member private this.progressHook actionName =
@@ -33,12 +32,12 @@ type public DownloadEngineJob (cacheDirectory: CacheDirectory, engine: EngineOnl
                     this.SetStatus ({Action = actionName; Progress = percent} |> Running)
         hook
 
-    member private this.SetStatusGeneric statusSetter newStatus =
+    member private this.SetStatusGeneric setter newStatus =
         threadSafe (fun () ->
-            match (statusSetter newStatus statusMachine) with
+            match (setter newStatus statusMachine) with
             | Some sm ->
                 statusMachine <- sm
-                updateEvent.Trigger this
+                updated.Trigger this
             | None -> ())
 
     member private this.SetStatus newStatus =
@@ -60,7 +59,7 @@ type public DownloadEngineJob (cacheDirectory: CacheDirectory, engine: EngineOnl
         member this.Name = nameof DownloadEngineJob
         member this.Status = statusMachine.Status
         member this.EndStatus = statusMachine.EndStatus
-        member this.Updated = updateEvent.Publish
+        member this.Updated = updated.Publish
 
         member this.Abort () =
             this.SetStatus Aborting
@@ -68,17 +67,17 @@ type public DownloadEngineJob (cacheDirectory: CacheDirectory, engine: EngineOnl
             this.SetEndStatus Aborted
 
         member this.Run () = async {
-            let actionName = $"Downloading {engine}"
+            let actionName = $"Downloading {engineOnline}"
             this.SetStatus ({Action = actionName; Progress = None} |> Running)
 
             let downloadFolder = cacheDirectory.Val.FullPath |> DirectoryData.TryCreate
-            let uri = exnToResult (fun () -> Uri engine.Url)
+            let uri = exnToResult (fun () -> Uri engineOnline.Url)
             let cancelToken = cancelSource.Token
             let progressHook = this.progressHook actionName
 
             match downloadFolder, uri with
             | Ok folder, Ok uri ->
-                do! this.Download engine uri folder cancelToken progressHook
+                do! this.Download engineOnline uri folder cancelToken progressHook
             | Error msg,_ | _, Error msg ->
                 this.SetEndStatus (Failed msg)
         }
