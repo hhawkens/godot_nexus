@@ -2,6 +2,7 @@ namespace App.Core.Plugins
 
 open System.IO
 open System.IO.Compression
+open System.Text.RegularExpressions
 open FSharpPlus
 open App.Core.Domain
 open App.Utilities
@@ -10,7 +11,8 @@ open App.Utilities
 type public InstallEngineJob
     (engineZipFile: EngineZipFile,
      enginesDirectory: EnginesDirectory,
-     engineOnline: EngineOnline) as this =
+     engineOnline: EngineOnline, // TODO use engine data
+     executableFileRegex: Regex) as this =
 
     let mutable statusMachine = ObservableJobStatusMachine<EngineInstall, ErrorMessage> (ThreadUnsafe, this)
 
@@ -22,9 +24,16 @@ type public InstallEngineJob
     let extract (fromZip: FileData) (toDir: DirectoryData) =
         (fun () -> ZipFile.ExtractToDirectory (fromZip.FullPath, toDir.FullPath))
         |> exnToResult
-        |> Result.bind (fun _ -> Ok toDir)
+        >>= (fun _ -> Ok toDir)
 
-    let findGodotFileInDir dir = Ok FileData.Empty // TODO
+    let findGodotFileInDir (dir: DirectoryData) =
+        let foundFiles =
+            dir.FindFilesRecWhere (fun f -> f.Name.ToLower().Contains("godot"))
+            |> filter (fun f -> executableFileRegex.Match(f.Name).Success)
+            |> toList
+        match foundFiles with
+        | [file] -> Ok file
+        | _ -> Error "Unable to find Godot executable!"
 
     let installationWorkflow (engineOnline: EngineOnline) (enginesDirectory: DirectoryData) zipFile = result {
         // TODO check and cleanup before creating folder
@@ -50,6 +59,7 @@ type public InstallEngineJob
         member this.Abort () = () // no practical implementation at the moment
 
         member this.Run () = async {
+            // TODO remove extracted files after failure
             statusMachine.SetStatus ({Action = $"Unpacking {engineOnline}"; Progress = None} |> Running)
             match (engineZipFile.Val.StillExists, enginesDirectory.Val.StillExists) with
             | true, true -> install engineOnline enginesDirectory.Val engineZipFile.Val
