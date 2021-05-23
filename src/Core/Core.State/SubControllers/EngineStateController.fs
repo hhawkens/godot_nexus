@@ -39,18 +39,18 @@ type public EngineStateController
         jobsController.AddJob (DownloadEngine downloadJob)
         downloadJob.Updated.Add (fun _ ->
             match downloadJob.EndStatus with
-            | Succeeded (file, engine) -> installDownloadedEngine file engine
+            | Succeeded (file, engineOnline) -> installDownloadedEngine file engineOnline.Data
             | _ -> ())
         downloadJob.Run () |> Async.StartChild |> ignore
 
     member public this.RemoveEngine engineInstall =
-            removeEnginePlugin engineInstall
+        removeEnginePlugin engineInstall
 
     member public this.SetActiveEngine engineInstall =
-            match state().EngineInstalls.SetActive engineInstall with
-            | Some newActive ->
-                setState {state() with EngineInstalls = newActive} |> Ok
-            | None -> Error $"Cannot set engine {engineInstall} as active because it is not installed"
+        match state().EngineInstalls.SetActive engineInstall with
+        | Some newActive ->
+            setState {state() with EngineInstalls = newActive} |> Ok
+        | None -> Error $"Cannot set engine {engineInstall} as active because it is not installed"
 
     member public this.RunEngine engineInstall =
-            runEnginePlugin engineInstall
+        runEnginePlugin engineInstall
