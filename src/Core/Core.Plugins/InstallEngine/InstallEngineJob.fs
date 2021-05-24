@@ -21,6 +21,11 @@ type public InstallEngineJob
         let prefixSub = nameof InstallEngineJob |> stringToByte |> IdPrefixSub
         Id.WithPrefixSub IdPrefixes.job prefixSub idVal
 
+    let cleanup dir = Directory.Delete (dir, true)
+    let cleanupIfError dir (result: Result<_,_>) =
+        if result.IsError then do cleanup dir
+        result
+
     let extract (fromZip: FileData) (toDir: DirectoryData) =
         (fun () -> ZipFile.ExtractToDirectory (fromZip.FullPath, toDir.FullPath))
         |> exnToResult
@@ -36,10 +41,10 @@ type public InstallEngineJob
         | _ -> Error "Unable to find Godot executable!"
 
     let installationWorkflow (enginesDirectory: DirectoryData) zipFile = result {
-        // TODO check and cleanup before creating folder
         let installDir = Path.Combine(enginesDirectory.FullPath, engineData.ToString())
-        let! installDirData = DirectoryData.TryCreate installDir >>= extract zipFile
-        let! godotFile = findGodotFileInDir installDirData
+        cleanup installDir
+        let! installDirData = DirectoryData.TryCreate installDir >>= extract zipFile |> cleanupIfError installDir
+        let! godotFile = findGodotFileInDir installDirData |> cleanupIfError installDir
         return EngineInstall.New engineData installDirData godotFile
     }
 
@@ -47,6 +52,13 @@ type public InstallEngineJob
         match installationWorkflow enginesDirectory zipFile with
         | Ok engineInstall -> engineInstall |> Succeeded |> statusMachine.SetEndStatus
         | Error err -> err |> Failed |> statusMachine.SetEndStatus
+
+    let runPlugin () =
+        statusMachine.SetStatus ({Action = $"Unpacking {engineData}"; Progress = None} |> Running)
+        match (engineZipFile.Val.StillExists, enginesDirectory.Val.StillExists) with
+        | true, true -> install enginesDirectory.Val engineZipFile.Val
+        | false, _ -> "Could not find Godot zip file to unpack!" |> Failed |> statusMachine.SetEndStatus
+        | _, false -> "Engines directory does not exist or is not accessible!" |> Failed |> statusMachine.SetEndStatus
 
     interface IInstallEngineJob with
 
@@ -59,10 +71,5 @@ type public InstallEngineJob
         member this.Abort () = () // no practical implementation at the moment
 
         member this.Run () = async {
-            // TODO remove extracted files after failure
-            statusMachine.SetStatus ({Action = $"Unpacking {engineData}"; Progress = None} |> Running)
-            match (engineZipFile.Val.StillExists, enginesDirectory.Val.StillExists) with
-            | true, true -> install enginesDirectory.Val engineZipFile.Val
-            | false, _ -> "Could not find Godot zip file to unpack!" |> Failed |> statusMachine.SetEndStatus
-            | _, false -> "Engines directory does not exist or is not accessible!" |> Failed |> statusMachine.SetEndStatus
+            if statusMachine.Status = Waiting then do runPlugin ()
         }

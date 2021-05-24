@@ -41,6 +41,21 @@ type public DownloadEngineJob
         | Error msg -> statusMachine.SetEndStatus (Failed msg)
     }
 
+    let runPlugin () = async {
+        let actionName = $"Downloading {engineOnline}"
+        statusMachine.SetStatus ({Action = actionName; Progress = None} |> Running)
+
+        let downloadFolder = cacheDirectory.Val.FullPath |> DirectoryData.TryCreate
+        let uri = exnToResult (fun () -> Uri engineOnline.Url)
+        let progressHook = progressHook actionName
+
+        match downloadFolder, uri with
+        | Ok folder, Ok uri ->
+            do! download engineOnline uri folder cancelSource.Token progressHook
+        | Error msg,_ | _, Error msg ->
+            statusMachine.SetEndStatus (Failed msg)
+    }
+
     interface IDownloadEngineJob with
 
         member this.Id = id
@@ -55,16 +70,5 @@ type public DownloadEngineJob
             statusMachine.SetEndStatus Aborted
 
         member this.Run () = async {
-            let actionName = $"Downloading {engineOnline}"
-            statusMachine.SetStatus ({Action = actionName; Progress = None} |> Running)
-
-            let downloadFolder = cacheDirectory.Val.FullPath |> DirectoryData.TryCreate
-            let uri = exnToResult (fun () -> Uri engineOnline.Url)
-            let progressHook = progressHook actionName
-
-            match downloadFolder, uri with
-            | Ok folder, Ok uri ->
-                do! download engineOnline uri folder cancelSource.Token progressHook
-            | Error msg,_ | _, Error msg ->
-                statusMachine.SetEndStatus (Failed msg)
+            if statusMachine.Status = Waiting then do! runPlugin ()
         }

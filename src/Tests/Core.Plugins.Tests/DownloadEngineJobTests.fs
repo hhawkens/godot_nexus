@@ -60,6 +60,7 @@ module public DownloadEngineJobTests =
         let mutable states = [iJob.Status, iJob.EndStatus]
         iJob.Updated.Add (fun _ -> states <- (iJob.Status, iJob.EndStatus)::states)
         iJob.Run() |> Async.RunSynchronously
+        iJob.Run() |> Async.RunSynchronously // check if can run only once
 
         match states with
         | (Ended, Succeeded (file, engine))::(Running _, NotEnded)::[Waiting, NotEnded] ->
