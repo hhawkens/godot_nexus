@@ -7,7 +7,6 @@ open FSharpPlus
 open App.Core.Domain
 open App.Utilities
 
-// TODO os specific plugin
 type public InstallEngineJob
     (engineZipFile: EngineZipFile,
      enginesDirectory: EnginesDirectory,
