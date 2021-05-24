@@ -11,7 +11,7 @@ open App.Utilities
 type public InstallEngineJob
     (engineZipFile: EngineZipFile,
      enginesDirectory: EnginesDirectory,
-     engineOnline: EngineOnline, // TODO use engine data
+     engineData: EngineData,
      executableFileRegex: Regex) as this =
 
     let mutable statusMachine = ObservableJobStatusMachine<EngineInstall, ErrorMessage> (ThreadUnsafe, this)
@@ -35,16 +35,16 @@ type public InstallEngineJob
         | [file] -> Ok file
         | _ -> Error "Unable to find Godot executable!"
 
-    let installationWorkflow (engineOnline: EngineOnline) (enginesDirectory: DirectoryData) zipFile = result {
+    let installationWorkflow (enginesDirectory: DirectoryData) zipFile = result {
         // TODO check and cleanup before creating folder
-        let installDir = Path.Combine(enginesDirectory.FullPath, engineOnline.ToString())
+        let installDir = Path.Combine(enginesDirectory.FullPath, engineData.ToString())
         let! installDirData = DirectoryData.TryCreate installDir >>= extract zipFile
         let! godotFile = findGodotFileInDir installDirData
-        return EngineInstall.New engineOnline.Data installDirData godotFile
+        return EngineInstall.New engineData installDirData godotFile
     }
 
-    let install engineOnline enginesDirectory zipFile =
-        match installationWorkflow engineOnline enginesDirectory zipFile with
+    let install enginesDirectory zipFile =
+        match installationWorkflow enginesDirectory zipFile with
         | Ok engineInstall -> engineInstall |> Succeeded |> statusMachine.SetEndStatus
         | Error err -> err |> Failed |> statusMachine.SetEndStatus
 
@@ -60,9 +60,9 @@ type public InstallEngineJob
 
         member this.Run () = async {
             // TODO remove extracted files after failure
-            statusMachine.SetStatus ({Action = $"Unpacking {engineOnline}"; Progress = None} |> Running)
+            statusMachine.SetStatus ({Action = $"Unpacking {engineData}"; Progress = None} |> Running)
             match (engineZipFile.Val.StillExists, enginesDirectory.Val.StillExists) with
-            | true, true -> install engineOnline enginesDirectory.Val engineZipFile.Val
+            | true, true -> install enginesDirectory.Val engineZipFile.Val
             | false, _ -> "Could not find Godot zip file to unpack!" |> Failed |> statusMachine.SetEndStatus
             | _, false -> "Engines directory does not exist or is not accessible!" |> Failed |> statusMachine.SetEndStatus
         }
