@@ -18,6 +18,10 @@ let _ = {PropertyName = ""; PropertyType = typedefof<int>}
 
 let mutable architecture = ArchLoader().Build()
 
+let shouldExist (layer: GivenTypesConjunctionWithDescription) =
+    let layerObjects = architecture |> layer.GetObjects |> toList
+    Assert.That(layerObjects.Length, Is.GreaterThan(0))
+
 let shouldNotDependOn (b: GivenTypesConjunctionWithDescription) (a: GivenTypesConjunctionWithDescription) =
     let forbiddenLayerAccess = a.Should().NotDependOnAny(b)
     forbiddenLayerAccess.Check architecture
@@ -33,14 +37,27 @@ let public ``All Layers Only Reference Lower Level Layers`` () =
 
     let utilsLayer = Types().That().ResideInAssembly(@"App.Utilities*", true).As("Utils Layer")
     let coreLayer = Types().That().ResideInAssembly(@"App.Core*", true).As("Core Layer")
-    let presentationLayer = Types().That().ResideInAssembly(@"App.Presentation*", true).As("Presentation Layer")
+    let frontendLayer = Types().That().ResideInAssembly(@"App.Presentation.Frontend").As("Frontend Layer")
+    let guiLayer = Types().That().ResideInAssembly(@"App.Presentation.Gui").As("GUI Layer")
     let mainLayer = Types().That().ResideInAssembly(@"App.Main*", true).As("Main Layer")
 
+    utilsLayer |> shouldExist
+    coreLayer |> shouldExist
+    frontendLayer |> shouldExist
+    guiLayer |> shouldExist
+    mainLayer |> shouldExist
+
     utilsLayer |> shouldNotDependOn coreLayer
-    utilsLayer |> shouldNotDependOn presentationLayer
+    utilsLayer |> shouldNotDependOn frontendLayer
+    utilsLayer |> shouldNotDependOn guiLayer
     utilsLayer |> shouldNotDependOn mainLayer
 
-    coreLayer |> shouldNotDependOn presentationLayer
+    coreLayer |> shouldNotDependOn frontendLayer
+    coreLayer |> shouldNotDependOn guiLayer
     coreLayer |> shouldNotDependOn mainLayer
 
-    presentationLayer |> shouldNotDependOn mainLayer
+    frontendLayer |> shouldNotDependOn mainLayer
+    frontendLayer |> shouldNotDependOn guiLayer
+
+    guiLayer |> shouldNotDependOn mainLayer
+    guiLayer |> shouldNotDependOn coreLayer // This is because we are using closed layers
