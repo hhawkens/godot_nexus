@@ -33,7 +33,7 @@ let private findAllNamespaceErrors (projectFile: FileData) (sourceFiles: FileDat
     sourceFiles
     |> choose (fun source ->
         let projectName = projectFile.Name.Replace(projectFile.Extension, "")
-        maybe {
+        monad.plus' {
             let findErrorMatch = findError projectName source
             return! findErrorMatch namespaceRegex
             return! findErrorMatch moduleRegex

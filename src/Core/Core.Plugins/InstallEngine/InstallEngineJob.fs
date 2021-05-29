@@ -16,7 +16,7 @@ type public InstallEngineJob
     let mutable statusMachine = ObservableJobStatusMachine<EngineInstall, ErrorMessage> (ThreadUnsafe, this)
 
     let id =
-        let idVal = Rand.NextI32() |> IdVal
+        let idVal = engineData.GetHashCode() |> IdVal
         let prefixSub = nameof InstallEngineJob |> stringToByte |> IdPrefixSub
         Id.WithPrefixSub IdPrefixes.job prefixSub idVal
 

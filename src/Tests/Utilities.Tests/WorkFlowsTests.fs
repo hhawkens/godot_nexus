@@ -4,68 +4,6 @@ open NUnit.Framework
 open App.Utilities
 
 [<Test>]
-let public ``Maybe Return From`` () =
-    let opt = maybe { return! Some 1 }
-    Assert.That(opt, Is.EqualTo(Some 1))
-
-[<Test>]
-let public ``Maybe Return`` () =
-    let opt = maybe { return "1" }
-    Assert.That(opt, Is.EqualTo(Some "1"))
-
-[<Test>]
-let public ``Maybe Combine Return First`` () =
-    let opt = maybe {
-        return! Some 11
-        return! Some 22
-    }
-    Assert.That(opt, Is.EqualTo(Some 11))
-
-[<Test>]
-let public ``Maybe Combine Return Second`` () =
-    let opt = maybe {
-        return! None
-        return! Some 22
-    }
-    Assert.That(opt, Is.EqualTo(Some 22))
-
-[<Test>]
-let public ``Maybe Combine Return None`` () =
-    let opt = maybe {
-        return! None
-        return! None
-    }
-    Assert.That(opt, Is.EqualTo(None))
-
-[<Test>]
-let public ``Maybe Combine Return Combined`` () =
-    let opt = maybe {
-        return! None
-        return 66
-    }
-    Assert.That(opt, Is.EqualTo(Some 66))
-
-[<Test>]
-let public ``Maybe Bind Handles Some Correctly`` () =
-    let opt = maybe {
-        let! x = Some 44
-        let! y = Some 11
-        return x + y
-    }
-    Assert.That(opt, Is.EqualTo(Some 55))
-
-[<Test>]
-let public ``Maybe Bind Handles None Correctly`` () =
-    let opt = maybe {
-        let! x = None
-        let! y = Some 100
-        return x + y
-    }
-    Assert.That(opt, Is.EqualTo(None))
-
-// ---------------------------------------------------------------
-
-[<Test>]
 let public ``Result Return From`` () =
     let res = result { return! Ok 1 }
     Assert.That(res, Is.EqualTo(Ok 1))
