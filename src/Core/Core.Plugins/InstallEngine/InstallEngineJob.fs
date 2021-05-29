@@ -39,7 +39,7 @@ type public InstallEngineJob
         | [file] -> Ok file
         | _ -> Error "Unable to find Godot executable!"
 
-    let installationWorkflow (enginesDirectory: DirectoryData) zipFile = result {
+    let installationWorkflow (enginesDirectory: DirectoryData) zipFile = monad.plus' {
         let installDir = Path.Combine(enginesDirectory.FullPath, engineData.ToString())
         cleanup installDir
         let! installDirData = DirectoryData.TryCreate installDir >>= extract zipFile |> cleanupIfError installDir

@@ -23,7 +23,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Include="WorkFlowsTests.fs" />
         <Compile Include="OperatorsTests.fs" />
         <Compile Include="EnumsTests.fs" />
         <Compile Include="CompareTests.fs" />

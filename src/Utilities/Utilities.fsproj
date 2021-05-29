@@ -9,7 +9,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Modules\WorkFlows.fs" />
         <Compile Include="Modules\Operators.fs" />
         <Compile Include="Modules\Enums.fs" />
         <Compile Include="Modules\Compare.fs" />
