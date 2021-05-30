@@ -13,7 +13,7 @@ let private findGodotVersionLinks (godotVersionQuery: IGodotVersionQuery) url = 
     return
         anchors
         |> filter (fun a -> godotVersionQuery.IsVersion a.InnerHtml)
-        |> map (fun a -> a.Href)
+        |>> (fun a -> a.Href)
 }
 
 let private findGodotEnginesBy archiveChecker dotnet url = async {
@@ -39,7 +39,7 @@ let private findGodotEnginesBy archiveChecker dotnet url = async {
 
     return
         validRowInfos
-        |> map (fun (size, ver, url) ->  EngineOnline.New {Version = ver; DotNetSupport = dotnet} url size)
+        |>> (fun (size, ver, url) ->  EngineOnline.New {Version = ver; DotNetSupport = dotnet} url size)
 }
 
 let private findGodotEngines (godotVersionQuery: IGodotVersionQuery) url =

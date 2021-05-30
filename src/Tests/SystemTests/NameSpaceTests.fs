@@ -48,7 +48,7 @@ let public ``Check If All Code Files Use The Correct Name Space`` () =
 
     let errors =
         projectFiles
-        |> map (fun projectFile ->
+        |>> (fun projectFile ->
             let sourceFiles =
                 (DirectoryData.Of projectFile).FindFilesRecWhere (fun f ->
                     let isSourceFile = f.Extension = ".cs" || f.Extension = ".fs"

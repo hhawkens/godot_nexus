@@ -20,9 +20,9 @@ let public getReferencedAssemblies assembly =
         let subs =
             asm.GetReferencedAssemblies()
             |> filter (fun x -> x.FullName.StartsWith "App." && not <| x.FullName.Contains "Test")
-            |> map Assembly.Load
+            |>> Assembly.Load
             |> toList
         match subs with
         | [] -> []
-        | subs -> subs @ (subs |> map getAssembliesRec |> flatten |> toList)
+        | subs -> subs @ (subs |>> getAssembliesRec |> flatten |> toList)
     getAssembliesRec assembly |> distinct

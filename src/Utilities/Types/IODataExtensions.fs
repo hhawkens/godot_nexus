@@ -24,11 +24,11 @@ type public DirectoryData with
             let rec removeRec (dir: DirectoryData) =
                 let fileErrors =
                     dir.Files
-                    |> map (fun file -> file.TryDelete())
+                    |>> (fun file -> file.TryDelete())
                     |> filter (fun res -> res.IsError)
-                    |> map unwrapError
+                    |>> unwrapError
                     |> List.ofArray
-                let subDirErrors = dir.SubDirectories |> map removeRec |> flatten |> List.ofSeq
+                let subDirErrors = dir.SubDirectories |>> removeRec |> flatten |> List.ofSeq
                 let recErrors = fileErrors @ subDirErrors
                 match recErrors with
                 | [] -> dir.Delete()
