@@ -43,7 +43,7 @@
 }
 
 .sidebar .list-entry:hover {
-    background-color: alpha(@theme_selected_bg_color, 0.6);
+    background-color: alpha(@theme_selected_bg_color, 0.35);
 }
 
 .sidebar .list-entry:selected {
