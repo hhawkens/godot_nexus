@@ -25,6 +25,7 @@
         <Compile Include="PersistAppStateTests.fs" />
         <Compile Include="PersistPreferencesTests.fs" />
         <Compile Include="DownloadEngineJobTests.fs" />
+        <Compile Include="InstallEngineTests.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

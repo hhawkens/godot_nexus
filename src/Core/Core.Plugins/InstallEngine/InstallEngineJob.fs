@@ -20,9 +20,9 @@ type public InstallEngineJob
         let prefixSub = nameof InstallEngineJob |> stringToByte |> IdPrefixSub
         Id.WithPrefixSub IdPrefixes.job prefixSub idVal
 
-    let cleanup dir = Directory.Delete (dir, true)
+    let tryCleanup dir = DirectoryData.tryFind dir >>= (DirectoryData.tryDelete >> Result.toOption) |> ignore
     let cleanupIfError dir (result: Result<_,_>) =
-        if result.IsError then do cleanup dir
+        if result.IsError then do tryCleanup dir
         result
 
     let extract (fromZip: FileData) (toDir: DirectoryData) =
@@ -40,8 +40,8 @@ type public InstallEngineJob
         | _ -> Error "Unable to find Godot executable!"
 
     let installationWorkflow (enginesDirectory: DirectoryData) zipFile = monad.plus' {
-        let installDir = Path.Combine(enginesDirectory.FullPath, engineData.ToString())
-        cleanup installDir
+        let installDir = Path.Combine(enginesDirectory.FullPath, engineData.Version.ToString())
+        tryCleanup installDir
         let! installDirData = DirectoryData.tryCreate installDir >>= extract zipFile |> cleanupIfError installDir
         let! godotFile = findGodotFileInDir installDirData |> cleanupIfError installDir
         return EngineInstall.New engineData installDirData godotFile
