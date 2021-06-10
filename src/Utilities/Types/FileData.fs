@@ -1,6 +1,7 @@
 namespace App.Utilities
 
 open System.IO
+open FSharpPlus
 
 /// Immutable light weight alternative to System.IO.FileInfo.
 type public FileData = private {
@@ -33,10 +34,31 @@ type public FileData = private {
         else
             Error $"Could not delete file {this.FullPath} as it no longer exists."
 
+    static member internal New path = {fullPath = (FileInfo path).FullName}
+
+
+
+module public FileData =
+
     /// Points to existing file.
-    static member public TryFind path =
+    let public tryFind path =
         match File.Exists path with
         | true -> Some <| FileData.New path
         | false -> None
 
-    static member internal New path = {fullPath = (FileInfo path).FullName}
+    /// Creates new file and containing directories or points to existing file (preserving its contents).
+    let public tryCreate path =
+        match tryFind path with
+        | Some file -> Ok file
+        | None ->
+            try
+                let dir = Path.GetDirectoryName path
+                if dir.Trim() <> "" then do
+                    Directory.CreateDirectory dir |> ignore
+                File.Create path |> dispose
+                Ok <| FileData.New path
+            with
+                | ex -> Error ex.Message
+
+    /// Tries to delete this file.
+    let public tryDelete (fileData: FileData) = fileData.TryDelete ()

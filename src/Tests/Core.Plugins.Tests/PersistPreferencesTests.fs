@@ -10,20 +10,20 @@ open NUnit.Framework
 [<Literal>]
 let private prefsFile = "UserSettings.ini"
 
-let private enginesPath = $"{AppDataPath}/engines" |> DirectoryData.TryCreate |> unwrap
-let private projectsPath = $"{AppDataPath}/projects" |> DirectoryData.TryCreate |> unwrap
+let private enginesPath = $"{AppDataPath}/engines" |> DirectoryData.tryCreate |> unwrap
+let private projectsPath = $"{AppDataPath}/projects" |> DirectoryData.tryCreate |> unwrap
 
 let private defaultPreferences = {
     General = {
         EnginesPath = {
             Description = "engines description"
-            DefaultValue = DirectoryData.Current
-            CurrentValue = DirectoryData.Current
+            DefaultValue = DirectoryData.current()
+            CurrentValue = DirectoryData.current()
         }
         ProjectsPath = {
             Description = "projects description"
-            DefaultValue = DirectoryData.Current
-            CurrentValue = DirectoryData.Current
+            DefaultValue = DirectoryData.current()
+            CurrentValue = DirectoryData.current()
         }
     }
     Ui = {
@@ -64,7 +64,7 @@ let private newPlugin () =
 
 [<TearDown>]
 let public Cleanup () =
-    (DirectoryData.TryCreate AppDataPath |> unwrap).TryDelete() |> unwrap
+    (DirectoryData.tryCreate AppDataPath |> unwrap).TryDelete() |> unwrap
 
 [<Test>]
 let public ``Valid Saved And Loaded Prefs Have Consistent Data`` () =
@@ -73,11 +73,11 @@ let public ``Valid Saved And Loaded Prefs Have Consistent Data`` () =
     match plugin.Load() with
     | Loaded prefs ->
         Assert.That(prefs.General.EnginesPath.Description, Is.EqualTo("engines description"))
-        Assert.That(prefs.General.EnginesPath.DefaultValue, Is.EqualTo(DirectoryData.Current))
+        Assert.That(prefs.General.EnginesPath.DefaultValue, Is.EqualTo(DirectoryData.current()))
         Assert.That(prefs.General.EnginesPath.CurrentValue, Is.EqualTo(enginesPath))
 
         Assert.That(prefs.General.ProjectsPath.Description, Is.EqualTo("projects description"))
-        Assert.That(prefs.General.ProjectsPath.DefaultValue, Is.EqualTo(DirectoryData.Current))
+        Assert.That(prefs.General.ProjectsPath.DefaultValue, Is.EqualTo(DirectoryData.current()))
         Assert.That(prefs.General.ProjectsPath.CurrentValue, Is.EqualTo(projectsPath))
 
         Assert.That(prefs.Ui.Theme.Description, Is.EqualTo("theme description"))
@@ -97,7 +97,7 @@ let public ``Loading Preferences Without Existing File Yields Defaults`` () =
 
 [<Test>]
 let public ``Loading Faulty File Yields Error`` () =
-    let fileData = FileData.TryCreate (Path.Combine(AppDataPath, prefsFile)) |> unwrap
+    let fileData = FileData.tryCreate (Path.Combine(AppDataPath, prefsFile)) |> unwrap
     File.WriteAllText(fileData.FullPath, "[Bla]\nBla=Bla")
     let plugin = newPlugin()
     match plugin.Load() with

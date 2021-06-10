@@ -11,7 +11,7 @@ let private enginesDirName = "engines"
 let public plugin : UEnginesDirectoryGetter =
     let dir =
         Path.Combine(AppDataPath, enginesDirName)
-        |> DirectoryData.TryCreate
+        |> DirectoryData.tryCreate
         |> unwrap
         |> EnginesDirectory
     (fun () -> dir)

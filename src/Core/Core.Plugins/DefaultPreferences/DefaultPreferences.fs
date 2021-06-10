@@ -11,8 +11,8 @@ let private enginesPath = "engines"
 [<Literal>]
 let private projectsPath = "projects"
 
-let private enginesDirectoryInfo = Path.Combine(AppDataPath, enginesPath) |> DirectoryData.TryCreate |> unwrap
-let private projectsDirectoryInfo = Path.Combine(AppDataPath, projectsPath) |> DirectoryData.TryCreate |> unwrap
+let private enginesDirectoryInfo = Path.Combine(AppDataPath, enginesPath) |> DirectoryData.tryCreate |> unwrap
+let private projectsDirectoryInfo = Path.Combine(AppDataPath, projectsPath) |> DirectoryData.tryCreate |> unwrap
 
 let private defaultEnginesPath = {
     Description = "Directory the downloaded engines are saved to"

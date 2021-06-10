@@ -45,7 +45,7 @@ type public DownloadEngineJob
         let actionName = $"Downloading {engineOnline}"
         statusMachine.SetStatus ({Action = actionName; Progress = None} |> Running)
 
-        let downloadFolder = cacheDirectory.Val.FullPath |> DirectoryData.TryCreate
+        let downloadFolder = cacheDirectory.Val.FullPath |> DirectoryData.tryCreate
         let uri = exnToResult (fun () -> Uri engineOnline.Url)
         let progressHook = progressHook actionName
 

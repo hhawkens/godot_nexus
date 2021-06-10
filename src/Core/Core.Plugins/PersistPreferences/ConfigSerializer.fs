@@ -40,12 +40,12 @@ let private UnsafeLoadFrom defaultPrefs (file: FileData) =
             EnginesPath = {
                 Description = defaultPrefs.General.EnginesPath.Description
                 DefaultValue = defaultPrefs.General.EnginesPath.DefaultValue
-                CurrentValue = enginesPath |> DirectoryData.TryCreate |> unwrap
+                CurrentValue = enginesPath |> DirectoryData.tryCreate |> unwrap
             }
             ProjectsPath = {
                 Description = defaultPrefs.General.ProjectsPath.Description
                 DefaultValue = defaultPrefs.General.ProjectsPath.DefaultValue
-                CurrentValue = projectsPath |> DirectoryData.TryCreate |> unwrap
+                CurrentValue = projectsPath |> DirectoryData.tryCreate |> unwrap
             }
         }
         Ui = {

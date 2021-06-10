@@ -12,9 +12,9 @@ let private newPlugin () =
     plugin.TryInitialize() |> unwrap
     plugin
 
-let godotFile = FileData.TryCreate "TestData/Godot.bin" |> unwrap
+let godotFile = FileData.tryCreate "TestData/Godot.bin" |> unwrap
 let activeEngineInstall =
-    EngineInstall.New {Version = Version(7,7,7); DotNetSupport = Mono} DirectoryData.Current godotFile
+    EngineInstall.New {Version = Version(7,7,7); DotNetSupport = Mono} (DirectoryData.current()) godotFile
 
 let private testAppState = {
     EnginesOnline = [
@@ -24,18 +24,18 @@ let private testAppState = {
     EngineInstalls =
         ActiveSet.createFrom [
             activeEngineInstall
-            EngineInstall.New {Version = Version(11,88,0); DotNetSupport = DotNetCore} DirectoryData.Current godotFile
+            EngineInstall.New {Version = Version(11,88,0); DotNetSupport = DotNetCore} (DirectoryData.current()) godotFile
         ]
             activeEngineInstall
         |> unwrap
     Projects = [
         {
             Name = ProjectName "P1"
-            Path = DirectoryData.Current
+            Path = DirectoryData.current()
             AssociatedEngine =
                 EngineInstall.New
                     {Version = Version(3,2,1); DotNetSupport = Mono}
-                    DirectoryData.Current
+                    (DirectoryData.current())
                     godotFile
                 |> Some
         }
@@ -44,7 +44,7 @@ let private testAppState = {
 
 [<TearDown>]
 let public Cleanup () =
-    (DirectoryData.TryCreate AppDataPath |> unwrap).TryDelete() |> unwrap
+    (DirectoryData.tryCreate AppDataPath |> unwrap).TryDelete() |> unwrap
 
 [<Test>]
 let public ``App State Is Loaded With The Same Data It Was Saved With`` () =

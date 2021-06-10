@@ -13,7 +13,7 @@ type public Caching () =
     let initializationError = SetOnce<string option>(None)
 
     let cacheDirectoryOption =
-        match Path.Combine(AppDataPath, cacheDirName) |> DirectoryData.TryCreate with
+        match Path.Combine(AppDataPath, cacheDirName) |> DirectoryData.tryCreate with
         | Ok dir -> Some dir
         | Error err ->
             initializationError.SetOrFail(Some $"Could not create cache directory \"{cacheDirName}\, reason:\n{err}")

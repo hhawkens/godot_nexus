@@ -21,6 +21,6 @@ type internal PersistPreferences (defaultPreferences: Preferences) =
             ConfigSerializer.Save configFile.Value prefs
 
         member this.TryInitialize() =
-            match FileData.TryCreate (Path.Combine(AppDataPath, file)) with
+            match FileData.tryCreate (Path.Combine(AppDataPath, file)) with
             | Ok f -> configFile.SetOrFail(f) |> Ok
             | Error err -> Error err

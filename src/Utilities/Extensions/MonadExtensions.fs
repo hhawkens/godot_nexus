@@ -19,6 +19,15 @@ type public Result<'s, 'e> with
         | Ok ok -> Some ok
         | Error _ -> None
 
+    /// Check if result object is success.
+    static member public isOk (result: Result<_,_>) = result.IsOk
+
+    /// Check if result object is error.
+    static member public isError (result: Result<_,_>) = result.IsError
+
+    /// Converts Result to Option type. A potential error object is discarded.
+    static member public toOption (result: Result<_,_>) = result.ToOption
+
 
 type public Option<'a> with
 

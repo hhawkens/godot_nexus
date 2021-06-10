@@ -91,5 +91,5 @@ module public Web =
             exnToResultAsync (fun () -> downloadFileUnsafe uri filePath cancel progressHook)
         if result.IsError && File.Exists(filePath) then do File.Delete(filePath)
 
-        return result |> Result.map (fun _ -> FileData.TryCreate filePath |> unwrap)
+        return result |> Result.map (fun _ -> FileData.tryCreate filePath |> unwrap)
     }

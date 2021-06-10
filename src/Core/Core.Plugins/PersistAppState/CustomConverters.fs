@@ -14,7 +14,7 @@ type internal DirectoryDataConverter () =
 
     override this.ReadJson (reader, _, _, _, _) =
         let fullPath = reader.Value:?>string
-        DirectoryData.TryCreate fullPath |> unwrap
+        DirectoryData.tryCreate fullPath |> unwrap
 
 
 type internal FileDataConverter () =
@@ -25,7 +25,7 @@ type internal FileDataConverter () =
 
     override this.ReadJson (reader, _, _, _, _) =
         let fullPath = reader.Value:?>string
-        FileData.TryCreate fullPath |> unwrap
+        FileData.tryCreate fullPath |> unwrap
 
 
 type internal EngineConverter () =

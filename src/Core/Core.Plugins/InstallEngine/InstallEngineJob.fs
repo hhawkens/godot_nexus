@@ -42,7 +42,7 @@ type public InstallEngineJob
     let installationWorkflow (enginesDirectory: DirectoryData) zipFile = monad.plus' {
         let installDir = Path.Combine(enginesDirectory.FullPath, engineData.ToString())
         cleanup installDir
-        let! installDirData = DirectoryData.TryCreate installDir >>= extract zipFile |> cleanupIfError installDir
+        let! installDirData = DirectoryData.tryCreate installDir >>= extract zipFile |> cleanupIfError installDir
         let! godotFile = findGodotFileInDir installDirData |> cleanupIfError installDir
         return EngineInstall.New engineData installDirData godotFile
     }

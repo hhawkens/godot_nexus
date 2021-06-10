@@ -23,19 +23,19 @@ let public TearDown() = RemoveNewFile()
 
 [<Test>]
 let public ``TryFind Will Not Find File That Does Not Exist`` () =
-    match FileData.TryFind "ImaginaryFile.txt" with
+    match FileData.tryFind "ImaginaryFile.txt" with
     | Some _ -> Assert.Fail("Was not supposed to find this file")
     | None -> Assert.Pass()
 
 [<Test>]
 let public ``TryFind Will Find Existing File`` () =
-    match FileData.TryFind FilePath with
+    match FileData.tryFind FilePath with
     | Some _ -> Assert.Pass()
     | None -> Assert.Fail("Could not find test file.")
 
 [<TestCase("")>]
 let public ``TryCreate Fails With Invalid Input`` input =
-    match FileData.TryCreate input with
+    match FileData.tryCreate input with
     | Ok _ -> Assert.Fail("Was not supposed to be able to create file")
     | Error _ -> Assert.Pass()
 
@@ -43,22 +43,22 @@ let public ``TryCreate Fails With Invalid Input`` input =
 let public ``TryCreate With Valid Path Creates New File`` () =
     let newFile = Path.Combine("NewFolder", "NewFile.test")
     Assert.That(File.Exists newFile, Is.False)
-    match FileData.TryCreate newFile with
+    match FileData.tryCreate newFile with
     | Ok _ -> Assert.That(File.Exists newFile, Is.True)
     | Error _ -> Assert.Fail("Was not able to create file")
-    (DirectoryData.TryFind "NewFolder" |> unwrap).TryDelete() |> unwrap
+    (DirectoryData.tryFind "NewFolder" |> unwrap).TryDelete() |> unwrap
 
 [<Test>]
 let public ``TryCreate With Existing File Preserves Content`` () =
     Assert.That(File.Exists FilePath, Is.True)
-    match FileData.TryCreate FilePath with
+    match FileData.tryCreate FilePath with
     | Ok file ->
         Assert.That(File.ReadAllText(file.FullPath), Is.EqualTo("Test Text Here!"))
     | Error _ -> Assert.Fail("Was not able to create file")
 
 [<Test>]
 let public ``File Properties Are Correct`` () =
-    match FileData.TryFind FilePath with
+    match FileData.tryFind FilePath with
     | Some file ->
         Assert.That(file.FullPath, Does.Contain("/TestData/Test.txt"))
         Assert.That(file.Name, Is.EqualTo("Test.txt"))
@@ -67,7 +67,7 @@ let public ``File Properties Are Correct`` () =
 
 [<Test>]
 let public ``Still Exists Shows Correct File State`` () =
-    match FileData.TryCreate NewFile with
+    match FileData.tryCreate NewFile with
     | Ok file ->
         Assert.That(file.StillExists)
         RemoveNewFile()
@@ -77,7 +77,7 @@ let public ``Still Exists Shows Correct File State`` () =
 [<Test>]
 let public ``Trying To Delete Existing File Succeeds`` () =
     let file = "hello.bin"
-    let fileData = FileData.TryCreate file |> unwrap
+    let fileData = FileData.tryCreate file |> unwrap
     Assert.That(File.Exists(file))
 
     match fileData.TryDelete() with
@@ -89,7 +89,7 @@ let public ``Trying To Delete Existing File Succeeds`` () =
 [<Test>]
 let public ``Trying To Delete Not Existing File Fails`` () =
     let file = "hello.bin"
-    let fileData = FileData.TryCreate file |> unwrap
+    let fileData = FileData.tryCreate file |> unwrap
     File.Delete file
     Assert.That(File.Exists(file), Is.False)
 

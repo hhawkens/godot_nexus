@@ -20,6 +20,6 @@ type internal PersistAppState () =
             (fun _ -> AppStateSerializer.saveUnsafe appStateFile.Value.FullPath appState) |> exnToResult
 
         member this.TryInitialize () =
-            match FileData.TryCreate (Path.Combine(AppDataPath, file)) with
+            match FileData.tryCreate (Path.Combine(AppDataPath, file)) with
             | Ok f -> appStateFile.SetOrFail(f) |> Ok
             | Error err -> Error err

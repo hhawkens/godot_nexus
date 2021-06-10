@@ -10,7 +10,7 @@ open App.Utilities
 module public DownloadEngineJobTests =
 
     let private testFileData = Reflec.makeRecord<FileData> [|"no_path"|]
-    let private testCacheDir = CacheDirectory DirectoryData.Current
+    let private testCacheDir = CacheDirectory (DirectoryData.current())
     let private testError = async{ return Result<FileData, ErrorMessage>.Error "test error" }
     let private testSuccess = async{ return Result<FileData, ErrorMessage>.Ok  testFileData}
     let private testEngineData = {Version = Version(1, 2, 3); DotNetSupport = NoSupport}

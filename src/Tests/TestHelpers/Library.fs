@@ -12,7 +12,7 @@ let public msBuildSolutionFolder =
             dir
         else
             findSolutionFromDir (dir.Parent |> unwrap)
-    findSolutionFromDir (System.Environment.CurrentDirectory |> DirectoryData.TryFind |> unwrap)
+    findSolutionFromDir (System.Environment.CurrentDirectory |> DirectoryData.tryFind |> unwrap)
 
 /// Get all project assemblies (excluding tests) referenced by given assembly, recursively.
 let public getReferencedAssemblies assembly =
