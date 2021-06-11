@@ -8,5 +8,7 @@ let inline public iterate<'a when 'a:>Enum>() =
 
 /// Tries to create an enum value from a string. Might fail.
 let inline public tryParse<'a when 'a:>Enum> txt =
-    try Enum.Parse(typedefof<'a>, txt, true) :?> 'a |> Some
-    with | _ -> None
+    try
+        Enum.Parse(typedefof<'a>, txt, true) :?> 'a |> Some
+    with | _ ->
+        None
