@@ -23,6 +23,11 @@ type public EngineStateController
     let installDownloadedEngine engineZipFile engine =
         let installEngineJob = installEnginePlugin engineZipFile enginesDir engine
         jobsController.AddJob (InstallEngine installEngineJob)
+        installEngineJob.Updated.Add (fun _ ->
+            match installEngineJob.EndStatus with
+            | Succeeded engineInstall ->
+                setState {state() with EngineInstalls = state().EngineInstalls.Add engineInstall}
+            | _ -> ())
         installEngineJob.Run () |> Async.StartChild |> ignore
 
     let engineIsInstalled (engine: EngineOnline) =
@@ -44,12 +49,16 @@ type public EngineStateController
         downloadJob.Run () |> Async.StartChild |> ignore
 
     member public this.RemoveEngine engineInstall =
-        removeEnginePlugin engineInstall
+        let rmFromState () = setState {state() with EngineInstalls = state().EngineInstalls.Remove engineInstall}
+        match removeEnginePlugin engineInstall with
+        | SuccessfulRemoval -> rmFromState () |> Ok
+        | EngineNotFound -> Error($"Could not remove engine {engineInstall}, engine folder not found!")
+        | RemovalFailed err -> Error($"Could not remove engine {engineInstall}, reason(s): {err}")
 
     member public this.SetActiveEngine engineInstall =
         match state().EngineInstalls.SetActive engineInstall with
-        | Some newActive ->
-            setState {state() with EngineInstalls = newActive} |> Ok
+        | Some engineInstallsWithNewActive ->
+            setState {state() with EngineInstalls = engineInstallsWithNewActive} |> Ok
         | None -> Error $"Cannot set engine {engineInstall} as active because it is not installed"
 
     member public this.RunEngine engineInstall =

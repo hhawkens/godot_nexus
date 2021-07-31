@@ -9,6 +9,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Include="HelperTypes\EngineTypes.fs" />
       <Compile Include="Types.fs" />
       <Compile Include="UPlugin.fs" />
       <Compile Include="UCaching.fs" />

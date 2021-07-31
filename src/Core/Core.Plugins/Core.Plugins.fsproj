@@ -29,6 +29,7 @@
       <Compile Include="DownloadEngine\DownloadEngine.fs" />
       <Compile Include="InstallEngine\InstallEngineJob.fs" />
       <Compile Include="InstallEngine\InstallEngine.fs" />
+      <Compile Include="RemoveEngine\RemoveEngine.fs" />
     </ItemGroup>
 
     <ItemGroup>
