@@ -1,6 +1,6 @@
-module public App.Core.Addons.Tests.EnginesFinderTests
+module public App.Shell.Addons.Tests.EnginesFinderTests
 
-open App.Core.Addons
+open App.Shell.Addons
 open App.Core.Domain
 open App.Core.State
 open Moq

@@ -1,4 +1,4 @@
-namespace App.Core.Addons
+namespace App.Shell.Addons
 
 open App.Core.Domain
 open App.Core.State

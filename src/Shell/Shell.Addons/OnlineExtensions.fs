@@ -1,5 +1,5 @@
 [<AutoOpen>]
-module internal App.Core.Addons.OnlineExtensions
+module internal App.Shell.Addons.OnlineExtensions
 
 open AngleSharp
 open AngleSharp.Html.Dom

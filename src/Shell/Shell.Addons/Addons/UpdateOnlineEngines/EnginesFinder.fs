@@ -1,4 +1,4 @@
-module internal App.Core.Addons.EnginesFinder
+module internal App.Shell.Addons.EnginesFinder
 
 open AngleSharp.Html.Dom
 open FSharpPlus

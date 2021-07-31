@@ -1,4 +1,4 @@
-namespace App.Core.Addons
+namespace App.Shell.Addons
 
 open FSharpPlus
 open App.Utilities

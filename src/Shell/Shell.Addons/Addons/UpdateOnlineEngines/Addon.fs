@@ -1,4 +1,4 @@
-module public App.Core.Addons.UpdateOnlineEnginesAddon
+module public App.Shell.Addons.UpdateOnlineEnginesAddon
 
 open App.Core.Domain
 open App.Core.State

@@ -1,7 +1,6 @@
-namespace App.Core.Addons
+namespace App.Shell.Addons
 
 open System
-open App.Core.Addons
 open App.Core.State
 open App.Utilities
 
