@@ -1,7 +1,7 @@
 namespace App.Shell.Addons
 
 open App.Core.Domain
-open App.Core.State
+open App.Shell.State
 
 /// Addons are extensions to the core that hook themselves into the application,
 /// are called once or regularly.

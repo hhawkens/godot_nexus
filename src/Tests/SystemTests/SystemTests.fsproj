@@ -24,7 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Core\Core.State\Core.State.fsproj" />
+      <ProjectReference Include="..\..\Shell\Shell.State\Shell.State.fsproj" />
       <ProjectReference Include="..\..\Main\Main.fsproj" />
       <ProjectReference Include="..\..\Utilities\Utilities.fsproj" />
       <ProjectReference Include="..\TestHelpers\TestHelpers.fsproj" />

@@ -1,7 +1,6 @@
-namespace App.Core.State
+namespace App.Shell.State
 
 open App.Core.Domain
-open App.Core.State
 
 // TODO create another controller for AppStateController initialization
 // TODO (maybe?) interfaces for sub controllers

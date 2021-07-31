@@ -1,4 +1,4 @@
-namespace App.Core.State
+namespace App.Shell.State
 
 open FSharpPlus
 open App.Core.Domain

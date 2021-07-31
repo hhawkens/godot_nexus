@@ -6,7 +6,7 @@ open ArchUnitNET.Loader;
 open ArchUnitNET.NUnit;
 open NUnit.Framework
 open FSharpPlus
-open App.Core.State
+open App.Shell.State
 open App.TestHelpers
 open type ArchRuleDefinition
 

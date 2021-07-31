@@ -1,7 +1,7 @@
 namespace App.Shell.Addons
 
 open App.Core.Domain
-open App.Core.State
+open App.Shell.State
 
 type public AddonTask<'a> =
     | AddonSync of ('a -> unit)

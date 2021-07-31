@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\Core\Core.State\Core.State.fsproj">
+      <ProjectReference Include="..\..\Shell\Shell.State\Shell.State.fsproj">
           <PrivateAssets>all</PrivateAssets>
       </ProjectReference>
     </ItemGroup>

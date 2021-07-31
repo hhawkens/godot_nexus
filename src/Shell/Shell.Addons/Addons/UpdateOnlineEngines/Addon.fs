@@ -1,7 +1,7 @@
 module public App.Shell.Addons.UpdateOnlineEnginesAddon
 
 open App.Core.Domain
-open App.Core.State
+open App.Shell.State
 
 [<Literal>]
 let internal GodotDownloadUrl = "https://downloads.tuxfamily.org/godotengine/"

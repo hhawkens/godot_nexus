@@ -1,7 +1,7 @@
 namespace App.Shell.Addons
 
 open System
-open App.Core.State
+open App.Shell.State
 open App.Utilities
 
 type public DefaultAddon =

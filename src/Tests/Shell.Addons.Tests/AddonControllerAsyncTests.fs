@@ -2,7 +2,7 @@ module public App.Shell.Addons.Tests.AddonControllerAsyncTests
 
 open App.Shell.Addons
 open App.Core.Domain
-open App.Core.State
+open App.Shell.State
 open Moq
 open NUnit.Framework
 
