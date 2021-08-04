@@ -3,7 +3,7 @@ namespace App.Core.PluginDefinitions
 open App.Core.Domain
 
 /// Marks a system plugin. Plugins are extensions to the core,
-/// are called by the core itself.
+/// called by the core itself.
 /// Can be objects or simple functions.
 /// The "U" prefix marks plugin definitions.
 type public UPlugin =

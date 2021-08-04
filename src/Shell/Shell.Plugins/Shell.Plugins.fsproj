@@ -20,13 +20,13 @@
       <Compile Include="Preferences\PersistPreferences\ConfigSerializer.fs" />
       <Compile Include="Preferences\PersistPreferences\PersistPreferences.fs" />
       <Compile Include="Preferences\DefaultPreferences\DefaultPreferences.fs" />
-      <Compile Include="Engines\EnginesDirectoryGetter\EnginesDirectoryGetter.fs" />
-      <Compile Include="Engines\DownloadEngine\DownloadEngineJob.fs" />
-      <Compile Include="Engines\DownloadEngine\DownloadEngine.fs" />
-      <Compile Include="Engines\InstallEngine\InstallEngineJob.fs" />
-      <Compile Include="Engines\InstallEngine\InstallEngine.fs" />
-      <Compile Include="Engines\RemoveEngine\RemoveEngine.fs" />
-      <Compile Include="Engines\RunEngine\RunEngine.fs" />
+      <Compile Include="Engine\EnginesDirectoryGetter\EnginesDirectoryGetter.fs" />
+      <Compile Include="Engine\DownloadEngine\DownloadEngineJob.fs" />
+      <Compile Include="Engine\DownloadEngine\DownloadEngine.fs" />
+      <Compile Include="Engine\InstallEngine\InstallEngineJob.fs" />
+      <Compile Include="Engine\InstallEngine\InstallEngine.fs" />
+      <Compile Include="Engine\RemoveEngine\RemoveEngine.fs" />
+      <Compile Include="Engine\RunEngine\RunEngine.fs" />
     </ItemGroup>
 
     <ItemGroup>
