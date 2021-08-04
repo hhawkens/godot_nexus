@@ -17,15 +17,15 @@
       <Compile Include="PersistAppState\CustomConverters.fs" />
       <Compile Include="PersistAppState\AppStateSerializer.fs" />
       <Compile Include="PersistAppState\PersistAppState.fs" />
-      <Compile Include="PersistPreferences\ConfigSerializer.fs" />
-      <Compile Include="PersistPreferences\PersistPreferences.fs" />
-      <Compile Include="DefaultPreferences\DefaultPreferences.fs" />
-      <Compile Include="EnginesDirectoryGetter\EnginesDirectoryGetter.fs" />
-      <Compile Include="DownloadEngine\DownloadEngineJob.fs" />
-      <Compile Include="DownloadEngine\DownloadEngine.fs" />
-      <Compile Include="InstallEngine\InstallEngineJob.fs" />
-      <Compile Include="InstallEngine\InstallEngine.fs" />
-      <Compile Include="RemoveEngine\RemoveEngine.fs" />
+      <Compile Include="Preferences\PersistPreferences\ConfigSerializer.fs" />
+      <Compile Include="Preferences\PersistPreferences\PersistPreferences.fs" />
+      <Compile Include="Preferences\DefaultPreferences\DefaultPreferences.fs" />
+      <Compile Include="Engines\EnginesDirectoryGetter\EnginesDirectoryGetter.fs" />
+      <Compile Include="Engines\DownloadEngine\DownloadEngineJob.fs" />
+      <Compile Include="Engines\DownloadEngine\DownloadEngine.fs" />
+      <Compile Include="Engines\InstallEngine\InstallEngineJob.fs" />
+      <Compile Include="Engines\InstallEngine\InstallEngine.fs" />
+      <Compile Include="Engines\RemoveEngine\RemoveEngine.fs" />
     </ItemGroup>
 
     <ItemGroup>
