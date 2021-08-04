@@ -26,6 +26,7 @@
       <Compile Include="Engines\InstallEngine\InstallEngineJob.fs" />
       <Compile Include="Engines\InstallEngine\InstallEngine.fs" />
       <Compile Include="Engines\RemoveEngine\RemoveEngine.fs" />
+      <Compile Include="Engines\RunEngine\RunEngine.fs" />
     </ItemGroup>
 
     <ItemGroup>
