@@ -27,6 +27,7 @@
       <Compile Include="Engine\InstallEngine\InstallEngine.fs" />
       <Compile Include="Engine\RemoveEngine\RemoveEngine.fs" />
       <Compile Include="Engine\RunEngine\RunEngine.fs" />
+      <Compile Include="Project\ProjectsDirectoryGetter\ProjectsDirectoryGetter.fs" />
     </ItemGroup>
 
     <ItemGroup>
