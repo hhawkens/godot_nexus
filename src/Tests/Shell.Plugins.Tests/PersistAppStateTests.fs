@@ -32,6 +32,7 @@ let private testAppState = {
         {
             Name = ProjectName "P1"
             Path = DirectoryData.current()
+            File = godotFile
             AssociatedEngine =
                 EngineInstall.New
                     {Version = Version(3,2,1); DotNetSupport = Mono}

@@ -5,7 +5,8 @@ open App.Utilities
 
 type public Project = {
     Name: ProjectName
-    Path: DirectoryData // TODO add FileData
+    Path: DirectoryData
+    File: FileData
     AssociatedEngine: EngineInstall option
 } with
     member this.Id =
