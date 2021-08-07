@@ -5,7 +5,7 @@ open App.Utilities
 
 type public Project = {
     Name: ProjectName
-    Path: DirectoryData
+    Path: DirectoryData // TODO add FileData
     AssociatedEngine: EngineInstall option
 } with
     member this.Id =
@@ -13,4 +13,7 @@ type public Project = {
             IdPrefixes.project
             (HashCode.Combine(this.Name, this.Path, this.AssociatedEngine) |> IdVal)
 
-and public ProjectName = ProjectName of string
+and public ProjectName = ProjectName of string with
+    member this.Val =
+        let (ProjectName x) = this
+        x

@@ -10,8 +10,12 @@
 
     <ItemGroup>
       <Compile Include="Assembly.fs" />
+      <Content Include="PluginResources\icon.png">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </Content>
       <Compile Include="Common\PluginConstants.fs" />
       <Compile Include="Common\ObservableJobStatusMachine.fs" />
+      <Compile Include="Common\Operators.fs" />
       <Compile Include="Caching\Caching.fs" />
       <Compile Include="PersistAppState\SerializableTypes.fs" />
       <Compile Include="PersistAppState\CustomConverters.fs" />
@@ -28,6 +32,9 @@
       <Compile Include="Engine\RemoveEngine\RemoveEngine.fs" />
       <Compile Include="Engine\RunEngine\RunEngine.fs" />
       <Compile Include="Project\ProjectsDirectoryGetter\ProjectsDirectoryGetter.fs" />
+      <Compile Include="Project\CreateNewProject\SimpleCreateProjectJob.fs" />
+      <Compile Include="Project\CreateNewProject\v3\ProjectFilesText_v3.fs" />
+      <Compile Include="Project\CreateNewProject\v3\CreateNewProject_v3.fs" />
     </ItemGroup>
 
     <ItemGroup>

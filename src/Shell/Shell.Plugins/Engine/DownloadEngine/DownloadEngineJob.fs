@@ -13,11 +13,7 @@ type public DownloadEngineJob
     let mutable statusMachine =
         ObservableJobStatusMachine<EngineZipFile * EngineOnline, ErrorMessage> (ThreadSafe, this)
 
-    let id =
-        let idVal = Rand.NextI32() |> IdVal
-        let prefixSub = nameof DownloadEngineJob |> stringToByte |> IdPrefixSub
-        Id.WithPrefixSub IdPrefixes.job prefixSub idVal
-
+    let id = generateJobId<DownloadEngineJob> ()
     let cancelSource = new CancellationTokenSource()
 
     let progressHook actionName =

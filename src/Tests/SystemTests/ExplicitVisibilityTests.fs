@@ -25,11 +25,14 @@ let private findErrorsInFile (file: FileData) =
             None
         )
 
+let private filterForVisibilityChecks (fileData: FileData) =
+    not <| fileData.FullPath.Contains($"{__}obj{__}")
+
 [<Test>]
 let public ``Check If All F# Modules And Types Have Explicit Visibility Specified`` () =
     let allErrors =
         msBuildSolutionFolder.FindFilesRecWhere (fun f -> f.Extension = ".fs")
-        |> filter (fun f -> not <| f.FullPath.Contains($"{__}obj{__}"))
+        |> filter filterForVisibilityChecks
         |> foldMap findErrorsInFile
         |> toList
     if allErrors.Length = 0 then
