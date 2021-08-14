@@ -35,6 +35,7 @@
       <Compile Include="Project\CreateNewProject\SimpleCreateProjectJob.fs" />
       <Compile Include="Project\CreateNewProject\v3\ProjectFilesText_v3.fs" />
       <Compile Include="Project\CreateNewProject\v3\CreateNewProject_v3.fs" />
+      <Compile Include="Project\AddExistingProject\v3\AddExistingProject_v3.fs" />
     </ItemGroup>
 
     <ItemGroup>

@@ -31,8 +31,8 @@ let private testAppState = {
     Projects = [
         {
             Name = ProjectName "P1"
-            Path = DirectoryData.current()
-            File = godotFile
+            Path = DirectoryData.current() |> ProjectDirectory
+            File = godotFile |> ProjectFile
             AssociatedEngine =
                 EngineInstall.New
                     {Version = Version(3,2,1); DotNetSupport = Mono}

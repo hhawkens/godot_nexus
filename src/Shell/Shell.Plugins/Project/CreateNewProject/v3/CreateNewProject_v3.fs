@@ -13,7 +13,7 @@ let private DefaultEnvFile = "default_env.tres"
 let private IconFile = "icon.png"
 
 /// Can throw exceptions, hence "Unsafe"
-let private createUnsafe (directory: ProjectsDirectory) (name: ProjectName) =
+let private createUnsafe (directory: ProjectDirectory) (name: ProjectName) =
     let godotProjectFilePath = Path.Combine(directory.Val.FullPath, GodotProjectFile)
     use godotProjectFileStream = File.CreateText godotProjectFilePath
     let godotProjectText = ProjectFilesText_v3.GodotProjectText.Replace("%NAME%", name.Val)
@@ -24,7 +24,13 @@ let private createUnsafe (directory: ProjectsDirectory) (name: ProjectName) =
     defaultEnvFileStream.Write ProjectFilesText_v3.DefaultEnvText
 
     File.Copy (Path.Combine("PluginResources", IconFile), Path.Combine(directory.Val.FullPath, IconFile))
-    {Name = name; Path = directory.Val; File = godotProjectFileData; AssociatedEngine = None}
+
+    {
+        Name = name
+        Path = directory.Val |> ProjectDirectory
+        File = godotProjectFileData |> ProjectFile
+        AssociatedEngine = None
+    }
 
 let private create directory name () =
     try

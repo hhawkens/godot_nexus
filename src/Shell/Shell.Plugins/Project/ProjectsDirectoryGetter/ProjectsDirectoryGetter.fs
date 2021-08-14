@@ -13,5 +13,5 @@ let public plugin : UProjectsDirectoryGetter =
         Path.Combine(AppDataPath, projectsDirName)
         |> DirectoryData.tryCreate
         |> unwrap
-        |> ProjectsDirectory
+        |> ProjectDirectory
     (fun () -> dir)

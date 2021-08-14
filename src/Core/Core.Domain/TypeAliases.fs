@@ -14,16 +14,22 @@ type public EnginesDirectory = EnginesDirectory of DirectoryData with
         let (EnginesDirectory x) = this
         x
 
-/// File that identifies a Godot project.
+/// Name of a Godot project.
+type public ProjectName = ProjectName of string with
+    member this.Val =
+        let (ProjectName x) = this
+        x
+
+/// File that contains a Godot project definition.
 type public ProjectFile = ProjectFile of FileData with
     member this.Val =
         let (ProjectFile x) = this
         x
 
 /// Directory where projects are being installed to.
-type public ProjectsDirectory = ProjectsDirectory of DirectoryData with
+type public ProjectDirectory = ProjectDirectory of DirectoryData with
     member this.Val =
-        let (ProjectsDirectory x) = this
+        let (ProjectDirectory x) = this
         x
 
 /// Directory where temporary files are placed in.
