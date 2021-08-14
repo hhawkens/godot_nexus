@@ -100,8 +100,8 @@ let public ``MsBuildSolutionFolder Finds The Correct Folder`` () =
 
 [<Test>]
 let public ``Find Files With Predicate Finds The Correct Files`` () =
-    let testFolder = DirectoryData.tryFind TestFolder |> unwrap
-    let files = testFolder.FindFilesRecWhere (fun f -> f.Name.StartsWith("Test_"))
+    let sut = DirectoryData.tryFind TestFolder |> unwrap
+    let files = sut.FindFilesRecWhere (fun f -> f.Name.StartsWith("Test_"))
     Assert.That(files.Length, Is.EqualTo(3)) // Making sure Test.txt is not among the files
     Assert.That(files |> exists (fun f -> f.Name = "Test_1.txt"))
     Assert.That(files |> exists (fun f -> f.Name = "Test_2.txt"))
@@ -110,36 +110,36 @@ let public ``Find Files With Predicate Finds The Correct Files`` () =
 [<Test>]
 let public ``Finds Correct Directory Of Given File`` () =
     let testFile = FileData.tryFind $"{TestSubFolder}/Test_3.txt" |> unwrap
-    let testDir = DirectoryData.from testFile
-    Assert.That(testDir.FullPath, Does.EndWith($"{TestSubFolder}"))
+    let sut = DirectoryData.from testFile
+    Assert.That(sut.FullPath, Does.EndWith($"{TestSubFolder}"))
 
 [<Test>]
 let public ``Trying To Delete Existing Directory Succeeds`` () =
-    let dd = DirectoryData.tryCreate "ToBeDeleted" |> unwrap
-    Assert.That(dd.StillExists)
-    let deletionResult = dd.TryDelete()
+    let sut = DirectoryData.tryCreate "ToBeDeleted" |> unwrap
+    Assert.That(sut.StillExists)
+    let deletionResult = sut.TryDelete()
     Assert.That(deletionResult.IsOk)
-    Assert.That(dd.StillExists, Is.False)
+    Assert.That(sut.StillExists, Is.False)
 
 [<Test>]
 let public ``Trying To Delete Existing Directory With Files And SubDirs Succeeds`` () =
-    let dd = DirectoryData.tryCreate "ToBeDeleted" |> unwrap
+    let sut = DirectoryData.tryCreate "ToBeDeleted" |> unwrap
     Directory.CreateDirectory("ToBeDeleted/Sub") |> ignore
     File.Create("ToBeDeleted/F1.bin") |> dispose
     File.Create("ToBeDeleted/F2.bin") |> dispose
     File.Create("ToBeDeleted/Sub/F3.txt") |> dispose
 
-    Assert.That(dd.StillExists)
-    let deletionResult = dd.TryDelete()
+    Assert.That(sut.StillExists)
+    let deletionResult = sut.TryDelete()
     Assert.That(deletionResult.IsOk)
-    Assert.That(dd.StillExists, Is.False)
+    Assert.That(sut.StillExists, Is.False)
 
 [<Test>]
 let public ``Trying To Delete Not Existing Directory Fails`` () =
-    let dd = DirectoryData.tryCreate "ToBeDeleted" |> unwrap
-    Directory.Delete dd.FullPath
-    Assert.That(dd.StillExists, Is.False)
+    let sut = DirectoryData.tryCreate "ToBeDeleted" |> unwrap
+    Directory.Delete sut.FullPath
+    Assert.That(sut.StillExists, Is.False)
 
-    let deletionResult = dd.TryDelete()
+    let deletionResult = sut.TryDelete()
     Assert.That(deletionResult.IsError)
-    Assert.That(dd.StillExists, Is.False)
+    Assert.That(sut.StillExists, Is.False)

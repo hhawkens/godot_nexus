@@ -57,7 +57,7 @@ let private testPreferences = {
     }
 }
 
-let private newPlugin () =
+let private newSut () =
     let plugin = PersistPreferences(defaultPreferences) :> UPersistPreferences
     plugin.TryInitialize() |> unwrap
     plugin
@@ -68,9 +68,9 @@ let public Cleanup () =
 
 [<Test>]
 let public ``Valid Saved And Loaded Prefs Have Consistent Data`` () =
-    let plugin = newPlugin()
-    plugin.Save testPreferences |> unwrap
-    match plugin.Load() with
+    let sut = newSut()
+    sut.Save testPreferences |> unwrap
+    match sut.Load() with
     | Loaded prefs ->
         Assert.That(prefs.General.EnginesPath.Description, Is.EqualTo("engines description"))
         Assert.That(prefs.General.EnginesPath.DefaultValue, Is.EqualTo(DirectoryData.current()))
@@ -88,8 +88,8 @@ let public ``Valid Saved And Loaded Prefs Have Consistent Data`` () =
 
 [<Test>]
 let public ``Loading Preferences Without Existing File Yields Defaults`` () =
-    let plugin = newPlugin()
-    match plugin.Load() with
+    let sut = newSut()
+    match sut.Load() with
     | LoadedDefaults prefs ->
         Assert.That(prefs, Is.EqualTo(defaultPreferences))
     | _ ->
@@ -99,7 +99,7 @@ let public ``Loading Preferences Without Existing File Yields Defaults`` () =
 let public ``Loading Faulty File Yields Error`` () =
     let fileData = FileData.tryCreate (Path.Combine(AppDataPath, prefsFile)) |> unwrap
     File.WriteAllText(fileData.FullPath, "[Bla]\nBla=Bla")
-    let plugin = newPlugin()
-    match plugin.Load() with
+    let sut = newSut()
+    match sut.Load() with
     | LoadFailed _ -> Assert.Pass()
     | _ -> Assert.Fail("Expected loading of faulty ini file to fail!")

@@ -77,10 +77,10 @@ let public ``Still Exists Shows Correct File State`` () =
 [<Test>]
 let public ``Trying To Delete Existing File Succeeds`` () =
     let file = "hello.bin"
-    let fileData = FileData.tryCreate file |> unwrap
+    let sut = FileData.tryCreate file |> unwrap
     Assert.That(File.Exists(file))
 
-    match fileData.TryDelete() with
+    match sut.TryDelete() with
     | Ok _ -> Assert.That(File.Exists(file), Is.False)
     | Error err -> Assert.Fail(err)
 
@@ -89,18 +89,18 @@ let public ``Trying To Delete Existing File Succeeds`` () =
 [<Test>]
 let public ``Trying To Delete Not Existing File Fails`` () =
     let file = "hello.bin"
-    let fileData = FileData.tryCreate file |> unwrap
+    let sut = FileData.tryCreate file |> unwrap
     File.Delete file
     Assert.That(File.Exists(file), Is.False)
 
-    match fileData.TryDelete() with
+    match sut.TryDelete() with
     | Ok _ -> Assert.Fail("Deleting was not supposed to work!")
     | Error _ -> Assert.Pass()
 
 [<Test>]
 let public ``Empty File Data Has Empty Properties`` () =
-    let empty = FileData.Empty
-    Assert.That(empty.FullPath, Is.EqualTo(""))
-    Assert.That(empty.Name, Is.EqualTo(""))
-    Assert.That(empty.Extension, Is.EqualTo(""))
-    Assert.That(empty.StillExists, Is.False)
+    let sut = FileData.Empty
+    Assert.That(sut.FullPath, Is.EqualTo(""))
+    Assert.That(sut.Name, Is.EqualTo(""))
+    Assert.That(sut.Extension, Is.EqualTo(""))
+    Assert.That(sut.StillExists, Is.False)

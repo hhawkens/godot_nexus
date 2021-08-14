@@ -7,7 +7,7 @@ open App.Shell.Plugins
 open App.Utilities
 open NUnit.Framework
 
-let private newPlugin () =
+let private newSut () =
     let plugin = PersistAppState():>UPersistAppState
     plugin.TryInitialize() |> unwrap
     plugin
@@ -49,9 +49,9 @@ let public Cleanup () =
 
 [<Test>]
 let public ``App State Is Loaded With The Same Data It Was Saved With`` () =
-    let plugin = newPlugin ()
-    plugin.Save(testAppState) |> unwrap
-    let loaded = plugin.Load () |> unwrap
+    let sut = newSut ()
+    sut.Save(testAppState) |> unwrap
+    let loaded = sut.Load () |> unwrap
     Assert.That(loaded, Is.EqualTo(testAppState))
 
 [<Test>]
@@ -61,7 +61,7 @@ let public ``Empty App State Can Be Saved And Loaded`` () =
         EngineInstalls = ActiveSet.createEmpty ()
         Projects = Set.empty
     }
-    let plugin = newPlugin ()
-    plugin.Save(empty) |> unwrap
-    let loaded = plugin.Load () |> unwrap
+    let sut = newSut ()
+    sut.Save(empty) |> unwrap
+    let loaded = sut.Load () |> unwrap
     Assert.That(loaded, Is.EqualTo(empty))

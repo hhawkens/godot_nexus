@@ -5,33 +5,33 @@ open NUnit.Framework
 
 [<Test>]
 let public ``File Size Has Correct Kilobytes`` () =
-    let fileSize = FileSize.FromKilobytes 19.55
-    Assert.That(fileSize.Kilobytes, Is.EqualTo(19.55))
-    Assert.That(fileSize.bytes, Is.EqualTo(19_550UL))
+    let sut = FileSize.FromKilobytes 19.55
+    Assert.That(sut.Kilobytes, Is.EqualTo(19.55))
+    Assert.That(sut.bytes, Is.EqualTo(19_550UL))
 
 [<Test>]
 let public ``File Size Has Correct Megabytes`` () =
-    let fileSize = FileSize.FromMegabytes 19.55
-    Assert.That(fileSize.Megabytes, Is.EqualTo(19.55))
-    Assert.That(fileSize.bytes, Is.EqualTo(19_550_000UL))
+    let sut = FileSize.FromMegabytes 19.55
+    Assert.That(sut.Megabytes, Is.EqualTo(19.55))
+    Assert.That(sut.bytes, Is.EqualTo(19_550_000UL))
 
 [<Test>]
 let public ``File Size Has Correct Gigabytes`` () =
-    let fileSize = FileSize.FromGigabytes 19.55
-    Assert.That(fileSize.Gigabytes, Is.EqualTo(19.55))
-    Assert.That(fileSize.bytes, Is.EqualTo(19_550_000_000UL))
+    let sut = FileSize.FromGigabytes 19.55
+    Assert.That(sut.Gigabytes, Is.EqualTo(19.55))
+    Assert.That(sut.bytes, Is.EqualTo(19_550_000_000UL))
 
 [<Test>]
 let public ``File Size Has Correct Terabytes`` () =
-    let fileSize = FileSize.FromTerabytes 19.55
-    Assert.That(fileSize.Terabytes, Is.EqualTo(19.55))
-    Assert.That(fileSize.bytes, Is.EqualTo(19_550_000_000_000UL))
+    let sut = FileSize.FromTerabytes 19.55
+    Assert.That(sut.Terabytes, Is.EqualTo(19.55))
+    Assert.That(sut.bytes, Is.EqualTo(19_550_000_000_000UL))
 
 [<Test>]
 let public ``File Size Has Correct Petabytes`` () =
-    let fileSize = FileSize.FromPetabytes 19.55
-    Assert.That(fileSize.Petabytes, Is.EqualTo(19.55))
-    Assert.That(fileSize.bytes, Is.EqualTo(19_550_000_000_000_000UL))
+    let sut = FileSize.FromPetabytes 19.55
+    Assert.That(sut.Petabytes, Is.EqualTo(19.55))
+    Assert.That(sut.bytes, Is.EqualTo(19_550_000_000_000_000UL))
 
 [<TestCase("")>]
 [<TestCase(" ")>]

@@ -9,7 +9,7 @@ open NUnit.Framework
 [<Test>]
 [<Ignore("Test needs internet connection + is OS specific. Manual testing only.")>]
 let public ``Godot Engines Can Be Found Online`` () =
-    let updateOnlineEngines = UpdateOnlineEnginesAddon.linux // Change addon OS here
+    let sut = UpdateOnlineEnginesAddon.linux // Change addon OS here
     let controller = Mock.Of<IAppStateController>()
     let mutable foundEngines = None
     Mock.Get(controller)
@@ -17,7 +17,7 @@ let public ``Godot Engines Can Be Found Online`` () =
         .Callback(fun (a: EngineOnline seq) -> foundEngines <- a |> Array.ofSeq |> Some)
     |> ignore
 
-    match updateOnlineEngines.AfterInitializeTask.Value with
+    match sut.AfterInitializeTask.Value with
     | AddonAsync asyncTask ->
         asyncTask controller |> Async.StartChild |> Async.RunSynchronously |> Async.RunSynchronously
     | _ -> ()
