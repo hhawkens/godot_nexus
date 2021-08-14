@@ -8,7 +8,7 @@ open FSharpPlus
 open App.Core.Domain
 
 let private findProjectName projectFileText =
-    let nameMatch = Regex.Match(projectFileText, @"config\s*[\/\\]\s*name\s*=\s*""(.+?)""[\s\S\b\B]")
+    let nameMatch = Regex.Match(projectFileText, @"config\s*[\/\\]\s*name\s*=\s*""(.+?)""[\s\S]")
     match nameMatch.Groups.Count with
     | c when c >= 2 -> nameMatch.Groups.[1].Value |> Ok
     | _ -> Error "Project file does not contain project name!"
