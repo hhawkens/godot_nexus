@@ -5,7 +5,7 @@ open App.Core.PluginDefinitions
 
 let private removeEngine (engineInstall: EngineInstall) =
     match engineInstall.Directory.StillExists with
-    | false -> EngineNotFound
+    | false -> NotFound
     | true ->
         match engineInstall.Directory.TryDelete () with
         | Ok _ -> SuccessfulRemoval

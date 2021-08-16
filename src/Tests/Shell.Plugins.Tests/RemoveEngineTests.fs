@@ -42,5 +42,5 @@ let public ``Missing Project Folder Yields "EngineNotFound" Error`` () =
     testEngineDir |> DirectoryData.tryCreate |> unwrap |> DirectoryData.tryDelete |> ignore
     let result = sut engineInstall
     match result with
-    | EngineNotFound -> Assert.Pass()
+    | NotFound -> Assert.Pass()
     | other -> Assert.Fail($"Expected engine not found error, but was error: {other}")

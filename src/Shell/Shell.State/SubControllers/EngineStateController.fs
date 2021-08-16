@@ -52,7 +52,9 @@ type public EngineStateController
         let rmFromState () = setState {state() with EngineInstalls = state().EngineInstalls.Remove engineInstall}
         match removeEnginePlugin engineInstall with
         | SuccessfulRemoval -> rmFromState () |> Ok
-        | EngineNotFound -> Error($"Could not remove engine {engineInstall}, engine folder not found!")
+        | NotFound ->
+            rmFromState ()
+            Error($"Could not remove engine {engineInstall}, engine folder not found!")
         | RemovalFailed err -> Error($"Could not remove engine {engineInstall}, reason(s): {err}")
 
     member public this.SetActiveEngine engineInstall =

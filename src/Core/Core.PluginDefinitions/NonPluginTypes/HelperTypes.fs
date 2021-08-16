@@ -8,8 +8,8 @@ type public LoadPreferencesResult =
     | LoadedDefaults of Preferences // No file, defaults loaded
     | LoadFailed of ErrorMessage // Error during load
 
-/// Describes the possible outcomes of trying to remove an installed engine.
-type public EngineRemovalResult =
+/// Describes the possible outcomes of trying to remove an existing object (e.g. engine or project).
+type public RemovalResult =
     | SuccessfulRemoval
-    | EngineNotFound
+    | NotFound
     | RemovalFailed of ErrorMessage
