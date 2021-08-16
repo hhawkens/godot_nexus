@@ -37,8 +37,11 @@ type public ProjectStateController
 
     member public this.RemoveProject project =
         match removeProjectPlugin project with
-        | Ok _ -> Ok (removeProject project)
-        | Error err -> Error err
+        | SuccessfulRemoval -> removeProject project |> Ok
+        | NotFound ->
+            removeProject project
+            Error $"Could not remove project {project}, folder not found!"
+        | RemovalFailed err -> Error err
 
     member public this.OpenProject project =
         openProjectPlugin project

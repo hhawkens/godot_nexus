@@ -54,7 +54,7 @@ type public EngineStateController
         | SuccessfulRemoval -> rmFromState () |> Ok
         | NotFound ->
             rmFromState ()
-            Error($"Could not remove engine {engineInstall}, engine folder not found!")
+            Error($"Could not remove engine {engineInstall}, folder not found!")
         | RemovalFailed err -> Error($"Could not remove engine {engineInstall}, reason(s): {err}")
 
     member public this.SetActiveEngine engineInstall =
