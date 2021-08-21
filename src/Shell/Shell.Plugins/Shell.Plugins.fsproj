@@ -37,6 +37,7 @@
       <Compile Include="Project\CreateNewProject\v3\CreateNewProject_v3.fs" />
       <Compile Include="Project\AddExistingProject\v3\AddExistingProject_v3.fs" />
       <Compile Include="Project\RemoveProject\RemoveProject.fs" />
+      <Compile Include="Project\OpenProject\OpenProject.fs" />
     </ItemGroup>
 
     <ItemGroup>

@@ -8,7 +8,10 @@ type public Project = {
     File: ProjectFile
     AssociatedEngine: EngineInstall option
 } with
+
     member this.Id =
         Id.WithPrefix
             IdPrefixes.project
             (HashCode.Combine(this.Name, this.Path, this.AssociatedEngine) |> IdVal)
+
+    override this.ToString() = $"Project \"{this.Name}\""

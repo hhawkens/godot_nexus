@@ -3,40 +3,46 @@ namespace App.Shell.State
 open App.Core.Domain
 
 // TODO create another controller for AppStateController initialization
-// TODO (maybe?) interfaces for sub controllers
 // TODO check for 64 bit OS (32 bit not supported)
+// TODO Integrity check after loading app state
 type internal AppStateController
     (errorOccurred: Event<Error>,
      appStateInstance: AppStateInstance,
      jobsController: JobsController,
      engineStateController: EngineStateController,
      projectStateController: ProjectStateController,
-     preferencesStateController: PreferencesStateController) =
+     preferencesStateController: PreferencesStateController) as this =
+
+    let iThis = this:>IAppStateController
 
     do
         engineStateController.ErrorOccurred.Add errorOccurred.Trigger
 
     interface IAppStateController with
 
-        member this.ErrorOccurred = errorOccurred.Publish
-        member this.State = appStateInstance.State:>IAppState
-        member this.StateChanged = appStateInstance.StateChanged
-        member this.Preferences = preferencesStateController.Preferences
-        member this.PreferencesChanged = preferencesStateController.PreferencesChanged
-        member this.JobStarted = jobsController.JobStarted
+        member _.ErrorOccurred = errorOccurred.Publish
+        member _.State = appStateInstance.State:>IAppState
+        member _.StateChanged = appStateInstance.StateChanged
+        member _.Preferences = preferencesStateController.Preferences
+        member _.PreferencesChanged = preferencesStateController.PreferencesChanged
+        member _.JobStarted = jobsController.JobStarted
 
-        member this.AbortJob id = jobsController.AbortJob id
-        member this.ThrowError err = errorOccurred.Trigger err
+        member _.AbortJob id = jobsController.AbortJob id
+        member _.ThrowError err = errorOccurred.Trigger err
 
-        member this.SetPreferences newPrefs = preferencesStateController.SetPreferences newPrefs
+        member _.SetPreferences newPrefs = preferencesStateController.SetPreferences newPrefs
 
-        member this.SetOnlineEngines engines = engineStateController.SetOnlineEngines engines
-        member this.InstallEngine engine = engineStateController.InstallEngine engine
-        member this.RemoveEngine engineInstall = engineStateController.RemoveEngine engineInstall
-        member this.SetActiveEngine engineInstall = engineStateController.SetActiveEngine engineInstall
-        member this.RunEngine engineInstall = engineStateController.RunEngine engineInstall
+        member _.SetOnlineEngines engines = engineStateController.SetOnlineEngines engines
+        member _.InstallEngine engine = engineStateController.InstallEngine engine
+        member _.RemoveEngine engineInstall = engineStateController.RemoveEngine engineInstall
+        member _.SetActiveEngine engineInstall = engineStateController.SetActiveEngine engineInstall
+        member _.RunEngine engineInstall = engineStateController.RunEngine engineInstall
 
-        member this.CreateNewProject name = projectStateController.CreateNewProject name
-        member this.AddExistingProject file = projectStateController.AddExistingProject file
-        member this.RemoveProject project = projectStateController.RemoveProject project
-        member this.OpenProject project = projectStateController.OpenProject project
+        member _.CreateNewProject name = projectStateController.CreateNewProject name
+        member _.AddExistingProject file = projectStateController.AddExistingProject file
+        member _.RemoveProject project = projectStateController.RemoveProject project
+
+        member _.OpenProject project =
+            match project.AssociatedEngine, iThis.State.EngineInstalls.Active with
+            | Some engine, _ | _, Some engine -> projectStateController.OpenProject engine project
+            | None, None -> Error $"Cannot open {project} because no engine is installed!"
