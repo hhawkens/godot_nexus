@@ -14,4 +14,4 @@ type public Project = {
             IdPrefixes.project
             (HashCode.Combine(this.Name, this.Path, this.AssociatedEngine) |> IdVal)
 
-    override this.ToString() = $"Project \"{this.Name}\""
+    override this.ToString() = $"Project \"%s{this.Name.Val}\""

@@ -13,9 +13,9 @@ let private getProcessStartInfoToOpenProject (engineInstall: EngineInstall) (pro
         processStartInfo.FileName <- engineInstall.ExecutableFile.FullPath
         processStartInfo.Arguments <- project.File.Val.FullPath
         Ok processStartInfo
-    | true, false -> Error $"Project file for {project} no longer exists!"
+    | true, false -> Error "Project file no longer exists!"
     | false, true -> Error $"Executable of {engineInstall} not found!"
-    | false, false -> Error $"Could not find neither executable of {engineInstall} nor project file of {project}!"
+    | false, false -> Error $"Could not find neither executable of {engineInstall} nor project file!"
 
 let private startProcess startInfo =
     use proc = new Process()

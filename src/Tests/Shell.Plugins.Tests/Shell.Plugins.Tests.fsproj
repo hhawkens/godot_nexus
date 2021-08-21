@@ -29,6 +29,7 @@
         <Compile Include="RemoveEngineTests.fs" />
         <Compile Include="AddExistingProject_v3Tests.fs" />
         <Compile Include="RemoveProjectTests.fs" />
+        <Compile Include="OpenProjectTests.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 
