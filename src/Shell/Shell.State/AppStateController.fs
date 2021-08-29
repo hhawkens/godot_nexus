@@ -11,9 +11,7 @@ type internal AppStateController
      jobsController: JobsController,
      engineStateController: EngineStateController,
      projectStateController: ProjectStateController,
-     preferencesStateController: PreferencesStateController) as this =
-
-    let iThis = this:>IAppStateController
+     preferencesStateController: PreferencesStateController) =
 
     do
         engineStateController.ErrorOccurred.Add errorOccurred.Trigger
@@ -43,6 +41,6 @@ type internal AppStateController
         member _.RemoveProject project = projectStateController.RemoveProject project
 
         member _.OpenProject project =
-            match project.AssociatedEngine, iThis.State.EngineInstalls.Active with
+            match project.AssociatedEngine, appStateInstance.State.EngineInstalls.Active with
             | Some engine, _ | _, Some engine -> projectStateController.OpenProject engine project
             | None, None -> Error $"Cannot open {project} because no engine is installed!"
