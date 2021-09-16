@@ -31,6 +31,7 @@
       <PackageReference Include="AngleSharp" Version="0.16.0">
           <PrivateAssets>compile</PrivateAssets>
       </PackageReference>
+      <PackageReference Update="FSharp.Core" Version="5.0.2" />
     </ItemGroup>
 
 </Project>

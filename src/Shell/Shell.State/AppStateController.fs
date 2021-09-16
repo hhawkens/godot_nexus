@@ -43,4 +43,4 @@ type internal AppStateController
         member _.OpenProject project =
             match project.AssociatedEngine, appStateInstance.State.EngineInstalls.Active with
             | Some engine, _ | _, Some engine -> projectStateController.OpenProject engine project
-            | None, None -> Error $"Cannot open {project} because no engine is installed!"
+            | None, None -> Error $"Cannot open {project} because no engine was found!"
