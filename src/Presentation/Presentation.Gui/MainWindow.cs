@@ -12,11 +12,11 @@ namespace App.Presentation.Gui
         private readonly Window windowRoot = null;
         [UI("header_content")]
         private readonly Stack headerContent = null;
-        [UI]
+        [UI("sidebar")]
         private readonly Stack sidebar = null;
-        [UI]
+        [UI("content")]
         private readonly Stack content = null;
-        [UI]
+        [UI("footer")]
         private readonly Box footer = null;
 #pragma warning restore 8625, 0414
 
@@ -37,13 +37,15 @@ namespace App.Presentation.Gui
             GetDefaultSize(out var defaultWidth, out var defaultHeight);
             SetSizeRequest(defaultWidth, defaultHeight); // Sets minimum window size to default size
             builder.Autoconnect(this);
+
             LoadCustomCss();
-            AddSidebarContent();
-            AddHeaderContent();
+            AddSidebarWidgets();
+            AddHeaderWidgets();
+
             DeleteEvent += delegate { Application.Quit(); };
         }
 
-        private void AddSidebarContent()
+        private void AddSidebarWidgets()
         {
             var sidebarEntries = new (SidebarEntry, EventHandler)[]
             {
@@ -66,7 +68,7 @@ namespace App.Presentation.Gui
             sidebarContent.SelectRow((ListBoxRow) sidebarContent.Children[0]);
         }
 
-        private void AddHeaderContent()
+        private void AddHeaderWidgets()
         {
             headerContent.Add(new HeaderContent("Godot Nexus"));
             headerContent.ShowAll();

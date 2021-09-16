@@ -11,6 +11,7 @@
  * @theme_tooltip_fg_color
 */
 
+/* DEFAULT */
 .test {
     background-color: darkmagenta;
 }
@@ -24,13 +25,30 @@
     font-size: large;
 }
 
-.header {
-    border-bottom: 1px solid @borders;
+.heading-light {
+    font-weight: normal;
+    font-size: large;
 }
+
 .icon-button {
     border-radius: 100px;
 }
 
+.border-round {
+    border-radius: 10px;
+    border: 1px solid @borders;
+}
+
+.underline {
+    border-bottom: 1px solid @borders
+}
+
+/* HEADER */
+.header {
+    border-bottom: 1px solid @borders;
+}
+
+/* SIDEBAR */
 .sidebar {
     border-right: 1px solid @borders;
 }
@@ -66,6 +84,7 @@
     color: @theme_selected_fg_color;
 }
 
+/* FOOTER */
 .footer {
     border-top: 1px solid @borders;
 }
