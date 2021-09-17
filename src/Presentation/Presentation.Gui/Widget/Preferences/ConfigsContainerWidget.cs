@@ -1,4 +1,5 @@
-using System.Collections.Generic;
+using System;
+using App.Presentation.Frontend;
 using Gtk;
 
 namespace App.Presentation.Gui
@@ -8,12 +9,12 @@ namespace App.Presentation.Gui
 		private const int SpacingPixels = 4;
 		private const int LabelStartMargin = 25;
 
-		public ConfigsContainerWidget(string heading, IEnumerable<ConfigWidgetBase> entries)
+		public ConfigsContainerWidget(IConfigContainerFrontend viewModel)
 			: base(Orientation.Vertical, SpacingPixels)
 		{
 			StyleContext.AddClass("border-round");
 
-			var headingLabel = Label.New(heading);
+			var headingLabel = Label.New(viewModel.Heading);
 			headingLabel.Xalign = 0;
 			headingLabel.MarginStart = LabelStartMargin;
 			headingLabel.MarginTop = SpacingPixels;
@@ -21,15 +22,22 @@ namespace App.Presentation.Gui
 			headingLabel.StyleContext.AddClass("heading-light");
 			Add(headingLabel);
 
-			Widget? lastEntry = null;
-			foreach (var entry in entries)
+			Widget? lastEntryWidget = null;
+			foreach (var entry in viewModel.Entries)
 			{
-				lastEntry = entry;
-				Add(entry);
+				ConfigWidgetBase entryWidget = entry switch
+				{
+					IConfigDirectoryFrontend dir => new ConfigDirectoryWidget(dir),
+					IConfigDropdownFrontend dd => new ConfigDropdownWidget(dd),
+					_ => throw new ArgumentOutOfRangeException(nameof(entry))
+				};
+
+				lastEntryWidget = entryWidget;
+				Add(entryWidget);
 			}
 
-			if (lastEntry != null)
-				lastEntry.MarginBottom = SpacingPixels;
+			if (lastEntryWidget != null)
+				lastEntryWidget.MarginBottom = SpacingPixels;
 		}
 	}
 }

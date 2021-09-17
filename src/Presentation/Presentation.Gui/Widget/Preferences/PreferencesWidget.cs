@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using App.Presentation.Frontend;
 using Gtk;
 
 namespace App.Presentation.Gui
@@ -7,13 +7,16 @@ namespace App.Presentation.Gui
 	{
 		private const int Space = 16;
 
-		public PreferencesWidget(IEnumerable<ConfigsContainerWidget> configContainers)
+		public PreferencesWidget(PreferencesFrontend viewModel)
 		{
 			Margin = Space;
 
+			var generalConfigsContainerWidget = new ConfigsContainerWidget(viewModel.GeneralConfig);
+			var uiConfigsContainerWidget = new ConfigsContainerWidget(viewModel.UiConfig);
+
 			var verticalBox = new Box(Orientation.Vertical, Space);
-			foreach (var configsContainerWidget in configContainers)
-				verticalBox.Add(configsContainerWidget);
+			verticalBox.Add(generalConfigsContainerWidget);
+			verticalBox.Add(uiConfigsContainerWidget);
 
 			Add(verticalBox);
 		}
