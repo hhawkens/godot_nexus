@@ -40,7 +40,7 @@ let private themeSettingWith theme = {
 /// Default preferences for Unix operating systems (Linux, Mac, BSD).
 let internal unix: UDefaultPreferences = (fun () -> {
     General = defaultGeneralSettings
-    Ui = {
+    UI = {
         Theme = themeSettingWith Theme.System
     }
 })
@@ -48,7 +48,7 @@ let internal unix: UDefaultPreferences = (fun () -> {
 /// Default preferences for Microsoft Windows "operating systems".
 let internal windows: UDefaultPreferences = (fun () -> {
     General = defaultGeneralSettings
-    Ui = {
+    UI = {
         Theme = themeSettingWith Theme.Dark
     }
 })

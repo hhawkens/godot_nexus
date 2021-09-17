@@ -7,7 +7,7 @@ namespace App.Presentation.Frontend
 	/// Base for all frontend config types.
 	public interface IConfigFrontend : INotifyPropertyChanged
 	{
-		string Label { get; }
+		string Description { get; }
 
 		string Value { get; }
 
@@ -28,8 +28,6 @@ namespace App.Presentation.Frontend
 	/// Frontend config type for directory selection.
 	public interface IConfigDirectoryFrontend
 	{
-		DirectoryInfo Directory { get; }
-
 		void SetValue(DirectoryInfo newDirectory);
 	}
 }

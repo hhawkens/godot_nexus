@@ -25,7 +25,7 @@ let internal Save (file: FileData) prefs =
     sharpConfig.[GeneralSection].[ProjectsPathSetting].StringValue <-
         prefs.General.ProjectsPath.CurrentValue.FullPath
     sharpConfig.[UiSection].[ThemeSetting].StringValue <-
-        prefs.Ui.Theme.CurrentValue.ToString()
+        prefs.UI.Theme.CurrentValue.ToString()
 
     try Ok (sharpConfig.SaveToFile file.FullPath)
     with | ex -> Error ex.Message
@@ -48,10 +48,10 @@ let private UnsafeLoadFrom defaultPrefs (file: FileData) =
                 CurrentValue = projectsPath |> DirectoryData.tryCreate |> unwrap
             }
         }
-        Ui = {
+        UI = {
             Theme = {
-                Description = defaultPrefs.Ui.Theme.Description
-                DefaultValue = defaultPrefs.Ui.Theme.DefaultValue
+                Description = defaultPrefs.UI.Theme.Description
+                DefaultValue = defaultPrefs.UI.Theme.DefaultValue
                 CurrentValue = theme |> Enums.tryParse<Theme> |> unwrap
             }
         }

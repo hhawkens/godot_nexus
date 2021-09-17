@@ -26,7 +26,7 @@ let private defaultPreferences = {
             CurrentValue = DirectoryData.current()
         }
     }
-    Ui = {
+    UI = {
         Theme = {
             Description = "theme description"
             DefaultValue = Theme.System
@@ -48,7 +48,7 @@ let private testPreferences = {
             CurrentValue = projectsPath
         }
     }
-    Ui = {
+    UI = {
         Theme = {
             Description = "alt"
             DefaultValue = Theme.Dark
@@ -80,9 +80,9 @@ let public ``Valid Saved And Loaded Prefs Have Consistent Data`` () =
         Assert.That(prefs.General.ProjectsPath.DefaultValue, Is.EqualTo(DirectoryData.current()))
         Assert.That(prefs.General.ProjectsPath.CurrentValue, Is.EqualTo(projectsPath))
 
-        Assert.That(prefs.Ui.Theme.Description, Is.EqualTo("theme description"))
-        Assert.That(prefs.Ui.Theme.DefaultValue, Is.EqualTo(Theme.System))
-        Assert.That(prefs.Ui.Theme.CurrentValue, Is.EqualTo(Theme.Dark))
+        Assert.That(prefs.UI.Theme.Description, Is.EqualTo("theme description"))
+        Assert.That(prefs.UI.Theme.DefaultValue, Is.EqualTo(Theme.System))
+        Assert.That(prefs.UI.Theme.CurrentValue, Is.EqualTo(Theme.Dark))
     | _ ->
         Assert.Fail("Preferences were not loaded!")
 

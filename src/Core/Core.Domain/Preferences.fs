@@ -4,7 +4,7 @@ open App.Utilities
 
 type public Preferences = {
     General: GeneralPreferences
-    Ui: UiPreferences
+    UI: UiPreferences
 }
 
 

@@ -9,11 +9,13 @@ using App.Utilities;
 namespace App.Presentation.Frontend
 {
 	/// <inheritdoc cref="IConfigFrontend" />
-	public abstract record ConfigFrontend(string Label, string DefaultValue, string Value)
+	public abstract record ConfigFrontend(string Description, string DefaultValue, string Value)
 		: IConfigFrontend
 	{
 		public string Value { get; protected set; } = Value;
+#pragma warning disable CS0067
 		public event PropertyChangedEventHandler? PropertyChanged;
+#pragma warning restore CS0067
 	}
 
 	/// <inheritdoc cref="IConfigDropdownFrontend" />
@@ -39,18 +41,14 @@ namespace App.Presentation.Frontend
 	public record ConfigDirectoryFrontend
 		: ConfigFrontend, IConfigDirectoryFrontend
 	{
-		public DirectoryInfo Directory { get; private set; }
-
 		public ConfigDirectoryFrontend(ConfigData<DirectoryData> model)
 			: base(model.Description, model.DefaultValue.ToString(), model.CurrentValue.ToString())
 		{
-			Directory = new DirectoryInfo(model.CurrentValue.FullPath);
 			Value = model.CurrentValue.FullPath;
 		}
 
 		public void SetValue(DirectoryInfo newDirectory)
 		{
-			Directory = newDirectory;
 			Value = newDirectory.FullName;
 		}
 	}
