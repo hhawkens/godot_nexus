@@ -1,6 +1,6 @@
 namespace App.Presentation.Frontend
 {
-	public enum Theme
+	public enum FrontendTheme
 	{
 		System,
 		Light,

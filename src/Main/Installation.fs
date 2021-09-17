@@ -4,6 +4,6 @@ open App.Presentation.Frontend
 open App.Presentation.Gui
 
 let internal install () =
-    let frontend = FrontendState()
+    let frontend = {new IFrontendState}
     let win = new MainWindow(frontend)
     win
