@@ -36,6 +36,7 @@
         <Compile Include="ActiveSetTests.fs" />
         <Compile Include="DirectoryDataTests.fs" />
         <Compile Include="FileDataTests.fs" />
+        <Compile Include="BaseTypeExtensionsTests.fs" />
         <Compile Include="Program.fs" />
     </ItemGroup>
 

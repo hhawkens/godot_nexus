@@ -16,6 +16,7 @@
         <Compile Include="Modules\Platform.fs" />
         <Compile Include="Extensions\MonadExtensions.fs" />
         <Compile Include="Extensions\FSharpPlusExtensions.fs" />
+        <Compile Include="Extensions\BaseTypeExtensions.fs" />
         <Compile Include="Types\Enums.fs" />
         <Compile Include="Types\FileData.fs" />
         <Compile Include="Types\DirectoryData.fs" />
