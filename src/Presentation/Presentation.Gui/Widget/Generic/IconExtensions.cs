@@ -4,20 +4,6 @@ using Gtk;
 
 namespace App.Presentation.Gui
 {
-	/// Defines images that can be used within custom widgets
-	public enum IconType
-	{
-		Projects,
-		Engines,
-		General,
-		GoPrevious,
-		Preferences,
-		Reset
-	}
-
-	/// Contains all info needed to load an icon.
-	public record IconInfo(IconType Type, ThemeTone ThemeTone);
-
 	/// Extensions for icon type classes.
 	public static class IconExtensions
 	{

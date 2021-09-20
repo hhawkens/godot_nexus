@@ -6,7 +6,7 @@ namespace App.Presentation.Gui
 {
 	public abstract class ConfigWidgetBase : Box
 	{
-		protected const int ElementWidth = 250;
+		protected const int ElementWidth = 270;
 		private const int SpacingPixels = 16;
 		private const int LabelStartMargin = 50;
 		private const string ActiveResetTooltip = "Reset to default";
@@ -15,10 +15,10 @@ namespace App.Presentation.Gui
 		private readonly IConfigFrontend viewModel;
 		private readonly Button resetToDefaultsButton;
 
-		protected ConfigWidgetBase(IConfigFrontend viewModel)
-			: base(Orientation.Horizontal, SpacingPixels)
+		protected ConfigWidgetBase(IConfigFrontend viewModel) : base(Orientation.Horizontal, SpacingPixels)
 		{
 			this.viewModel = viewModel;
+
 			var labelWidget = Label.New(viewModel.Name);
 			labelWidget.TooltipText = viewModel.Description;
 			labelWidget.MarginStart = LabelStartMargin;
