@@ -42,7 +42,7 @@ namespace App.Presentation.Gui
             AddSidebarWidgets();
             AddHeaderWidgets();
 
-            ThemeTones.SetPresetThemeTone(content.GetCurrentThemeTone());
+            UpdatePresetTheme();
 
             DeleteEvent += delegate { Application.Quit(); };
         }
@@ -67,7 +67,6 @@ namespace App.Presentation.Gui
             var sidebarContent = new SidebarContent("TestSidebar", sidebarEntries);
             sidebar.Add(sidebarContent);
             sidebar.ShowAll();
-            sidebarContent.SelectRow((ListBoxRow) sidebarContent.Children[0]);
         }
 
         private void AddHeaderWidgets()
@@ -83,5 +82,7 @@ namespace App.Presentation.Gui
             StyleContext.AddProviderForScreen(Gdk.Screen.Default, cssProvider, StyleProviderPriority.User);
             currentThemeTone = sidebar.GetCurrentThemeTone();
         }
+
+        private void UpdatePresetTheme() => ThemeTones.SetPresetThemeTone(content.GetCurrentThemeTone());
     }
 }

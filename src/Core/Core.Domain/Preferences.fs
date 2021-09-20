@@ -7,7 +7,6 @@ type public Preferences = {
     UI: UiPreferences
 }
 
-
 // -------------- Sections and Settings ----------------
 
 and public GeneralPreferences = {
