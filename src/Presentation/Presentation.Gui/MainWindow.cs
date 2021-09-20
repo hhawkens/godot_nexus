@@ -21,15 +21,15 @@ namespace App.Presentation.Gui
 #pragma warning restore 8625, 0414
 
         // ReSharper disable once NotAccessedField.Local TODO remove
-        private readonly IFrontendState frontendState;
+        private readonly IAppStateFrontend frontendState;
         private ThemeTone currentThemeTone;
 
-        public MainWindow(IFrontendState frontendState)
+        public MainWindow(IAppStateFrontend frontendState)
             : this(new Builder("MainWindow.glade"), frontendState)
         {
         }
 
-        private MainWindow(Builder builder, IFrontendState frontendState)
+        private MainWindow(Builder builder, IAppStateFrontend frontendState)
             : base(builder.GetObject("main_window").Handle)
         {
             this.frontendState = frontendState;
@@ -41,6 +41,8 @@ namespace App.Presentation.Gui
             LoadCustomCss();
             AddSidebarWidgets();
             AddHeaderWidgets();
+
+            ThemeTones.SetPresetThemeTone(content.GetCurrentThemeTone());
 
             DeleteEvent += delegate { Application.Quit(); };
         }

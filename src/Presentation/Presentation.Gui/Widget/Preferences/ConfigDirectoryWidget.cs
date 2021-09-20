@@ -5,6 +5,7 @@ using Gtk;
 
 namespace App.Presentation.Gui
 {
+	/// Config widget that lets the user choose a value from a directory picker.
 	public class ConfigDirectoryWidget : ConfigWidgetBase
 	{
 		private readonly IConfigDirectoryFrontend viewModel;

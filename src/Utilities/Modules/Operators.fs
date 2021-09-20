@@ -94,3 +94,7 @@ type public Operators =
         match opt with
         | Some s -> s
         | None -> failwith "Option unwrap failed"
+
+    /// Throws if given assertion fails. Can be used to uphold asserted app invariants.
+    static member public assertThat errorMsg assertion =
+        match assertion with | true -> () | false -> failwith errorMsg

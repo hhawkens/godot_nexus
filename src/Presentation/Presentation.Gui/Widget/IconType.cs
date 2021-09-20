@@ -12,6 +12,7 @@ namespace App.Presentation.Gui
 		General,
 		GoPrevious,
 		Preferences,
+		Reset
 	}
 
 	/// Contains all info needed to load an icon.

@@ -4,6 +4,7 @@ using Gtk;
 
 namespace App.Presentation.Gui
 {
+	/// Config widget that lets the user choose a value from a dropdown menu.
 	public class ConfigDropdownWidget : ConfigWidgetBase
 	{
 		private readonly IConfigDropdownFrontend viewModel;

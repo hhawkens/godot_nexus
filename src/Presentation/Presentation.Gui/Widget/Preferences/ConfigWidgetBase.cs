@@ -1,4 +1,5 @@
 using Gtk;
+using App.Utilities;
 
 namespace App.Presentation.Gui
 {
@@ -16,7 +17,20 @@ namespace App.Presentation.Gui
 			labelWidget.MarginStart = LabelStartMargin;
 			labelWidget.Xalign = 0;
 			labelWidget.SetSizeRequest(ElementWidth, labelWidget.AllocatedHeight);
-			Add(labelWidget);
+			base.Add(labelWidget);
+
+			var theme = ThemeTones.PresetThemeTone;
+			var resetToDefaultsButton = new ButtonContent(new IconInfo(IconType.Reset, theme), delegate {  });
+			base.Add(resetToDefaultsButton.ToGtkButton());
+		}
+
+		/// We always want new widgets added by inheritors to be placed BEFORE the last one,
+		/// which we add in this class.
+		protected new void Add(Widget widget)
+		{
+			base.Add(widget);
+			Operators.assertThat($"Expected >2 children in widget, actual: {Children.Length}", Children.Length >= 2);
+			ReorderChild(widget, Children.Length - 2);
 		}
 	}
 }
