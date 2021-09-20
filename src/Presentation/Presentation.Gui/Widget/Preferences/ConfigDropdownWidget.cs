@@ -10,31 +10,24 @@ namespace App.Presentation.Gui
 		private readonly IConfigDropdownFrontend viewModel;
 		private readonly ComboBox dropDown;
 
-		public ConfigDropdownWidget(IConfigDropdownFrontend viewModel)
-			: base(viewModel.Name, viewModel.Description)
+		public ConfigDropdownWidget(IConfigDropdownFrontend viewModel) : base(viewModel)
 		{
 			this.viewModel = viewModel;
 
-			dropDown = new ComboBox(viewModel.Options.ToArray());
+			dropDown = new ComboBox(this.viewModel.Options.ToArray());
 			dropDown.SetSizeRequest(ElementWidth, dropDown.AllocatedHeight);
 			UpdateVisibleState();
 
 			Add(dropDown);
-			dropDown.Changed += delegate
-			{
-				UpdateViewModel();
-				UpdateVisibleState();
-			};
+
+			dropDown.Changed += delegate { UpdateViewModel(); };
+			this.viewModel.PropertyChanged += delegate { UpdateVisibleState(); };
 		}
 
-		private void UpdateViewModel()
-		{
-			viewModel.SetValue(viewModel.Options[dropDown.Active]);
-		}
+		protected override void ResetToDefault() => viewModel.SetValue(viewModel.DefaultValue);
 
-		private void UpdateVisibleState()
-		{
-			dropDown.Active = viewModel.ActiveIndex;
-		}
+		private void UpdateViewModel() => viewModel.SetValue(viewModel.Options[dropDown.Active]);
+
+		private void UpdateVisibleState() => dropDown.Active = viewModel.ActiveIndex;
 	}
 }

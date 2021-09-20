@@ -11,8 +11,7 @@ namespace App.Presentation.Gui
 		private readonly IConfigDirectoryFrontend viewModel;
 		private readonly FileChooserButton chooser;
 
-		public ConfigDirectoryWidget(IConfigDirectoryFrontend viewModel)
-			: base(viewModel.Name, viewModel.Description)
+		public ConfigDirectoryWidget(IConfigDirectoryFrontend viewModel) : base(viewModel)
 		{
 			this.viewModel = viewModel;
 
@@ -21,17 +20,14 @@ namespace App.Presentation.Gui
 			UpdateVisibleState();
 
 			Add(chooser);
-			chooser.FileSet += delegate
-			{
-				UpdateViewModel();
-				UpdateVisibleState();
-			};
+
+			chooser.FileSet += delegate { UpdateViewModel(); };
+			viewModel.PropertyChanged += delegate { UpdateVisibleState(); };
 		}
 
-		private void UpdateViewModel()
-		{
-			viewModel.SetValue(new DirectoryInfo(chooser.File.Uri.AbsolutePath));
-		}
+		protected override void ResetToDefault() => viewModel.SetValue(new DirectoryInfo(viewModel.DefaultValue));
+
+		private void UpdateViewModel() => viewModel.SetValue(new DirectoryInfo(chooser.File.Uri.AbsolutePath));
 
 		private void UpdateVisibleState()
 		{

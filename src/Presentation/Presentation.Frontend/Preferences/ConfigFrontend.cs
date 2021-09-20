@@ -46,7 +46,7 @@ namespace App.Presentation.Frontend
 		: ConfigFrontend, IConfigDirectoryFrontend
 	{
 		public ConfigDirectoryFrontend(string name, ConfigData<DirectoryData> model)
-			: base(name, model.Description, model.DefaultValue.ToString(), model.CurrentValue.ToString())
+			: base(name, model.Description, model.DefaultValue.FullPath, model.CurrentValue.FullPath)
 		{
 			Value = model.CurrentValue.FullPath;
 		}
