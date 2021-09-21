@@ -1,5 +1,6 @@
 namespace App.Shell.State
 
+open FSharpPlus
 open App.Core.Domain
 open App.Core.PluginDefinitions
 open App.Utilities
@@ -7,8 +8,11 @@ open App.Utilities
 /// Manages preferences state manipulation.
 type public IPreferencesStateController =
     abstract Preferences: Preferences
-    abstract PreferencesChanged: unit IEvent
-    abstract SetPreferences: Preferences -> SimpleResult
+    abstract PreferencesChanged: Preferences IEvent
+
+    abstract SetEnginesPathConfig: string -> SimpleResult
+    abstract SetProjectsPathConfig: string -> SimpleResult
+    abstract SetThemeConfig: Theme -> SimpleResult
 
 
 /// Manages preferences state manipulation.
@@ -17,19 +21,38 @@ type public PreferencesStateController
      persistPreferencesPlugin: UPersistPreferences) =
 
     let mutable prefs = defaultPreferencesPlugin ()
-    let prefsChanged = Event<unit>()
+    let prefsChanged = Event<Preferences>()
 
     let threadSafe = threadSafeFactory ()
+
+    let updateEnginesPath prefs dirData =
+        prefs |> withLens <@ prefs.General.EnginesPath.CurrentValue @> dirData
+
+    let updateProjectsPath prefs dirData =
+        prefs |> withLens <@ prefs.General.ProjectsPath.CurrentValue @> dirData
+
+    let updateTheme prefs newTheme =
+        prefs |> withLens <@ prefs.UI.Theme.CurrentValue @> newTheme
 
     let setPreferences = function
         | newPrefs when newPrefs <> prefs ->
             persistPreferencesPlugin.Save newPrefs |> Result.bind (fun _ ->
                 prefs <- newPrefs
-                prefsChanged.Trigger () |> Ok)
+                prefsChanged.Trigger prefs |> Ok)
         | _ -> Ok ()
+
+    let setPreferencesThreadSafe newPrefs = threadSafe (fun () -> setPreferences newPrefs)
 
     interface IPreferencesStateController with
 
         member this.Preferences = prefs
         member this.PreferencesChanged = prefsChanged.Publish
-        member this.SetPreferences newPrefs = threadSafe (fun () -> setPreferences newPrefs)
+
+        member this.SetEnginesPathConfig fullPath =
+            DirectoryData.tryCreate fullPath >>= updateEnginesPath prefs >>= setPreferencesThreadSafe
+
+        member this.SetProjectsPathConfig fullPath =
+            DirectoryData.tryCreate fullPath >>= updateProjectsPath prefs >>= setPreferencesThreadSafe
+
+        member this.SetThemeConfig newTheme =
+            newTheme |> updateTheme prefs >>= setPreferencesThreadSafe

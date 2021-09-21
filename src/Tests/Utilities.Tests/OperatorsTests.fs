@@ -9,6 +9,13 @@ type public I = interface end
 type public A () = class interface I end
 type public B () = class inherit A() end
 
+module public TypeTestModule =
+    let rec public selfType = (moduleType <@ selfType @>).Name
+
+[<Test>]
+let public ``Module Can Retrieve Its Own Type `` () =
+    Assert.That(TypeTestModule.selfType, Is.EqualTo(nameof TypeTestModule))
+
 [<Test>]
 let public ``Unwrap Of Some Propagates Object`` () =
     Assert.That(Some 100 |> unwrap, Is.EqualTo(100))

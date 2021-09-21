@@ -1,6 +1,7 @@
 namespace App.Utilities
 
 open FSharpPlus
+open Microsoft.FSharp.Quotations.Patterns
 
 [<AutoOpen>]
 module public Operators =
@@ -17,7 +18,7 @@ module public Operators =
         |> String.trimEnd "\n"
 
     /// Flattens a nested sequence into a regular one.
-    let public flatten (nestedSeq: 's seq when 's:>seq<'a>) =
+    let public flatten (nestedSeq: seq<'s> when 's:>seq<'a>) =
         seq { for sequence in nestedSeq do yield! sequence }
 
     /// Tries to cast any object to given Type (up or down).
@@ -62,6 +63,7 @@ module public Operators =
     }
 
     /// Placeholder function that does nothing and takes n parameters. Has configurable return value.
+    let public nothing ret = ret
     let public nothing1 ret _ = ret
     let public nothing2 ret _ _ = ret
     let public nothing3 ret _ _ _ = ret
@@ -72,6 +74,14 @@ module public Operators =
         str
         |> String.toSeq
         |> fold (fun hash c -> (hash * 7uy) + (byte c)) 7uy
+
+    /// Used to retrieve the type of a module (inside the module itself),
+    /// which by "normal" means like typedefof is not possible. Usage example:
+    /// module SomeName =
+    ///     let rec private selfType = moduleType <@ selfType @>
+    let moduleType = function
+    | PropertyGet (_, propertyInfo, _) -> propertyInfo.DeclaringType
+    | _ -> failwith "Expression is no property."
 
 
 [<AutoOpen>]

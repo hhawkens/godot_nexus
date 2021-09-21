@@ -27,6 +27,7 @@
         <Compile Include="OperatorsTests.fs" />
         <Compile Include="EnumsTests.fs" />
         <Compile Include="CompareTests.fs" />
+        <Compile Include="LensesTests.fs" />
         <Compile Include="MonadExtensionTests.fs" />
         <Compile Include="PercentTests.fs" />
         <Compile Include="RandTests.fs" />
