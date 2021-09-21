@@ -3,13 +3,22 @@ namespace App.Shell.State
 open App.Core.Domain
 open App.Core.PluginDefinitions
 
+/// Manages projects state manipulation.
+type public IProjectStateController =
+    abstract CreateNewProject: ProjectName -> unit
+    abstract AddExistingProject: ProjectFile -> SimpleResult
+    abstract RemoveProject: Project -> SimpleResult
+    abstract OpenProject: Project -> SimpleResult
+
+
+/// Manages projects state manipulation.
 type public ProjectStateController
     (projectsDirectoryPlugin: UProjectsDirectoryGetter,
      createNewProjectPlugin: UCreateNewProject,
      addExistingProjectPlugin: UAddExistingProject,
      removeProjectPlugin: URemoveProject,
      openProjectPlugin: UOpenProject,
-     jobsController: JobsController,
+     jobsController: IJobsController,
      appStateInstance: AppStateInstance) =
 
     let projectsDir = projectsDirectoryPlugin()
@@ -25,23 +34,27 @@ type public ProjectStateController
         let newState = {state() with Projects = state().Projects.Remove project}
         setState newState
 
-    member public this.CreateNewProject name =
-        let job = createNewProjectPlugin projectsDir name
-        jobsController.AddJob (CreateProject job)
-        job.Run () |> Async.StartChild |> ignore
+    interface IProjectStateController with
 
-    member public this.AddExistingProject file =
-        match addExistingProjectPlugin file with
-        | Ok project -> Ok (addProject project)
-        | Error err -> Error err
+        member this.CreateNewProject name =
+            let job = createNewProjectPlugin projectsDir name
+            jobsController.AddJob (CreateProject job)
+            job.Run () |> Async.StartChild |> ignore
 
-    member public this.RemoveProject project =
-        match removeProjectPlugin project with
-        | SuccessfulRemoval -> removeProject project |> Ok
-        | NotFound ->
-            removeProject project
-            Error $"Could not remove project {project}, folder not found!"
-        | RemovalFailed err -> Error err
+        member this.AddExistingProject file =
+            match addExistingProjectPlugin file with
+            | Ok project -> Ok (addProject project)
+            | Error err -> Error err
 
-    member public this.OpenProject project =
-        openProjectPlugin project
+        member this.RemoveProject project =
+            match removeProjectPlugin project with
+            | SuccessfulRemoval -> removeProject project |> Ok
+            | NotFound ->
+                removeProject project
+                Error $"Could not remove project {project}, folder not found!"
+            | RemovalFailed err -> Error err
+
+        member this.OpenProject project =
+            match project.AssociatedEngine, appStateInstance.State.EngineInstalls.Active with
+            | Some engine, _ | _, Some engine -> openProjectPlugin engine project
+            | None, None -> Error $"Cannot open {project} because no engine was found!"

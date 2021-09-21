@@ -4,6 +4,16 @@ open FSharpPlus
 open App.Core.Domain
 open App.Core.PluginDefinitions
 
+/// Manages engines state manipulation.
+type public IEngineStateController =
+    abstract SetOnlineEngines: EngineOnline seq -> unit
+    abstract InstallEngine: EngineOnline -> unit
+    abstract RemoveEngine: EngineInstall -> SimpleResult
+    abstract SetActiveEngine: EngineInstall -> SimpleResult
+    abstract RunEngine: EngineInstall -> SimpleResult
+
+
+/// Manages engines state manipulation.
 type public EngineStateController
     (enginesDirectoryPlugin: UEnginesDirectoryGetter,
      downloadEnginePlugin: UDownloadEngine,
@@ -11,7 +21,7 @@ type public EngineStateController
      removeEnginePlugin: URemoveEngine,
      runEnginePlugin: URunEngine,
      cachingPlugin: UCaching,
-     jobsController: JobsController,
+     jobsController: IJobsController,
      appStateInstance: AppStateInstance) =
 
     let enginesDir = enginesDirectoryPlugin()
@@ -35,33 +45,35 @@ type public EngineStateController
 
     member public this.ErrorOccurred = errorOccurred.Publish
 
-    member public this.SetOnlineEngines engines =
-        let notInstalledEngines = engines |> filter (not << engineIsInstalled) |> Set
-        setState {state() with EnginesOnline = notInstalledEngines}
+    interface IEngineStateController with
 
-    member public this.InstallEngine engine =
-        let downloadJob = downloadEnginePlugin cachingPlugin.CacheDirectory engine
-        jobsController.AddJob (DownloadEngine downloadJob)
-        downloadJob.Updated.Add (fun _ ->
-            match downloadJob.EndStatus with
-            | Succeeded (file, engineOnline) -> installDownloadedEngine file engineOnline.Data
-            | _ -> ())
-        downloadJob.Run () |> Async.StartChild |> ignore
+        member this.SetOnlineEngines engines =
+            let notInstalledEngines = engines |> filter (not << engineIsInstalled) |> Set
+            setState {state() with EnginesOnline = notInstalledEngines}
 
-    member public this.RemoveEngine engineInstall =
-        let rmFromState () = setState {state() with EngineInstalls = state().EngineInstalls.Remove engineInstall}
-        match removeEnginePlugin engineInstall with
-        | SuccessfulRemoval -> rmFromState () |> Ok
-        | NotFound ->
-            rmFromState ()
-            Error($"Could not remove engine {engineInstall}, folder not found!")
-        | RemovalFailed err -> Error($"Could not remove engine {engineInstall}, reason(s): {err}")
+        member this.InstallEngine engine =
+            let downloadJob = downloadEnginePlugin cachingPlugin.CacheDirectory engine
+            jobsController.AddJob (DownloadEngine downloadJob)
+            downloadJob.Updated.Add (fun _ ->
+                match downloadJob.EndStatus with
+                | Succeeded (file, engineOnline) -> installDownloadedEngine file engineOnline.Data
+                | _ -> ())
+            downloadJob.Run () |> Async.StartChild |> ignore
 
-    member public this.SetActiveEngine engineInstall =
-        match state().EngineInstalls.SetActive engineInstall with
-        | Some engineInstallsWithNewActive ->
-            setState {state() with EngineInstalls = engineInstallsWithNewActive} |> Ok
-        | None -> Error $"Cannot set engine {engineInstall} as active because it is not installed"
+        member this.RemoveEngine engineInstall =
+            let rmFromState () = setState {state() with EngineInstalls = state().EngineInstalls.Remove engineInstall}
+            match removeEnginePlugin engineInstall with
+            | SuccessfulRemoval -> rmFromState () |> Ok
+            | NotFound ->
+                rmFromState ()
+                Error($"Could not remove engine {engineInstall}, folder not found!")
+            | RemovalFailed err -> Error($"Could not remove engine {engineInstall}, reason(s): {err}")
 
-    member public this.RunEngine engineInstall =
-        runEnginePlugin engineInstall
+        member this.SetActiveEngine engineInstall =
+            match state().EngineInstalls.SetActive engineInstall with
+            | Some engineInstallsWithNewActive ->
+                setState {state() with EngineInstalls = engineInstallsWithNewActive} |> Ok
+            | None -> Error $"Cannot set engine {engineInstall} as active because it is not installed"
+
+        member this.RunEngine engineInstall =
+            runEnginePlugin engineInstall

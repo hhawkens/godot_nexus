@@ -9,7 +9,7 @@ let internal GodotDownloadUrl = "https://downloads.tuxfamily.org/godotengine/"
 let private updateOnlineEngines godotVersionQuery (appStateController: IAppStateController) = async {
     let! enginesResult = EnginesFinder.find godotVersionQuery GodotDownloadUrl
     match enginesResult with
-    | Ok engines -> appStateController.SetOnlineEngines engines
+    | Ok engines -> appStateController.EngineStateController.SetOnlineEngines engines
     | Error err -> appStateController.ThrowError (Error.general err)
 }
 

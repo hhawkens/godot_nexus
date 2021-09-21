@@ -1,8 +1,17 @@
 namespace App.Shell.State
 
+open App.Core.Domain
 open App.Core.PluginDefinitions
 open App.Utilities
 
+/// Manages preferences state manipulation.
+type public IPreferencesStateController =
+    abstract Preferences: Preferences
+    abstract PreferencesChanged: unit IEvent
+    abstract SetPreferences: Preferences -> SimpleResult
+
+
+/// Manages preferences state manipulation.
 type public PreferencesStateController
     (defaultPreferencesPlugin: UDefaultPreferences,
      persistPreferencesPlugin: UPersistPreferences) =
@@ -19,8 +28,8 @@ type public PreferencesStateController
                 prefsChanged.Trigger () |> Ok)
         | _ -> Ok ()
 
-    member public this.Preferences = prefs
-    member public this.PreferencesChanged = prefsChanged.Publish
+    interface IPreferencesStateController with
 
-    member public this.SetPreferences newPrefs =
-        threadSafe (fun () -> setPreferences newPrefs)
+        member this.Preferences = prefs
+        member this.PreferencesChanged = prefsChanged.Publish
+        member this.SetPreferences newPrefs = threadSafe (fun () -> setPreferences newPrefs)

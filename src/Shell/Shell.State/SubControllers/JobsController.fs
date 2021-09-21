@@ -4,6 +4,13 @@ open App.Core.Domain
 open App.Utilities
 
 /// Manages all jobs the application is running.
+type public IJobsController =
+    abstract JobStarted: IEvent<JobDef>
+    abstract AddJob: JobDef -> unit
+    abstract AbortJob: Id -> SimpleResult
+
+
+/// Manages all jobs the application is running.
 type public JobsController () =
 
     let jobStarted = Event<JobDef>()
@@ -23,12 +30,14 @@ type public JobsController () =
         jobDef.Job.Updated.Add removeJobIfEnded
         jobStarted.Trigger jobDef
 
-    member public this.JobStarted = jobStarted.Publish
+    interface IJobsController with
 
-    member public this.AddJob jobDef =
-        threadSafe (fun () -> addJob jobDef)
+        member this.JobStarted = jobStarted.Publish
 
-    member public this.AbortJob id =
-        match jobs |> Map.tryFind id with
-        | Some jobDef -> jobDef.Job.Abort() |> Ok
-        | None -> Error $"Cannot abort job {id}, not found!"
+        member this.AddJob jobDef =
+            threadSafe (fun () -> addJob jobDef)
+
+        member this.AbortJob id =
+            match jobs |> Map.tryFind id with
+            | Some jobDef -> jobDef.Job.Abort() |> Ok
+            | None -> Error $"Cannot abort job {id}, not found!"

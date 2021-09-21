@@ -4,27 +4,12 @@ open App.Core.Domain
 
 type public IAppStateController =
     abstract ErrorOccurred: IEvent<Error>
-
     abstract State: IAppState
     abstract StateChanged: AppStateChangedArgs IEvent
 
-    abstract Preferences: Preferences
-    abstract PreferencesChanged: unit IEvent
+    abstract JobsController: IJobsController
+    abstract EngineStateController: IEngineStateController
+    abstract ProjectStateController: IProjectStateController
+    abstract PreferencesStateController: IPreferencesStateController
 
-    abstract JobStarted: JobDef IEvent
-
-    abstract AbortJob: Id -> SimpleResult
     abstract ThrowError: Error -> unit
-
-    abstract SetPreferences: Preferences -> SimpleResult
-
-    abstract SetOnlineEngines: EngineOnline seq -> unit
-    abstract InstallEngine: EngineOnline -> unit
-    abstract RemoveEngine: EngineInstall -> SimpleResult
-    abstract SetActiveEngine: EngineInstall -> SimpleResult
-    abstract RunEngine: EngineInstall -> SimpleResult
-
-    abstract CreateNewProject: ProjectName -> unit
-    abstract AddExistingProject: ProjectFile -> SimpleResult
-    abstract RemoveProject: Project -> SimpleResult
-    abstract OpenProject: Project -> SimpleResult

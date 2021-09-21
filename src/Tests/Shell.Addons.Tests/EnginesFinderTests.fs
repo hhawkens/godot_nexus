@@ -13,7 +13,7 @@ let public ``Godot Engines Can Be Found Online`` () =
     let controller = Mock.Of<IAppStateController>()
     let mutable foundEngines = None
     Mock.Get(controller)
-        .Setup(fun c -> c.SetOnlineEngines(It.IsAny<EngineOnline seq>()))
+        .Setup(fun c -> c.EngineStateController.SetOnlineEngines(It.IsAny<EngineOnline seq>()))
         .Callback(fun (a: EngineOnline seq) -> foundEngines <- a |> Array.ofSeq |> Some)
     |> ignore
 
