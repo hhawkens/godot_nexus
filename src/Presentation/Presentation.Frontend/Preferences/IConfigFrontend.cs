@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.IO;
 
 namespace App.Presentation.Frontend
 {
@@ -14,17 +12,15 @@ namespace App.Presentation.Frontend
 		bool IsDefault => Value == DefaultValue;
 	}
 
-	/// Frontend config type for dropdown selection.
-	public interface IConfigDropdownFrontend : IConfigFrontend
-	{
-		IReadOnlyList<string> Options { get; }
-		int ActiveIndex { get; }
-		void SetValue(string newValue);
-	}
 
-	/// Frontend config type for directory selection.
-	public interface IConfigDirectoryFrontend : IConfigFrontend
+	/// <inheritdoc cref="IConfigFrontend" />
+	public abstract record ConfigFrontend(string Name, string Description, string DefaultValue, string Value)
+		: IConfigFrontend
 	{
-		void SetValue(DirectoryInfo newDirectory);
+		public string Value { get; protected set; } = Value;
+
+#pragma warning disable CS0067
+		public event PropertyChangedEventHandler? PropertyChanged;
+#pragma warning restore CS0067
 	}
 }
