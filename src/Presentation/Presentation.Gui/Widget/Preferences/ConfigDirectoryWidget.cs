@@ -28,7 +28,7 @@ namespace App.Presentation.Gui
 			viewModel.PropertyChanged += delegate { UpdateVisibleState(); };
 		}
 
-		protected override void ResetToDefault() => viewModel.SetValue(new DirectoryInfo(viewModel.DefaultValue));
+		protected override void ResetToDefault() => viewModel.SetValue(viewModel.DefaultValue);
 
 		private static FileChooserButton CreateFileChooser() => new("Choose Path", FileChooserAction.SelectFolder);
 
@@ -44,13 +44,13 @@ namespace App.Presentation.Gui
 
 		private void UpdateVisibleState()
 		{
-			chooser.SetFile(FileFactory.NewForPath(viewModel.Value));
+			chooser.SetFile(FileFactory.NewForPath(viewModel.Value.FullName));
 			chooser.TooltipText = chooser.File.Uri.AbsolutePath;
 		}
 
 		private void ShowCurrentDirectoryInFiles()
 		{
-			var startInfo = new ProcessStartInfo(viewModel.Value) { UseShellExecute = true };
+			var startInfo = new ProcessStartInfo(viewModel.Value.FullName) { UseShellExecute = true };
 			Process.Start(startInfo);
 		}
 

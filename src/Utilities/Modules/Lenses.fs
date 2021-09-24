@@ -36,10 +36,11 @@ module public Lenses =
     open Microsoft.FSharp.Reflection
     open System.Reflection
 
-    let private eval = QuotationEvaluator.EvaluateUntyped
     let rec private selfType = lazy moduleType <@ selfType @>
 
     module internal Record =
+
+        let private eval = QuotationEvaluator.EvaluateUntyped
 
         let private fields = FSharpType.GetRecordFields
 
@@ -55,14 +56,15 @@ module public Lenses =
 
         let rec internal update<'a,'b> = function
             | PropertyGet(None,_,[]),v -> v
-            | PropertyGet(Some(PropertyGet(_) as pg),p,[]),v ->
-                update(pg,(with' p v (eval pg)))
+            | ValueWithName _,v -> v
+            | PropertyGet(Some(PropertyGet _ as pg),p,[]),v -> update(pg,(with' p v (eval pg)))
+            | PropertyGet(Some(ValueWithName _ as pg),p,[]),v -> update(pg,(with' p v (eval pg)))
             | _ -> failwith $"Unexpected failure in {selfType.Value.Name}"
 
     let private unsafeLens (e:Expr<'a>) (v:'a) (_: 'b) = Record.update(e.Raw,v) :?> 'b
 
-    /// See Lenses for more info. Quick usage example:
-    /// let newRec = oldRec |> withLens <@ oldRec.A.B.C @> "New Val For Nested Value C"
+    /// See type "Lenses" for more detailed information. Quick usage example:
+    /// let newRecord = oldRecord |> withLens <@ oldRecord.A.B.C @> "New Value of C"
     let public withLens expr value origin =
         (fun _ -> unsafeLens expr value origin)
         |> exnToResult

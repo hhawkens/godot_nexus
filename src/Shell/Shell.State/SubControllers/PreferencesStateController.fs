@@ -34,12 +34,17 @@ type public PreferencesStateController
     let updateTheme prefs newTheme =
         prefs |> withLens <@ prefs.UI.Theme.CurrentValue @> newTheme
 
+    let triggerEventIfFailed result =
+        do match result with | Error _ -> prefsChanged.Trigger prefs | _ -> ()
+        result
+
     let setPreferences = function
         | newPrefs when newPrefs <> prefs ->
             persistPreferencesPlugin.Save newPrefs |> Result.bind (fun _ ->
                 prefs <- newPrefs
                 prefsChanged.Trigger prefs |> Ok)
         | _ -> Ok ()
+            |> triggerEventIfFailed
 
     let setPreferencesThreadSafe newPrefs = threadSafe (fun () -> setPreferences newPrefs)
 

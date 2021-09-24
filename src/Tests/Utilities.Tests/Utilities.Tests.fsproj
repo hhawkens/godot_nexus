@@ -24,6 +24,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <Compile Include="Utilities\TestConfig.fs" />
         <Compile Include="OperatorsTests.fs" />
         <Compile Include="EnumsTests.fs" />
         <Compile Include="CompareTests.fs" />

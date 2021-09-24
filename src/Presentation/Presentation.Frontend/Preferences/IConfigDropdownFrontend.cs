@@ -7,31 +7,42 @@ using App.Utilities;
 namespace App.Presentation.Frontend
 {
 	/// Frontend config type for dropdown selection.
-	public interface IConfigDropdownFrontend : IConfigFrontend
+	public interface IConfigDropdownFrontend : IConfigFrontend<string>
 	{
+		/// The available options of this dropdown.
 		IReadOnlyList<string> Options { get; }
+
+		/// Index of the currently selected dropdown option.
 		int ActiveIndex { get; }
-		void SetValue(string newValue);
 	}
 
 
 	/// <inheritdoc cref="IConfigDropdownFrontend" />
-	public record ConfigDropdownFrontend<T> : ConfigFrontend, IConfigDropdownFrontend where T: Enum
+	internal record ConfigDropdownFrontend<TBackend> :
+		ConfigFullStack<string, TBackend>, IConfigDropdownFrontend
+		where TBackend: struct, Enum
 	{
+		/// <inheritdoc />
 		public IReadOnlyList<string> Options => options;
+
+		/// <inheritdoc />
 		public int ActiveIndex => Array.IndexOf(options, Value);
+
+		/// <inheritdoc />
+		public override bool IsDefault => Value == DefaultValue;
 
 		private readonly string[] options;
 
-		public ConfigDropdownFrontend(string name, ConfigData<T> model)
+		public ConfigDropdownFrontend(string name, ConfigData<TBackend> model)
 			: base(name, model.Description, model.DefaultValue.ToString(), model.CurrentValue.ToString())
 		{
-			options = Enums.iterate<T>().Select(x => x.ToString()).ToArray();
+			options = Enums.iterate<TBackend>().Select(Convert).ToArray();
 		}
 
-		public void SetValue(string newValue)
-		{
-			Value = newValue;
-		}
+		/// <inheritdoc />
+		public override TBackend Convert(string value) => Enum.Parse<TBackend>(value);
+
+		/// <inheritdoc />
+		public override string Convert(TBackend value) => value.ToString();
 	}
 }

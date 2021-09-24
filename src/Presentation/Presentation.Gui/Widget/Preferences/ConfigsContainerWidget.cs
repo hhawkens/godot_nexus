@@ -29,7 +29,7 @@ namespace App.Presentation.Gui
 				{
 					IConfigDirectoryFrontend dir => new ConfigDirectoryWidget(dir),
 					IConfigDropdownFrontend dd => new ConfigDropdownWidget(dd),
-					_ => throw new ArgumentOutOfRangeException(nameof(entry))
+					_ => throw new ArgumentOutOfRangeException(nameof(viewModel))
 				};
 
 				lastEntryWidget = entryWidget;

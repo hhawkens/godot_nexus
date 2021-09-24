@@ -8,7 +8,7 @@ module public Operators =
 
     /// Used to debug piped values. Value will be printed + can be stopped via Debugger.
     let public debug x =
-        printf $"Debug: {x}"
+        printfn $"Debug: {x}"
         x
 
     /// Provides a nicely formatted string for sequences.

@@ -41,3 +41,34 @@ let public ``Nonsensical Input Fails`` () =
     match updatedRecord with
     | Error err -> Assert.Pass($"Correctly failed with error: {err}")
     | Ok _ -> Assert.Fail("Expected failure!")
+
+[<Test>]
+let public ``More Complex Nested Records Are Updated Correctly`` () =
+    let enginesPath = {Description = "Engines Path"; DefaultValue = "/Engines"; CurrentValue = "/Engines"}
+    let projectsPath = {Description = "Projects Path"; DefaultValue = "/Proj"; CurrentValue = "/Proj"}
+    let theme = {Description = "Theme"; DefaultValue = TestTheme.System; CurrentValue = TestTheme.System}
+    let general = {EnginesPath = enginesPath; ProjectsPath = projectsPath}
+    let ui = {Theme = theme}
+    let prefs = {General = general; UI = ui}
+
+    let prefsV2 = prefs |> withLens <@ prefs.UI.Theme.CurrentValue @> TestTheme.Dark |> unwrap
+    Assert.That(prefsV2.UI.Theme.CurrentValue, Is.EqualTo(TestTheme.Dark))
+
+    let prefsV3 = prefsV2 |> withLens <@ prefsV2.General.EnginesPath.DefaultValue @> "New Default" |> unwrap
+    Assert.That(prefsV3.UI.Theme.CurrentValue, Is.EqualTo(TestTheme.Dark))
+    Assert.That(prefsV3.General.EnginesPath.DefaultValue, Is.EqualTo("New Default"))
+
+    let prefsV4 =
+        prefsV3 |> withLens <@ prefsV3.General.ProjectsPath @>
+            {Description = "New Desc"; DefaultValue = "New Def"; CurrentValue = "New Curr"} |> unwrap
+
+    Assert.That(prefsV4.UI.Theme.CurrentValue, Is.EqualTo(TestTheme.Dark))
+    Assert.That(prefsV4.General.EnginesPath.DefaultValue, Is.EqualTo("New Default"))
+    Assert.That(prefsV4.General.ProjectsPath.Description, Is.EqualTo("New Desc"))
+    Assert.That(prefsV4.General.ProjectsPath.DefaultValue, Is.EqualTo("New Def"))
+    Assert.That(prefsV4.General.ProjectsPath.CurrentValue, Is.EqualTo("New Curr"))
+    // Unchanged values
+    Assert.That(prefsV4.UI.Theme.Description, Is.EqualTo("Theme"))
+    Assert.That(prefsV4.UI.Theme.DefaultValue, Is.EqualTo(TestTheme.System))
+    Assert.That(prefsV4.General.EnginesPath.Description, Is.EqualTo("Engines Path"))
+    Assert.That(prefsV4.General.EnginesPath.CurrentValue, Is.EqualTo("/Engines"))

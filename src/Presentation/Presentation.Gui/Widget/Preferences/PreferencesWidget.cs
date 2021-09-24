@@ -19,6 +19,8 @@ namespace App.Presentation.Gui
 			verticalBox.Add(uiConfigsContainerWidget);
 
 			Add(verticalBox);
+
+			viewModel.Disposed += delegate { this.SelfDestruct(); };
 		}
 	}
 }
