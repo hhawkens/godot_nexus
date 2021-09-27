@@ -10,7 +10,7 @@ let private updateOnlineEngines godotVersionQuery (appStateController: IAppState
     let! enginesResult = EnginesFinder.find godotVersionQuery GodotDownloadUrl
     match enginesResult with
     | Ok engines -> appStateController.EngineStateController.SetOnlineEngines engines
-    | Error err -> appStateController.ThrowError (Error.general err)
+    | Error err -> appStateController.ThrowError (Error.General err)
 }
 
 let private addon = {

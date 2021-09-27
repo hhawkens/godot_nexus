@@ -1,6 +1,8 @@
+using System;
 using App.Core.Domain;
 using App.Shell.State;
 using App.Utilities;
+using Microsoft.FSharp.Core;
 
 namespace App.Presentation.Frontend
 {
@@ -11,15 +13,19 @@ namespace App.Presentation.Frontend
 		public UiConfigContainerFrontend UiConfig { get; }
 
 		private readonly IPreferencesStateController model;
+		private readonly Action<Error> errorThrower;
 		private readonly ConfigDirectoryFrontend enginesPathConfig;
 		private readonly ConfigDirectoryFrontend projectsPathConfig;
 		private readonly ConfigDropdownFrontend<Theme> themeConfig;
 
-		public PreferencesFrontend(IPreferencesStateController model)
+		public PreferencesFrontend(
+			IPreferencesStateController model,
+			Action<Error> errorThrower)
 		{
 			this.model = model;
-			var prefs = this.model.Preferences;
+			this.errorThrower = errorThrower;
 
+			var prefs = this.model.Preferences;
 			enginesPathConfig = CreateEnginesPathConfig(prefs.General.EnginesPath);
 			projectsPathConfig = CreateProjectsPathConfig(prefs.General.ProjectsPath);
 			GeneralConfig = new GeneralConfigContainerFrontend(nameof(prefs.General),
@@ -46,9 +52,15 @@ namespace App.Presentation.Frontend
 			themeConfig.ModelUpdatedHandler(prefs.UI.Theme.CurrentValue);
 		}
 
-		private void EnginesPathChanged(object? sender, string e) => model.SetEnginesPathConfig(e);
-		private void ProjectsPathChanged(object? sender, string e) => model.SetProjectsPathConfig(e);
-		private void ThemeConfigChanged(object? sender, Theme e) => model.SetThemeConfig(e);
+		private void EnginesPathChanged(object? sender, string e) => ThrowIfError(model.SetEnginesPathConfig(e));
+		private void ProjectsPathChanged(object? sender, string e) => ThrowIfError(model.SetProjectsPathConfig(e));
+		private void ThemeConfigChanged(object? sender, Theme e) => ThrowIfError(model.SetThemeConfig(e));
+
+		private void ThrowIfError<T>(FSharpResult<T, string> result)
+		{
+			if (result.IsError)
+				errorThrower(Error.General(result.ErrorValue));
+		}
 
 		private static ConfigDirectoryFrontend CreateEnginesPathConfig(ConfigData<DirectoryData> model)
 		{
