@@ -21,14 +21,14 @@ let private getNumberOfChangesToRecord (r: Three) =
 
 [<Test>]
 let public ``Lenses Can Update Nested Record Value`` () =
-    let updatedRecord = Tres |> withLens <@ Tres.TwoVal.OtherVal @> 999 |> unwrap
+    let updatedRecord = Tres |> lens <@ Tres.TwoVal.OtherVal @> 999 |> unwrap
 
     Assert.That(getNumberOfChangesToRecord Tres, Is.EqualTo(1))
     Assert.That(updatedRecord.TwoVal.OtherVal, Is.EqualTo(999))
 
 [<Test>]
 let public ``Lenses Can Update Deeply Nested Record Value`` () =
-    let updatedRecord = Tres |> withLens <@ Tres.TwoVal.OneVal.Val @> "New One" |> unwrap
+    let updatedRecord = Tres |> lens <@ Tres.TwoVal.OneVal.Val @> "New One" |> unwrap
 
     Assert.That(getNumberOfChangesToRecord Tres, Is.EqualTo(1))
     Assert.That(updatedRecord.TwoVal.OneVal.Val, Is.EqualTo("New One"))
@@ -36,7 +36,7 @@ let public ``Lenses Can Update Deeply Nested Record Value`` () =
 [<Test>]
 let public ``Nonsensical Input Fails`` () =
     let origin = "Origin"
-    let updatedRecord = origin |> withLens <@ origin.Length @> 5
+    let updatedRecord = origin |> lens <@ origin.Length @> 5
 
     match updatedRecord with
     | Error err -> Assert.Pass($"Correctly failed with error: {err}")
@@ -51,15 +51,15 @@ let public ``More Complex Nested Records Are Updated Correctly`` () =
     let ui = {Theme = theme}
     let prefs = {General = general; UI = ui}
 
-    let prefsV2 = prefs |> withLens <@ prefs.UI.Theme.CurrentValue @> TestTheme.Dark |> unwrap
+    let prefsV2 = prefs |> lens <@ prefs.UI.Theme.CurrentValue @> TestTheme.Dark |> unwrap
     Assert.That(prefsV2.UI.Theme.CurrentValue, Is.EqualTo(TestTheme.Dark))
 
-    let prefsV3 = prefsV2 |> withLens <@ prefsV2.General.EnginesPath.DefaultValue @> "New Default" |> unwrap
+    let prefsV3 = prefsV2 |> lens <@ prefsV2.General.EnginesPath.DefaultValue @> "New Default" |> unwrap
     Assert.That(prefsV3.UI.Theme.CurrentValue, Is.EqualTo(TestTheme.Dark))
     Assert.That(prefsV3.General.EnginesPath.DefaultValue, Is.EqualTo("New Default"))
 
     let prefsV4 =
-        prefsV3 |> withLens <@ prefsV3.General.ProjectsPath @>
+        prefsV3 |> lens <@ prefsV3.General.ProjectsPath @>
             {Description = "New Desc"; DefaultValue = "New Def"; CurrentValue = "New Curr"} |> unwrap
 
     Assert.That(prefsV4.UI.Theme.CurrentValue, Is.EqualTo(TestTheme.Dark))

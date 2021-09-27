@@ -26,13 +26,13 @@ type public PreferencesStateController
     let threadSafe = threadSafeFactory ()
 
     let updateEnginesPath prefs dirData =
-        prefs |> withLens <@ prefs.General.EnginesPath.CurrentValue @> dirData
+        prefs |> lens <@ prefs.General.EnginesPath.CurrentValue @> dirData
 
     let updateProjectsPath prefs dirData =
-        prefs |> withLens <@ prefs.General.ProjectsPath.CurrentValue @> dirData
+        prefs |> lens <@ prefs.General.ProjectsPath.CurrentValue @> dirData
 
     let updateTheme prefs newTheme =
-        prefs |> withLens <@ prefs.UI.Theme.CurrentValue @> newTheme
+        prefs |> lens <@ prefs.UI.Theme.CurrentValue @> newTheme
 
     let triggerEventIfFailed result =
         do match result with | Error _ -> prefsChanged.Trigger prefs | _ -> ()

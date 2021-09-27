@@ -65,6 +65,6 @@ module public Lenses =
 
     /// See type "Lenses" for more detailed information. Quick usage example:
     /// let newRecord = oldRecord |> withLens <@ oldRecord.A.B.C @> "New Value of C"
-    let public withLens expr value origin =
+    let public lens expr value origin =
         (fun _ -> unsafeLens expr value origin)
         |> exnToResult
