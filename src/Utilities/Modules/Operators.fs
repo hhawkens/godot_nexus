@@ -7,9 +7,7 @@ open Microsoft.FSharp.Quotations.Patterns
 module public Operators =
 
     /// Used to debug piped values. Value will be printed + can be stopped via Debugger.
-    let public debug x =
-        printfn $"Debug: {x}"
-        x
+    let public debug a = tap (fun _ -> printfn $"Debug: {a}") a
 
     /// Provides a nicely formatted string for sequences.
     let public formatSeq (sq: 'a seq) =

@@ -14,7 +14,7 @@ type public IEngineStateController =
 
 
 /// Manages engines state manipulation.
-type public EngineStateController
+type internal EngineStateController
     (enginesDirectoryPlugin: UEnginesDirectoryGetter,
      downloadEnginePlugin: UDownloadEngine,
      installEnginePlugin: UInstallEngine,

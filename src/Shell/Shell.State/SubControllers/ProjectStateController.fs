@@ -12,7 +12,7 @@ type public IProjectStateController =
 
 
 /// Manages projects state manipulation.
-type public ProjectStateController
+type internal ProjectStateController
     (projectsDirectoryPlugin: UProjectsDirectoryGetter,
      createNewProjectPlugin: UCreateNewProject,
      addExistingProjectPlugin: UAddExistingProject,

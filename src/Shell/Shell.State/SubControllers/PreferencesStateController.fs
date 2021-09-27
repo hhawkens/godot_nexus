@@ -16,7 +16,7 @@ type public IPreferencesStateController =
 
 
 /// Manages preferences state manipulation.
-type public PreferencesStateController
+type internal PreferencesStateController
     (defaultPreferencesPlugin: UDefaultPreferences,
      persistPreferencesPlugin: UPersistPreferences) =
 
@@ -34,17 +34,12 @@ type public PreferencesStateController
     let updateTheme prefs newTheme =
         prefs |> lens <@ prefs.UI.Theme.CurrentValue @> newTheme
 
-    let triggerEventIfFailed result =
-        do match result with | Error _ -> prefsChanged.Trigger prefs | _ -> ()
-        result
-
-    let setPreferences = function
-        | newPrefs when newPrefs <> prefs ->
-            persistPreferencesPlugin.Save newPrefs |> Result.bind (fun _ ->
-                prefs <- newPrefs
-                prefsChanged.Trigger prefs |> Ok)
-        | _ -> Ok ()
-            |> triggerEventIfFailed
+    let setPreferences newPrefs =
+        if newPrefs <> prefs then
+            persistPreferencesPlugin.Save newPrefs
+            >>= (fun _ -> (prefs <- newPrefs) |> Ok)
+            |> tap (fun _ -> prefsChanged.Trigger prefs)
+        else Ok ()
 
     let setPreferencesThreadSafe newPrefs = threadSafe (fun () -> setPreferences newPrefs)
 

@@ -5,7 +5,7 @@ open App.Core.Domain
 open App.Utilities
 
 /// Encapsulates the functionality to mutate the app state.
-type public AppStateInstance (state: AppState) =
+type internal AppStateInstance (state: AppState) =
 
     let mutable state = state
 

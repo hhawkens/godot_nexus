@@ -11,7 +11,7 @@ type public IJobsController =
 
 
 /// Manages all jobs the application is running.
-type public JobsController () =
+type internal JobsController () =
 
     let jobStarted = Event<JobDef>()
 
