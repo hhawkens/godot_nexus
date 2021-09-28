@@ -17,8 +17,4 @@
       <ProjectReference Include="..\..\Utilities\Utilities.fsproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Update="FSharp.Core" Version="5.0.2" />
-    </ItemGroup>
-
 </Project>
