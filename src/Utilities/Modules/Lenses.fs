@@ -65,6 +65,7 @@ module public Lenses =
 
     /// See type "Lenses" for more detailed information. Quick usage example:
     /// let newRecord = oldRecord |> withLens <@ oldRecord.A.B.C @> "New Value of C"
+    /// WARNING: This method is at least 10000x slower than regular record updating, use cautiously!
     let public lens expr value origin =
         (fun _ -> unsafeLens expr value origin)
         |> exnToResult
