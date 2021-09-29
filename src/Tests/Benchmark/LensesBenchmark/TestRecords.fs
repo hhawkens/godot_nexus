@@ -1,4 +1,4 @@
-namespace Benchmark
+namespace App.Benchmark
 
 [<Struct>]
 type public TestTheme =

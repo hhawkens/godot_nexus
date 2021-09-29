@@ -1,4 +1,4 @@
-namespace Benchmark
+namespace App.Benchmark
 
 open BenchmarkDotNet.Attributes
 open App.Utilities

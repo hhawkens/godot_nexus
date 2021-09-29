@@ -3,8 +3,8 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <OutputType>Exe</OutputType>
-        <AssemblyName>$(MSBuildProjectName)</AssemblyName>
-        <RootNamespace>$(MSBuildProjectName)</RootNamespace>
+        <AssemblyName>App.$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>App.$(MSBuildProjectName)</RootNamespace>
         <IsPackable>false</IsPackable>
         <Authors>Oliver Hawk</Authors>
     </PropertyGroup>

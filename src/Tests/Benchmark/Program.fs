@@ -1,4 +1,4 @@
-module public Benchmark.ProgramEntry
+module public App.Benchmark.ProgramEntry
 
 #if RELEASE
 
