@@ -42,4 +42,6 @@ let public preferences = {
 }
 
 let public withEnginePath newPath (prefs: Preferences) =
-    {prefs with General = {prefs.General with EnginesPath = {prefs.General.EnginesPath with CurrentValue = DirectoryData.tryCreate newPath |> unwrap}}}
+    let newDirData = DirectoryData.tryCreate newPath |> unwrap
+    let newConfig = {prefs.General.EnginesPath with CurrentValue = newDirData}
+    prefs |> lens <@ prefs.General.EnginesPath @> newConfig |> unwrap
