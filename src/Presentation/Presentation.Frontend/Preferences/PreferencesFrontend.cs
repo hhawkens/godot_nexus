@@ -37,9 +37,9 @@ namespace App.Presentation.Frontend
 				themeConfig);
 
 			this.model.PreferencesChanged.AddHandler(ModelChangedHandler);
-			enginesPathConfig.FrontendChanged += EnginesPathChanged;
-			projectsPathConfig.FrontendChanged += ProjectsPathChanged;
-			themeConfig.FrontendChanged += ThemeConfigChanged;
+			enginesPathConfig.FrontendChanged += EnginesPathFrontendChanged;
+			projectsPathConfig.FrontendChanged += ProjectsPathFrontendChanged;
+			themeConfig.FrontendChanged += ThemeFrontendChanged;
 		}
 
 		/// <inheritdoc />
@@ -52,9 +52,9 @@ namespace App.Presentation.Frontend
 			themeConfig.ModelUpdatedHandler(prefs.UI.Theme.CurrentValue);
 		}
 
-		private void EnginesPathChanged(object? sender, string e) => ThrowIfError(model.SetEnginesPathConfig(e));
-		private void ProjectsPathChanged(object? sender, string e) => ThrowIfError(model.SetProjectsPathConfig(e));
-		private void ThemeConfigChanged(object? sender, Theme e) => ThrowIfError(model.SetThemeConfig(e));
+		private void EnginesPathFrontendChanged(object? sender, string e) => ThrowIfError(model.SetEnginesPathConfig(e));
+		private void ProjectsPathFrontendChanged(object? sender, string e) => ThrowIfError(model.SetProjectsPathConfig(e));
+		private void ThemeFrontendChanged(object? sender, Theme e) => ThrowIfError(model.SetThemeConfig(e));
 
 		private void ThrowIfError<T>(FSharpResult<T, string> result)
 		{

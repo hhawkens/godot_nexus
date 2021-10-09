@@ -11,9 +11,11 @@
 
     <ItemGroup>
         <Compile Include="Library.fs" />
+        <Compile Include="TestConfig.fs" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Core\Core.Domain\Core.Domain.fsproj" />
       <ProjectReference Include="..\..\Utilities\Utilities.fsproj" />
     </ItemGroup>
 
