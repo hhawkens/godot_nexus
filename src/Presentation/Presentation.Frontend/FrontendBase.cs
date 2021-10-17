@@ -4,20 +4,26 @@ using App.Utilities;
 namespace App.Presentation.Frontend
 {
 	/// Implements basic frontend type functionality.
-	public abstract class FrontendBase : IDestructible
+	public abstract class FrontendBase<TModel> : IFrontend<TModel>
 	{
 		/// <inheritdoc />
 		public event DestructibleEventHandler? Disposed;
 
 		/// <inheritdoc />
+		public event Action<Action<TModel>>? ModelUpdateRequired;
+
+		/// <inheritdoc />
 		public void Dispose()
 		{
-			OnDispose();
+			BeforeDispose();
 			Disposed?.Invoke(this, EventArgs.Empty);
 			Disposed = null;
 		}
 
 		/// Inheriting classes implement dispose functionality here.
-		protected abstract void OnDispose();
+		protected abstract void BeforeDispose();
+
+		protected void RequestModelUpdate(Action<TModel> modelUpdateAction) =>
+			ModelUpdateRequired?.Invoke(modelUpdateAction);
 	}
 }

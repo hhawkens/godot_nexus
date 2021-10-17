@@ -81,6 +81,10 @@ module public Operators =
     | PropertyGet (_, propertyInfo, _) -> propertyInfo.DeclaringType
     | _ -> failwith "Expression is no property."
 
+    /// Creates a static default instance of any type. Can be useful for calling other static
+    /// functions like nameof.
+    let public statics<'a> = Unchecked.defaultof<'a>
+
 
 [<AutoOpen>]
 type public Operators =

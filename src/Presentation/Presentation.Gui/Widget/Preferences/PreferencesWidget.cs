@@ -7,7 +7,7 @@ namespace App.Presentation.Gui
 	{
 		private const int Space = 16;
 
-		public PreferencesWidget(PreferencesFrontend viewModel)
+		public PreferencesWidget(IPreferencesFrontend viewModel)
 		{
 			Margin = Space;
 

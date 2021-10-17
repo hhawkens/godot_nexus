@@ -20,6 +20,7 @@
         <Compile Include="Extensions\BaseTypeExtensions.fs" />
         <Compile Include="Interfaces\IConverter.fs" />
         <Compile Include="Interfaces\IDestructible.fs" />
+        <Compile Include="Interfaces\IPropertyChanged.fs" />
         <Compile Include="Types\Enums.fs" />
         <Compile Include="Types\FileData.fs" />
         <Compile Include="Types\DirectoryData.fs" />

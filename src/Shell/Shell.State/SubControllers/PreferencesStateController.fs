@@ -7,8 +7,8 @@ open App.Utilities
 
 /// Manages preferences state manipulation.
 type public IPreferencesStateController =
+    inherit IPropertyChanged
     abstract Preferences: Preferences
-    abstract PreferencesChanged: Preferences IEvent
 
     abstract SetEnginesPathConfig: string -> SimpleResult
     abstract SetProjectsPathConfig: string -> SimpleResult
@@ -21,7 +21,9 @@ type internal PreferencesStateController
      persistPreferencesPlugin: UPersistPreferences) =
 
     let mutable prefs = defaultPreferencesPlugin ()
-    let prefsChanged = Event<Preferences>()
+    let prefsChanged = Event<PropertyName list>()
+    [<Literal>]
+    let nameofPrefs = nameof statics<IPreferencesStateController>.Preferences
 
     let threadSafe = threadSafeFactory ()
 
@@ -38,7 +40,7 @@ type internal PreferencesStateController
         if newPrefs <> prefs then
             persistPreferencesPlugin.Save newPrefs
             >>= (fun _ -> (prefs <- newPrefs) |> Ok)
-            |> tap (fun _ -> prefsChanged.Trigger prefs)
+            |> tap (fun _ -> prefsChanged.Trigger [nameofPrefs])
         else Ok ()
 
     let setPreferencesThreadSafe newPrefs = threadSafe (fun () -> setPreferences newPrefs)
@@ -46,7 +48,7 @@ type internal PreferencesStateController
     interface IPreferencesStateController with
 
         member this.Preferences = prefs
-        member this.PreferencesChanged = prefsChanged.Publish
+        member this.PropertyChanged = prefsChanged.Publish
 
         member this.SetEnginesPathConfig fullPath =
             DirectoryData.tryCreate fullPath >>= updateEnginesPath prefs >>= setPreferencesThreadSafe
