@@ -18,11 +18,11 @@ namespace App.Presentation.Frontend
 		public abstract void SetValue(T newValue);
 	}
 
-	/// <inheritdoc cref="IConfigFullStack{TFrontendValue, TBackendValue}" />
-	internal abstract record ConfigFullStack<TFrontend, TBackend>
+	/// <inheritdoc cref="IConfigFullstack{TFrontend,TBackend}" />
+	internal abstract record ConfigFullstack<TFrontend, TBackend>
 		(string Name, string Description, TFrontend DefaultValue, TFrontend Value) :
 			ConfigFrontend<TFrontend>(Name, Description, DefaultValue, Value),
-			IConfigFullStack<TFrontend, TBackend>,
+			IConfigFullstack<TFrontend, TBackend>,
 			IDualConverter<TFrontend, TBackend>
 	{
 		private int? lastUpdateValueHash;

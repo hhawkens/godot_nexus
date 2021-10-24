@@ -3,7 +3,22 @@ using App.Utilities;
 
 namespace App.Presentation.Frontend
 {
-	/// Represents the connection between a model and a backend object.
+	/// Represents the connection between a model and a view model (aka Fullstack).
+	/// View models typically implement two interfaces:
+	/// One GUI facing (frontend), one model facing (backend).
+	/// The ModelBinding class is the glue that moves the data from the
+	/// model to the view model, via the backend interface.
+	/// <code>
+	///                  GUI
+	///                   ↑
+	/// --------------------------------------------
+	/// |         Frontend Interface               |
+	/// -------[View Model (Fullstack)]-------------    ←
+	/// |         Backend Interface                |    ← ModelBinding
+	/// --------------------------------------------    ←
+	///                   ↑
+	///                 Model
+	/// </code>
 	public class ModelBinding<TModel, TBackend> : IDisposable
 		where TModel: IMutable
 		where TBackend: IBackend<TModel>

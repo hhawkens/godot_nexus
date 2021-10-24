@@ -43,7 +43,7 @@ namespace App.Presentation.Frontend
 
 
 	/// Combines gui-facing and model-facing interaction of the config frontend. Internal only!
-	internal interface IConfigFullStack<TFrontend, TBackend>
+	internal interface IConfigFullstack<TFrontend, TBackend>
 		: IConfigFrontend<TFrontend>, IConfigBackend<TBackend>
 	{
 	}

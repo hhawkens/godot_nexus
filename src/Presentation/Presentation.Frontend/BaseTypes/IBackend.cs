@@ -2,7 +2,7 @@ using System;
 
 namespace App.Presentation.Frontend
 {
-	/// Basic interface for model-facing view model types.
+	/// Describes the model facing interface of a view-model/fullstack.
 	public interface IBackend<in TModel> : IDestructible
 	{
 		/// Signals that this view model wants to update its model.

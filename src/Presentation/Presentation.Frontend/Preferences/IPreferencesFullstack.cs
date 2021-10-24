@@ -4,7 +4,7 @@ namespace App.Presentation.Frontend
 {
 	/// View model for the UI of the preferences panel.
 	/// This abstraction interacts with the GUI layer.
-	public interface IPreferencesFrontend : IDestructible
+	public interface IPreferencesFrontend : IFrontend
 	{
 		/// "General" config section.
 		GeneralConfigContainerFrontend GeneralConfig { get; }

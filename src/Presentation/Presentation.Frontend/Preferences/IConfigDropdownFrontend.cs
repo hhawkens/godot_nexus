@@ -19,7 +19,7 @@ namespace App.Presentation.Frontend
 
 	/// <inheritdoc cref="IConfigDropdownFrontend" />
 	internal record ConfigDropdownFrontend<TBackend> :
-		ConfigFullStack<string, TBackend>, IConfigDropdownFrontend
+		ConfigFullstack<string, TBackend>, IConfigDropdownFrontend
 		where TBackend: struct, Enum
 	{
 		/// <inheritdoc />

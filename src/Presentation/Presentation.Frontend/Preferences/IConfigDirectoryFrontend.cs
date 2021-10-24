@@ -11,7 +11,7 @@ namespace App.Presentation.Frontend
 
 
 	/// <inheritdoc cref="IConfigDirectoryFrontend" />
-	internal record ConfigDirectoryFrontend : ConfigFullStack<DirectoryInfo, string>, IConfigDirectoryFrontend
+	internal record ConfigDirectoryFrontend : ConfigFullstack<DirectoryInfo, string>, IConfigDirectoryFrontend
 	{
 		/// <inheritdoc />
 		public override bool IsDefault => Value.FullName == DefaultValue.FullName;
