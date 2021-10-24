@@ -1,13 +1,13 @@
 using System;
-using System.Collections.Generic;
 using App.Utilities;
 using Microsoft.FSharp.Control;
+using Microsoft.FSharp.Core;
 using NUnit.Framework;
 
 namespace App.Presentation.Frontend.Tests
 {
-	using IChangeEvent = IEvent<FSharpHandler<IReadOnlyList<string>>, IReadOnlyList<string>>;
-	using ChangeEvent = FSharpEvent<FSharpHandler<IReadOnlyList<string>>, IReadOnlyList<string>>;
+	using IChangeEvent = IEvent<FSharpHandler<Unit?>, Unit?>;
+	using ChangeEvent = FSharpEvent<FSharpHandler<Unit?>, Unit?>;
 
 	[TestFixture]
 	public class ModelBindingTests
@@ -98,7 +98,7 @@ namespace App.Presentation.Frontend.Tests
 		}
 
 
-		private class TestModel : IPropertyChanged, IDisposable
+		private class TestModel : IMutable, IDisposable
 		{
 			internal string Text
 			{
@@ -106,16 +106,16 @@ namespace App.Presentation.Frontend.Tests
 				set
 				{
 					text = value;
-					propertyChanged.Trigger(this, new[] {nameof(Text)});
+					stateChanged.Trigger(this, null);
 				}
 			}
 
-			public IChangeEvent PropertyChanged => propertyChanged.Publish;
+			public IChangeEvent StateChanged => stateChanged.Publish;
 
 			internal event EventHandler? Disposed;
 
 			private string text = InitialModelText;
-			private readonly ChangeEvent propertyChanged = new();
+			private readonly ChangeEvent stateChanged = new();
 
 			public void Dispose() => Disposed?.Invoke(this, EventArgs.Empty);
 		}

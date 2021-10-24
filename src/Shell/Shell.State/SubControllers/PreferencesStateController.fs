@@ -1,6 +1,5 @@
 namespace App.Shell.State
 
-open System.Collections.Generic
 open FSharpPlus
 open App.Core.Domain
 open App.Core.PluginDefinitions
@@ -8,7 +7,7 @@ open App.Utilities
 
 /// Manages preferences state manipulation.
 type public IPreferencesStateController =
-    inherit IPropertyChanged
+    inherit IMutable
     abstract Preferences: Preferences
 
     abstract SetEnginesPathConfig: string -> SimpleResult
@@ -22,9 +21,7 @@ type internal PreferencesStateController
      persistPreferencesPlugin: UPersistPreferences) =
 
     let mutable prefs = defaultPreferencesPlugin ()
-    let prefsChanged = Event<PropertyName IReadOnlyList>()
-    [<Literal>]
-    let nameofPrefs = nameof statics<IPreferencesStateController>.Preferences
+    let prefsChanged = Event<unit>()
 
     let threadSafe = threadSafeFactory ()
 
@@ -41,7 +38,7 @@ type internal PreferencesStateController
         if newPrefs <> prefs then
             persistPreferencesPlugin.Save newPrefs
             >>= (fun _ -> (prefs <- newPrefs) |> Ok)
-            |> tap (fun _ -> prefsChanged.Trigger [nameofPrefs])
+            |> tap (fun _ -> prefsChanged.Trigger ())
         else Ok ()
 
     let setPreferencesThreadSafe newPrefs = threadSafe (fun () -> setPreferences newPrefs)
@@ -49,7 +46,7 @@ type internal PreferencesStateController
     interface IPreferencesStateController with
 
         member this.Preferences = prefs
-        member this.PropertyChanged = prefsChanged.Publish
+        member this.StateChanged = prefsChanged.Publish
 
         member this.SetEnginesPathConfig fullPath =
             DirectoryData.tryCreate fullPath >>= updateEnginesPath prefs >>= setPreferencesThreadSafe

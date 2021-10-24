@@ -5,7 +5,7 @@ namespace App.Presentation.Frontend
 {
 	/// Represents the connection between a model and a frontend object.
 	public class ModelBinding<TModel, TFrontend> : IDisposable
-		where TModel: IPropertyChanged
+		where TModel: IMutable
 		where TFrontend: IFrontend<TModel>
 	{
 		private readonly TModel model;
@@ -17,7 +17,7 @@ namespace App.Presentation.Frontend
 			this.model = model;
 			this.frontend = frontend;
 
-			this.model.PropertyChanged.AddHandler(ModelChangedHandler);
+			this.model.StateChanged.AddHandler(ModelChangedHandler);
 			this.frontend.ModelUpdateRequired += ModelUpdateRequiredHandler;
 
 			ModelChangedHandler();
@@ -31,7 +31,7 @@ namespace App.Presentation.Frontend
 
 			disposed.Set(true);
 
-			model.PropertyChanged.RemoveHandler(ModelChangedHandler);
+			model.StateChanged.RemoveHandler(ModelChangedHandler);
 			frontend.ModelUpdateRequired -= ModelUpdateRequiredHandler;
 
 			(model as IDisposable)?.Dispose();
@@ -48,7 +48,7 @@ namespace App.Presentation.Frontend
 	{
 		/// Helper to create a new binding object.
 		public static ModelBinding<TModel, TFrontend> New<TModel, TFrontend>(TModel model, TFrontend frontend)
-			where TModel: IPropertyChanged
+			where TModel: IMutable
 			where TFrontend: IFrontend<TModel>
 		{
 			return new(model, frontend);
