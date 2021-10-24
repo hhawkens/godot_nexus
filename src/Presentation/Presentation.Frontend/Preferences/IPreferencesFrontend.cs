@@ -1,6 +1,5 @@
 using App.Core.Domain;
 using App.Shell.State;
-using App.Utilities;
 
 namespace App.Presentation.Frontend
 {
@@ -21,6 +20,6 @@ namespace App.Presentation.Frontend
 	public interface IPreferencesFullstack : IPreferencesFrontend, IFrontend<IPreferencesStateController>
 	{
 		/// Indicates a change in the preferences model, so this object can update itself.
-		void NotifyPreferencesChanged(Preferences prefs);
+		void NotifyModelChanged(Preferences prefs);
 	}
 }

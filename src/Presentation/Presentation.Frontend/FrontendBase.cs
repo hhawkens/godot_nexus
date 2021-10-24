@@ -1,5 +1,4 @@
 using System;
-using App.Utilities;
 
 namespace App.Presentation.Frontend
 {
@@ -7,7 +6,7 @@ namespace App.Presentation.Frontend
 	public abstract class FrontendBase<TModel> : IFrontend<TModel>
 	{
 		/// <inheritdoc />
-		public event DestructibleEventHandler? Disposed;
+		public event EventHandler? Disposed;
 
 		/// <inheritdoc />
 		public event Action<Action<TModel>>? ModelUpdateRequired;

@@ -31,7 +31,7 @@ namespace App.Presentation.Frontend.Tests
 		{
 			const string newPath = nameof(newPath);
 			var newPrefs = TestConfig.withEnginePath(newPath, defaultPrefs);
-			sut.NotifyPreferencesChanged(newPrefs);
+			sut.NotifyModelChanged(newPrefs);
 			Assert.That(sut.GeneralConfig.EnginesPathConfig.Value.Name, Is.EqualTo(newPath));
 		}
 

@@ -43,7 +43,7 @@ namespace App.Presentation.Frontend
 		protected override void BeforeDispose() { }
 
 		/// <inheritdoc />
-		public void NotifyPreferencesChanged(Preferences prefs)
+		public void NotifyModelChanged(Preferences prefs)
 		{
 			enginesPathFrontend.ModelUpdatedHandler(prefs.General.EnginesPath.CurrentValue.FullPath);
 			projectsPathFrontend.ModelUpdatedHandler(prefs.General.ProjectsPath.CurrentValue.FullPath);
