@@ -3,22 +3,22 @@ using App.Utilities;
 
 namespace App.Presentation.Frontend
 {
-	/// Represents the connection between a model and a frontend object.
-	public class ModelBinding<TModel, TFrontend> : IDisposable
+	/// Represents the connection between a model and a backend object.
+	public class ModelBinding<TModel, TBackend> : IDisposable
 		where TModel: IMutable
-		where TFrontend: IFrontend<TModel>
+		where TBackend: IBackend<TModel>
 	{
 		private readonly TModel model;
-		private readonly TFrontend frontend;
+		private readonly TBackend backend;
 		private readonly SetOnce<bool> disposed = new(false);
 
-		internal ModelBinding(TModel model, TFrontend frontend)
+		internal ModelBinding(TModel model, TBackend backend)
 		{
 			this.model = model;
-			this.frontend = frontend;
+			this.backend = backend;
 
 			this.model.StateChanged.AddHandler(ModelChangedHandler);
-			this.frontend.ModelUpdateRequired += ModelUpdateRequiredHandler;
+			this.backend.ModelUpdateRequired += ModelUpdateRequiredHandler;
 
 			ModelChangedHandler();
 		}
@@ -32,26 +32,26 @@ namespace App.Presentation.Frontend
 			disposed.Set(true);
 
 			model.StateChanged.RemoveHandler(ModelChangedHandler);
-			frontend.ModelUpdateRequired -= ModelUpdateRequiredHandler;
+			backend.ModelUpdateRequired -= ModelUpdateRequiredHandler;
 
 			(model as IDisposable)?.Dispose();
-			frontend.Dispose();
+			backend.Dispose();
 		}
 
 		private void ModelUpdateRequiredHandler(Action<TModel> modelUpdate) => modelUpdate.Invoke(model);
-		private void ModelChangedHandler(dynamic? a = null, dynamic? b = null) => frontend.NotifyModelUpdated(model);
+		private void ModelChangedHandler(dynamic? a = null, dynamic? b = null) => backend.NotifyModelUpdated(model);
 	}
 
 
-	/// Static helpers for <see cref="ModelBinding{TModel,TFrontend}"/>
+	/// Static helpers for <see cref="ModelBinding{TModel,TBackend}"/>
 	public static class ModelBinding
 	{
 		/// Helper to create a new binding object.
-		public static ModelBinding<TModel, TFrontend> New<TModel, TFrontend>(TModel model, TFrontend frontend)
+		public static ModelBinding<TModel, TBackend> New<TModel, TBackend>(TModel model, TBackend backend)
 			where TModel: IMutable
-			where TFrontend: IFrontend<TModel>
+			where TBackend: IBackend<TModel>
 		{
-			return new(model, frontend);
+			return new(model, backend);
 		}
 	}
 }

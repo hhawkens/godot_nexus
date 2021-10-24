@@ -2,8 +2,8 @@ using System;
 
 namespace App.Presentation.Frontend
 {
-	/// Implements basic frontend type functionality.
-	public abstract class FrontendBase<TModel> : IFrontend<TModel>
+	/// Implements basic (model-facing) view-model type functionality.
+	public abstract class BackendBase<TModel> : IBackend<TModel>
 	{
 		/// <inheritdoc />
 		public event EventHandler? Disposed;
@@ -17,6 +17,7 @@ namespace App.Presentation.Frontend
 			BeforeDispose();
 			Disposed?.Invoke(this, EventArgs.Empty);
 			Disposed = null;
+			ModelUpdateRequired = null;
 		}
 
 		/// <inheritdoc />

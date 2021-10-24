@@ -16,28 +16,28 @@ namespace App.Presentation.Frontend.Tests
 
 #pragma warning disable CS8618
 		private TestModel model;
-		private TestFrontend frontend;
-		private ModelBinding<TestModel, TestFrontend> sut;
+		private TestBackend backend;
+		private ModelBinding<TestModel, TestBackend> sut;
 #pragma warning restore CS8618
 
 		[SetUp]
 		public void SetUp()
 		{
 			model = new();
-			frontend = new();
-			sut = ModelBinding.New(model, frontend);
+			backend = new();
+			sut = ModelBinding.New(model, backend);
 		}
 
 		[Test]
 		public void Binding_Updates_Frontend_Upon_Construction()
 		{
-			Assert.That(frontend.Text, Is.EqualTo(InitialModelText));
+			Assert.That(backend.Text, Is.EqualTo(InitialModelText));
 		}
 
 		[Test]
 		public void Frontend_Change_Is_Propagated()
 		{
-			frontend.Text = "Changed from frontend!";
+			backend.Text = "Changed from frontend!";
 			Assert.That(model.Text, Is.EqualTo("Changed from frontend!"));
 		}
 
@@ -45,7 +45,7 @@ namespace App.Presentation.Frontend.Tests
 		public void Model_Change_Is_Propagated()
 		{
 			model.Text = "Changed from backend!";
-			Assert.That(frontend.Text, Is.EqualTo("Changed from backend!"));
+			Assert.That(backend.Text, Is.EqualTo("Changed from backend!"));
 		}
 
 		[Test]
@@ -53,7 +53,7 @@ namespace App.Presentation.Frontend.Tests
 		{
 			var frontendWasDisposed = false;
 			var modelWasDisposed = false;
-			frontend.Disposed += delegate { frontendWasDisposed = true; };
+			backend.Disposed += delegate { frontendWasDisposed = true; };
 			model.Disposed += delegate { modelWasDisposed = true; };
 
 			sut.Dispose();
@@ -66,9 +66,9 @@ namespace App.Presentation.Frontend.Tests
 		public void After_Dispose_Frontend_Connections_Are_Cut()
 		{
 			sut.Dispose();
-			frontend.Text = "No change!";
+			backend.Text = "No change!";
 
-			Assert.That(frontend.Text, Is.EqualTo(InitialModelText));
+			Assert.That(backend.Text, Is.EqualTo(InitialModelText));
 			Assert.That(model.Text, Is.EqualTo(InitialModelText));
 		}
 
@@ -78,7 +78,7 @@ namespace App.Presentation.Frontend.Tests
 			sut.Dispose();
 			model.Text = "No change!";
 
-			Assert.That(frontend.Text, Is.EqualTo(InitialModelText));
+			Assert.That(backend.Text, Is.EqualTo(InitialModelText));
 			Assert.That(model.Text, Is.EqualTo("No change!"));
 		}
 
@@ -87,7 +87,7 @@ namespace App.Presentation.Frontend.Tests
 		{
 			var frontendDisposedCount = 0;
 			var modelDisposedCount = 0;
-			frontend.Disposed += delegate { frontendDisposedCount++; };
+			backend.Disposed += delegate { frontendDisposedCount++; };
 			model.Disposed += delegate { modelDisposedCount++; };
 
 			sut.Dispose();
@@ -120,7 +120,7 @@ namespace App.Presentation.Frontend.Tests
 			public void Dispose() => Disposed?.Invoke(this, EventArgs.Empty);
 		}
 
-		private class TestFrontend : IFrontend<TestModel>
+		private class TestBackend : IBackend<TestModel>
 		{
 			internal string Text
 			{

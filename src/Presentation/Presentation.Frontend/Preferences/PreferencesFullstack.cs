@@ -7,7 +7,7 @@ using Microsoft.FSharp.Core;
 namespace App.Presentation.Frontend
 {
 	/// View model abstraction for the UI of the preferences panel.
-	public class PreferencesFullstack : FrontendBase<IPreferencesStateController>, IPreferencesFullstack
+	public class PreferencesFullstack : BackendBase<IPreferencesStateController>, IPreferencesFullstack
 	{
 		public GeneralConfigContainerFrontend GeneralConfig { get; }
 		public UiConfigContainerFrontend UiConfig { get; }

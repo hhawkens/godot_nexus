@@ -15,8 +15,8 @@ namespace App.Presentation.Frontend
 
 
 	/// View model for the UI of the preferences panel.
-	/// This abstraction interacts with the business layer.
-	public interface IPreferencesFullstack : IPreferencesFrontend, IFrontend<IPreferencesStateController>
+	/// This abstraction can also interact with the business layer.
+	public interface IPreferencesFullstack : IPreferencesFrontend, IBackend<IPreferencesStateController>
 	{
 	}
 }
