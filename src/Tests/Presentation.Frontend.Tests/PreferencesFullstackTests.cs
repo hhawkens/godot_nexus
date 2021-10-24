@@ -31,7 +31,9 @@ namespace App.Presentation.Frontend.Tests
 		{
 			const string newPath = nameof(newPath);
 			var newPrefs = TestConfig.withEnginePath(newPath, defaultPrefs);
-			sut.NotifyModelChanged(newPrefs);
+			var prefsController = Mock.Of<IPreferencesStateController>();
+			Mock.Get(prefsController).Setup(x => x.Preferences).Returns(newPrefs);
+			sut.NotifyModelUpdated(prefsController);
 			Assert.That(sut.GeneralConfig.EnginesPathConfig.Value.Name, Is.EqualTo(newPath));
 		}
 

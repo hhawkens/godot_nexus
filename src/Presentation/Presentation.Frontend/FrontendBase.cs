@@ -19,6 +19,9 @@ namespace App.Presentation.Frontend
 			Disposed = null;
 		}
 
+		/// <inheritdoc />
+		public abstract void NotifyModelUpdated(TModel model);
+
 		/// Inheriting classes implement dispose functionality here.
 		protected abstract void BeforeDispose();
 

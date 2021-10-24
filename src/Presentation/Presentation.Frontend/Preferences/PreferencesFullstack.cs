@@ -43,11 +43,13 @@ namespace App.Presentation.Frontend
 		protected override void BeforeDispose() { }
 
 		/// <inheritdoc />
-		public void NotifyModelChanged(Preferences prefs)
+		public override void NotifyModelUpdated(IPreferencesStateController model)
 		{
-			enginesPathFrontend.ModelUpdatedHandler(prefs.General.EnginesPath.CurrentValue.FullPath);
-			projectsPathFrontend.ModelUpdatedHandler(prefs.General.ProjectsPath.CurrentValue.FullPath);
-			themeFrontend.ModelUpdatedHandler(prefs.UI.Theme.CurrentValue);
+			var general = model.Preferences.General;
+			var ui = model.Preferences.UI;
+			enginesPathFrontend.ModelUpdatedHandler(general.EnginesPath.CurrentValue.FullPath);
+			projectsPathFrontend.ModelUpdatedHandler(general.ProjectsPath.CurrentValue.FullPath);
+			themeFrontend.ModelUpdatedHandler(ui.Theme.CurrentValue);
 		}
 
 		private void EnginesPathFrontendChanged(object? sender, string e) =>

@@ -1,5 +1,6 @@
 namespace App.Shell.State
 
+open System.Collections.Generic
 open FSharpPlus
 open App.Core.Domain
 open App.Core.PluginDefinitions
@@ -21,7 +22,7 @@ type internal PreferencesStateController
      persistPreferencesPlugin: UPersistPreferences) =
 
     let mutable prefs = defaultPreferencesPlugin ()
-    let prefsChanged = Event<PropertyName list>()
+    let prefsChanged = Event<PropertyName IReadOnlyList>()
     [<Literal>]
     let nameofPrefs = nameof statics<IPreferencesStateController>.Preferences
 

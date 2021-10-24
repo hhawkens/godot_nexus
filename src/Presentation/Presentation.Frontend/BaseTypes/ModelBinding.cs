@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using App.Utilities;
 
 namespace App.Presentation.Frontend
@@ -11,20 +10,17 @@ namespace App.Presentation.Frontend
 	{
 		private readonly TModel model;
 		private readonly TFrontend frontend;
-		private readonly Action<IEnumerable<string>> modelChangedAction;
 		private readonly SetOnce<bool> disposed = new(false);
 
-		internal ModelBinding(
-			TModel model,
-			TFrontend frontend,
-			Action<IEnumerable<string>> modelChangedAction)
+		internal ModelBinding(TModel model, TFrontend frontend)
 		{
 			this.model = model;
 			this.frontend = frontend;
-			this.modelChangedAction = modelChangedAction;
 
 			this.model.PropertyChanged.AddHandler(ModelChangedHandler);
 			this.frontend.ModelUpdateRequired += ModelUpdateRequiredHandler;
+
+			ModelChangedHandler();
 		}
 
 		/// <inheritdoc />
@@ -43,7 +39,7 @@ namespace App.Presentation.Frontend
 		}
 
 		private void ModelUpdateRequiredHandler(Action<TModel> modelUpdate) => modelUpdate.Invoke(model);
-		private void ModelChangedHandler(dynamic _, IReadOnlyList<string> args) => modelChangedAction.Invoke(args);
+		private void ModelChangedHandler(dynamic? a = null, dynamic? b = null) => frontend.NotifyModelUpdated(model);
 	}
 
 
@@ -51,14 +47,11 @@ namespace App.Presentation.Frontend
 	public static class ModelBinding
 	{
 		/// Helper to create a new binding object.
-		public static ModelBinding<TModel, TFrontend> New<TModel, TFrontend>(
-			TModel model,
-			TFrontend frontend,
-			Action<IEnumerable<string>> modelChangedAction)
+		public static ModelBinding<TModel, TFrontend> New<TModel, TFrontend>(TModel model, TFrontend frontend)
 			where TModel: IPropertyChanged
 			where TFrontend: IFrontend<TModel>
 		{
-			return new(model, frontend, modelChangedAction);
+			return new(model, frontend);
 		}
 	}
 }

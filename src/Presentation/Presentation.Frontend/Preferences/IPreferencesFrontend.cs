@@ -1,4 +1,3 @@
-using App.Core.Domain;
 using App.Shell.State;
 
 namespace App.Presentation.Frontend
@@ -19,7 +18,5 @@ namespace App.Presentation.Frontend
 	/// This abstraction interacts with the business layer.
 	public interface IPreferencesFullstack : IPreferencesFrontend, IFrontend<IPreferencesStateController>
 	{
-		/// Indicates a change in the preferences model, so this object can update itself.
-		void NotifyModelChanged(Preferences prefs);
 	}
 }
