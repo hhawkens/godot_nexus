@@ -6,7 +6,7 @@ namespace App.Presentation.Frontend
 {
 	/// <inheritdoc cref="IConfigFrontend" />
 	internal abstract record ConfigFrontend<T>(string Name, string Description, T DefaultValue, T Value)
-		: IConfigFrontend<T>
+		: DestructibleRec, IConfigFrontend<T>
 	{
 #pragma warning disable CS0067
 		public event PropertyChangedEventHandler? PropertyChanged;
@@ -18,6 +18,7 @@ namespace App.Presentation.Frontend
 		public abstract void SetValue(T newValue);
 	}
 
+
 	/// <inheritdoc cref="IConfigFullstack{TFrontend,TBackend}" />
 	internal abstract record ConfigFullstack<TFrontend, TBackend>
 		(string Name, string Description, TFrontend DefaultValue, TFrontend Value) :
@@ -27,9 +28,9 @@ namespace App.Presentation.Frontend
 	{
 		private int? lastUpdateValueHash;
 
-		public event EventHandler<TBackend>? FrontendChanged;
+		public event EventHandler<TBackend>? ModelValueUpdateRequired;
 
-		public void ModelUpdatedHandler(TBackend backendValue)
+		public void ModelValueUpdatedHandler(TBackend backendValue)
 		{
 			var newUpdateValueHash = backendValue?.GetHashCode();
 			if (lastUpdateValueHash != newUpdateValueHash)
@@ -40,7 +41,7 @@ namespace App.Presentation.Frontend
 		}
 
 		public override void SetValue(TFrontend frontendValue) =>
-			FrontendChanged?.Invoke(this, Convert(frontendValue));
+			ModelValueUpdateRequired?.Invoke(this, Convert(frontendValue));
 
 		public abstract TBackend Convert(TFrontend value);
 		public abstract TFrontend Convert(TBackend value);

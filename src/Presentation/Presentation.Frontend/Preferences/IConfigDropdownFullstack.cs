@@ -7,7 +7,7 @@ using App.Utilities;
 namespace App.Presentation.Frontend
 {
 	/// Frontend config type for dropdown selection.
-	public interface IConfigDropdownFrontend : IConfigFrontend<string>
+	public interface IConfigDropdownFullstack : IConfigFrontend<string>
 	{
 		/// The available options of this dropdown.
 		IReadOnlyList<string> Options { get; }
@@ -17,9 +17,9 @@ namespace App.Presentation.Frontend
 	}
 
 
-	/// <inheritdoc cref="IConfigDropdownFrontend" />
-	internal record ConfigDropdownFrontend<TBackend> :
-		ConfigFullstack<string, TBackend>, IConfigDropdownFrontend
+	/// <inheritdoc cref="IConfigDropdownFullstack" />
+	internal record ConfigDropdownFullstack<TBackend> :
+		ConfigFullstack<string, TBackend>, IConfigDropdownFullstack
 		where TBackend: struct, Enum
 	{
 		/// <inheritdoc />
@@ -33,7 +33,7 @@ namespace App.Presentation.Frontend
 
 		private readonly string[] options;
 
-		public ConfigDropdownFrontend(string name, ConfigData<TBackend> model)
+		public ConfigDropdownFullstack(string name, ConfigData<TBackend> model)
 			: base(name, model.Description, model.DefaultValue.ToString(), model.CurrentValue.ToString())
 		{
 			options = Enums.iterate<TBackend>().Select(Convert).ToArray();

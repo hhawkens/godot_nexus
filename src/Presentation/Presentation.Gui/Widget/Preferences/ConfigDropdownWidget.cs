@@ -7,10 +7,10 @@ namespace App.Presentation.Gui
 	/// Config widget that lets the user choose a value from a dropdown menu.
 	public class ConfigDropdownWidget : ConfigWidgetBase
 	{
-		private readonly IConfigDropdownFrontend viewModel;
+		private readonly IConfigDropdownFullstack viewModel;
 		private readonly ComboBox dropDown;
 
-		public ConfigDropdownWidget(IConfigDropdownFrontend viewModel) : base(viewModel)
+		public ConfigDropdownWidget(IConfigDropdownFullstack viewModel) : base(viewModel)
 		{
 			this.viewModel = viewModel;
 

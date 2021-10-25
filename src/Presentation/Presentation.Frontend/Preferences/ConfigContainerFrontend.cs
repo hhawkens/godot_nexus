@@ -12,7 +12,7 @@ namespace App.Presentation.Frontend
 
 	/// <inheritdoc cref="IConfigContainerFrontend"/>
 	public record GeneralConfigContainerFrontend(
-		string Heading, IConfigDirectoryFrontend EnginesPathConfig, IConfigDirectoryFrontend ProjectsPathConfig)
+		string Heading, IConfigDirectoryFullstack EnginesPathConfig, IConfigDirectoryFullstack ProjectsPathConfig)
 		: IConfigContainerFrontend
 	{
 		public IReadOnlyList<IConfigFrontend> Entries => new[] { EnginesPathConfig, ProjectsPathConfig };
@@ -21,7 +21,7 @@ namespace App.Presentation.Frontend
 
 	/// <inheritdoc cref="IConfigContainerFrontend"/>
 	public record UiConfigContainerFrontend(
-		string Heading, IConfigDropdownFrontend ThemeConfig)
+		string Heading, IConfigDropdownFullstack ThemeConfig)
 		: IConfigContainerFrontend
 	{
 		public IReadOnlyList<IConfigFrontend> Entries => new[] { ThemeConfig };

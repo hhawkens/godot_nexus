@@ -2,6 +2,12 @@ using System;
 
 namespace App.Presentation.Frontend
 {
+	/// Describes the GUI facing interface of a view-model/fullstack.
+	public interface IFrontend : IDestructible
+	{
+	}
+
+
 	/// Describes the model facing interface of a view-model/fullstack.
 	public interface IBackend<in TModel> : IDestructible
 	{

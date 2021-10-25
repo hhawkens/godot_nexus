@@ -5,18 +5,18 @@ using App.Utilities;
 namespace App.Presentation.Frontend
 {
 	/// Frontend config type for directory selection.
-	public interface IConfigDirectoryFrontend : IConfigFrontend<DirectoryInfo>
+	public interface IConfigDirectoryFullstack : IConfigFrontend<DirectoryInfo>
 	{
 	}
 
 
-	/// <inheritdoc cref="IConfigDirectoryFrontend" />
-	internal record ConfigDirectoryFrontend : ConfigFullstack<DirectoryInfo, string>, IConfigDirectoryFrontend
+	/// <inheritdoc cref="IConfigDirectoryFullstack" />
+	internal record ConfigDirectoryFullstack : ConfigFullstack<DirectoryInfo, string>, IConfigDirectoryFullstack
 	{
 		/// <inheritdoc />
 		public override bool IsDefault => Value.FullName == DefaultValue.FullName;
 
-		public ConfigDirectoryFrontend(string name, ConfigData<DirectoryData> model)
+		public ConfigDirectoryFullstack(string name, ConfigData<DirectoryData> model)
 			: base(name, model.Description, ToDirInfo(model), ToDirInfo(model))
 		{
 			Value = ToDirInfo(model);

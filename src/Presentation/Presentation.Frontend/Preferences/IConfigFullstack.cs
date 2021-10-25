@@ -1,10 +1,9 @@
-using System;
 using System.ComponentModel;
 
 namespace App.Presentation.Frontend
 {
 	/// Base for all frontend config types.
-	public interface IConfigFrontend : INotifyPropertyChanged
+	public interface IConfigFrontend : ISubFrontend, INotifyPropertyChanged
 	{
 		/// Short name of this configuration.
 		string Name { get; }
@@ -31,20 +30,9 @@ namespace App.Presentation.Frontend
 	}
 
 
-	/// Interface for the interaction between frontend and model. Internal only!
-	internal interface IConfigBackend<T>
-	{
-		/// Invoked when the frontend wants to change the model value.
-		event EventHandler<T>? FrontendChanged;
-
-		/// Called when the frontend needs to be updated by the model.
-		void ModelUpdatedHandler(T backendValue);
-	}
-
-
 	/// Combines gui-facing and model-facing interaction of the config frontend. Internal only!
 	internal interface IConfigFullstack<TFrontend, TBackend>
-		: IConfigFrontend<TFrontend>, IConfigBackend<TBackend>
+		: IConfigFrontend<TFrontend>, ISubBackend<TBackend>
 	{
 	}
 }

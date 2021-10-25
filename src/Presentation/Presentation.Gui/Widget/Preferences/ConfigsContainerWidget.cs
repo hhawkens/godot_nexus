@@ -27,8 +27,8 @@ namespace App.Presentation.Gui
 			{
 				ConfigWidgetBase entryWidget = entry switch
 				{
-					IConfigDirectoryFrontend dir => new ConfigDirectoryWidget(dir),
-					IConfigDropdownFrontend dd => new ConfigDropdownWidget(dd),
+					IConfigDirectoryFullstack dir => new ConfigDirectoryWidget(dir),
+					IConfigDropdownFullstack dd => new ConfigDropdownWidget(dd),
 					_ => throw new ArgumentOutOfRangeException(nameof(viewModel))
 				};
 

@@ -10,10 +10,10 @@ namespace App.Presentation.Gui
 	/// Config widget that lets the user choose a value from a directory picker.
 	public class ConfigDirectoryWidget : ConfigWidgetBase
 	{
-		private readonly IConfigDirectoryFrontend viewModel;
+		private readonly IConfigDirectoryFullstack viewModel;
 		private readonly FileChooserButton chooser;
 
-		public ConfigDirectoryWidget(IConfigDirectoryFrontend viewModel) : base(viewModel)
+		public ConfigDirectoryWidget(IConfigDirectoryFullstack viewModel) : base(viewModel)
 		{
 			this.viewModel = viewModel;
 
