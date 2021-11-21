@@ -9,6 +9,7 @@ namespace App.Presentation.Gui
 		GoPrevious,
 		Preferences,
 		Reset,
+		GodotMonochrome,
 		Goto
 	}
 }

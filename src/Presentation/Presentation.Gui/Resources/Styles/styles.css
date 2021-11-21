@@ -39,6 +39,10 @@
     border: 1px solid @borders;
 }
 
+.border-square {
+    border: 1px solid @borders;
+}
+
 .underline {
     border-bottom: 1px solid @borders
 }

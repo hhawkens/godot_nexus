@@ -3,6 +3,7 @@
 *.user
 *.sln.docstates
 *.xml
+*.glade#
 
 # Build results
 [Dd]ebug/
