@@ -3,8 +3,8 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <OutputType>Exe</OutputType>
-        <AssemblyName>App.$(MSBuildProjectName)</AssemblyName>
-        <RootNamespace>App.$(MSBuildProjectName)</RootNamespace>
+        <AssemblyName>$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>$(MSBuildProjectName)</RootNamespace>
         <IsPackable>false</IsPackable>
         <Authors>Oliver Hawk</Authors>
     </PropertyGroup>
@@ -20,6 +20,11 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\Main\Main.fsproj" />
+      <ProjectReference Include="..\..\Presentation\Presentation.Frontend\Presentation.Frontend.csproj" />
+      <ProjectReference Include="..\..\Presentation\Presentation.Gui\Presentation.Gui.csproj" />
+      <ProjectReference Include="..\..\Shell\Shell.Plugins\Shell.Plugins.fsproj" />
+      <ProjectReference Include="..\..\Shell\Shell.State\Shell.State.fsproj" />
       <ProjectReference Include="..\..\Utilities\Utilities.fsproj" />
     </ItemGroup>
 

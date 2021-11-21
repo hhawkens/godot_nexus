@@ -20,7 +20,8 @@ let mutable architecture = ArchLoader().Build()
 
 let shouldExist (layer: GivenTypesConjunctionWithDescription) =
     let layerObjects = architecture |> layer.GetObjects |> toList
-    Assert.That(layerObjects.Length, Is.GreaterThan(0))
+    if layerObjects.Length = 0 then
+        Assert.Fail($"{layer.Description} could not be found!")
 
 let shouldNotDependOn (b: GivenTypesConjunctionWithDescription) (a: GivenTypesConjunctionWithDescription) =
     let forbiddenLayerAccess = a.Should().NotDependOnAny(b)
@@ -34,7 +35,6 @@ let public OneTimeSetUp () =
 
 [<Test>]
 let public ``All Layers Only Reference Lower Level Layers`` () =
-
     let utilsLayer = Types().That().ResideInAssembly(@"App.Utilities*", true).As("Utils Layer")
     let coreLayer = Types().That().ResideInAssembly(@"App.Core*", true).As("Core Layer")
     let shellLayer = Types().That().ResideInAssembly(@"App.Shell*", true).As("Shell Layer")

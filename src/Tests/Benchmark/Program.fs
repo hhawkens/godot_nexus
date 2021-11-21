@@ -2,11 +2,9 @@ module public App.Benchmark.ProgramEntry
 
 #if RELEASE
 
-open BenchmarkDotNet.Running
-
 [<EntryPoint>]
 let main _args = // Uncomment benchmark you wish to run
-    // BenchmarkRunner.Run typeof<LensComparison> |> ignore
+    // BenchmarkDotNet.Running.BenchmarkRunner.Run typeof<LensComparison> |> ignore
     0
 
 #else
