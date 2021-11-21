@@ -2,8 +2,6 @@ using Gtk;
 
 namespace App.Presentation.Gui
 {
-	using SidebarEntryAction = System.Action<SidebarEntry>;
-
 	/// Compound widget that can be used in the sidebar as a list entry
 	public class SidebarEntry : ListBoxRow
 	{

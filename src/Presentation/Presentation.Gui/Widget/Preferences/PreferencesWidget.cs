@@ -5,16 +5,14 @@ namespace App.Presentation.Gui
 {
 	public class PreferencesWidget : ScrolledWindow
 	{
-		private const int Space = 16;
-
 		public PreferencesWidget(IPreferencesFrontend viewModel)
 		{
-			Margin = Space;
+			Margin = Styling.TopLevelSpacing;
 
 			var generalConfigsContainerWidget = new ConfigsContainerWidget(viewModel.GeneralConfig);
 			var uiConfigsContainerWidget = new ConfigsContainerWidget(viewModel.UiConfig);
 
-			var verticalBox = new Box(Orientation.Vertical, Space);
+			var verticalBox = new Box(Orientation.Vertical, Styling.TopLevelSpacing);
 			verticalBox.Add(generalConfigsContainerWidget);
 			verticalBox.Add(uiConfigsContainerWidget);
 

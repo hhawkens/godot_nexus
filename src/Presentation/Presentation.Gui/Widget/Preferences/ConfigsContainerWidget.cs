@@ -6,19 +6,18 @@ namespace App.Presentation.Gui
 {
 	public class ConfigsContainerWidget : Box
 	{
-		private const int SpacingPixels = 4;
 		private const int LabelStartMargin = 25;
 
 		public ConfigsContainerWidget(IConfigContainerFrontend viewModel)
-			: base(Orientation.Vertical, SpacingPixels)
+			: base(Orientation.Vertical, Styling.SubLevelSpacing)
 		{
 			StyleContext.AddClass("border-round");
 
 			var headingLabel = Label.New(viewModel.Heading);
 			headingLabel.Xalign = 0;
 			headingLabel.MarginStart = LabelStartMargin;
-			headingLabel.MarginTop = SpacingPixels;
-			headingLabel.MarginBottom = SpacingPixels * 2;
+			headingLabel.MarginTop = Styling.SubLevelSpacing;
+			headingLabel.MarginBottom = Styling.SubLevelSpacing * 2;
 			headingLabel.StyleContext.AddClass("heading-light");
 			Add(headingLabel);
 
@@ -37,7 +36,7 @@ namespace App.Presentation.Gui
 			}
 
 			if (lastEntryWidget != null)
-				lastEntryWidget.MarginBottom = SpacingPixels;
+				lastEntryWidget.MarginBottom = Styling.SubLevelSpacing;
 		}
 	}
 }

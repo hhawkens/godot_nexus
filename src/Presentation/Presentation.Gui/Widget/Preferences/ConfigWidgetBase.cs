@@ -7,7 +7,6 @@ namespace App.Presentation.Gui
 	public abstract class ConfigWidgetBase : Box
 	{
 		protected const int ElementWidth = 270;
-		private const int SpacingPixels = 16;
 		private const int LabelStartMargin = 50;
 		private const string ActiveResetTooltip = "Reset to default";
 		private const string InactiveResetTooltip = "Cannot reset, is default value already";
@@ -15,7 +14,7 @@ namespace App.Presentation.Gui
 		private readonly IConfigFrontend viewModel;
 		private readonly Button resetToDefaultsButton;
 
-		protected ConfigWidgetBase(IConfigFrontend viewModel) : base(Orientation.Horizontal, SpacingPixels)
+		protected ConfigWidgetBase(IConfigFrontend viewModel) : base(Orientation.Horizontal, Styling.TopLevelSpacing)
 		{
 			this.viewModel = viewModel;
 

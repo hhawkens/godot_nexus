@@ -8,7 +8,8 @@ namespace App.Presentation.Gui
 
 		public EnginesContainerWidget()
 		{
-			Margin = Space;
+			MarginTop = Space;
+			MarginBottom = Space;
 			var verticalBox = new Box(Orientation.Vertical, Space);
 			Add(verticalBox);
 		}
