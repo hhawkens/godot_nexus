@@ -19,6 +19,7 @@
       <ProjectReference Include="..\..\Shell\Shell.State\Shell.State.fsproj">
         <PrivateAssets>all</PrivateAssets>
       </ProjectReference>
+      <ProjectReference Include="..\Presentation.Utilities\Presentation.Utilities.csproj" />
     </ItemGroup>
 
     <ItemGroup>

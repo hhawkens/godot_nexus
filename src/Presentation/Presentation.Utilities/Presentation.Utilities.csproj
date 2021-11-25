@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net5.0</TargetFramework>
+        <AssemblyName>App.$(MSBuildProjectName)</AssemblyName>
+        <RootNamespace>App.$(MSBuildProjectName)</RootNamespace>
+        <LangVersion>9</LangVersion>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <Authors>Oliver Hawk</Authors>
+    </PropertyGroup>
+
+</Project>
