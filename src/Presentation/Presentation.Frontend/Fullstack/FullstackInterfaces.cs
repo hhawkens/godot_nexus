@@ -1,10 +1,20 @@
 using System;
+using App.Presentation.Utilities;
 
 namespace App.Presentation.Frontend
 {
 	/// Describes the GUI facing interface of a view-model/fullstack.
 	public interface IFrontend : IDestructible
 	{
+	}
+
+
+	/// <inheritdoc cref="IFrontend"/>
+	/// Additionally, has a collection of child entries.
+	public interface ICollectionFrontend<T> : IFrontend
+	{
+		/// Managed child entries.
+		IObservableReadOnlyList<T> Entries { get; }
 	}
 
 
