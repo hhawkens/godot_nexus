@@ -1,5 +1,6 @@
 namespace App.Utilities
 
+open System.Collections
 open System.Collections.Generic
 
 /// An immutable Set with one invariant: If the set is not empty, an active object within
@@ -40,13 +41,10 @@ type public ActiveSet<'a when 'a: comparison> = private {
     member public this.SetActive elt =
         if this.set.Contains(elt) then Some {this with active = Some elt} else None
 
-    interface IEnumerable<'a> with
-
-        member this.GetEnumerator() =
-            (this.set:>IEnumerable<'a>).GetEnumerator()
-
-        member this.GetEnumerator() =
-            (this.set:>System.Collections.IEnumerable).GetEnumerator()
+    interface IReadOnlyCollection<'a> with
+        member this.Count = this.set.Count
+        member this.GetEnumerator(): IEnumerator<'a> = (this.set:>IEnumerable<'a>).GetEnumerator()
+        member this.GetEnumerator(): IEnumerator = (this.set:>IEnumerable).GetEnumerator()
 
 /// Functions for a Set with one invariant: If the set is not empty, an active object within
 /// that set is always defined, an empty set does not have an active object.
