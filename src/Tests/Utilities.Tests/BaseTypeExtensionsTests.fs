@@ -1,7 +1,7 @@
-module public App.Utilities.Tests.BaseTypeExtensionsTests
+module public FSharpPlus.Tests.BaseTypeExtensionsTests
 
 open NUnit.Framework
-open App.Utilities
+open FSharpPlus
 
 [<TestCase("", "")>]
 [<TestCase("ShowMeTHEMoney", "Show Me THE Money")>]

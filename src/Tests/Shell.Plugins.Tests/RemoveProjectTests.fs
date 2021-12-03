@@ -4,7 +4,7 @@ open System.IO
 open App.Shell.Plugins
 open App.Core.Domain
 open App.Core.PluginDefinitions
-open App.Utilities
+open FSharpPlus
 open NUnit.Framework
 
 [<Literal>]

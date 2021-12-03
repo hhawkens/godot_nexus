@@ -1,8 +1,8 @@
-namespace App.Utilities.Tests
+namespace FSharpPlus.Tests
 
 module public MonadExtensionPropertyBasedTests =
 
-    open App.Utilities
+    open FSharpPlus
     open FsCheck.NUnit
 
     [<Property>]

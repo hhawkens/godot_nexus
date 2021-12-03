@@ -1,6 +1,6 @@
-module public App.Utilities.Tests.RandTests
+module public FSharpPlus.Tests.RandTests
 
-open App.Utilities
+open FSharpPlus
 open NUnit.Framework
 
 [<Test>]

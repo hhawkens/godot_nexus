@@ -1,9 +1,9 @@
-module public App.Utilities.Tests.OperatorsTests
+module public FSharpPlus.Tests.OperatorsTests
 
 open System
 open System.Threading
 open NUnit.Framework
-open App.Utilities
+open FSharpPlus
 
 type public I = interface end
 type public A () = class interface I end

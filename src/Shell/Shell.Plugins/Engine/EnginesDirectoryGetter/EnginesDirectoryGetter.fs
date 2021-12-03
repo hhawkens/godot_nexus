@@ -3,7 +3,7 @@ module public App.Shell.Plugins.EnginesDirectoryGetter
 open System.IO
 open App.Core.Domain
 open App.Core.PluginDefinitions
-open App.Utilities
+open FSharpPlus
 
 [<Literal>]
 let private enginesDirName = "engines"

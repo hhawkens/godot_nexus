@@ -1,4 +1,4 @@
-module public App.Utilities.Platform
+module public FSharpPlus.Platform
 
 open System
 

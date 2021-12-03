@@ -4,7 +4,6 @@ module internal App.Shell.Addons.OnlineExtensions
 open AngleSharp
 open AngleSharp.Html.Dom
 open FSharpPlus
-open App.Utilities
 
 let internal getWebContent (url: string) =
     let ctx = BrowsingContext.New(Configuration.Default.WithDefaultLoader())

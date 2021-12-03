@@ -1,6 +1,6 @@
 namespace App.Core.Domain
 
-open App.Utilities
+open FSharpPlus
 
 type public Preferences = {
     General: GeneralPreferences

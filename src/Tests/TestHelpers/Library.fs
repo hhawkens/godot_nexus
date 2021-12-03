@@ -3,7 +3,6 @@ module public App.TestHelpers.Library
 
 open System.Reflection
 open FSharpPlus
-open App.Utilities
 
 /// Finds the folder containing the .sln file of this project (DOES NOT WORK WITH BUILDS, ONLY DEV MODE).
 let public msBuildSolutionFolder =

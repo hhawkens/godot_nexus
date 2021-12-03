@@ -3,7 +3,6 @@ namespace App.Shell.State
 open FSharpPlus
 open App.Core.Domain
 open App.Core.PluginDefinitions
-open App.Utilities
 
 /// Manages preferences state manipulation.
 type public IPreferencesStateController =

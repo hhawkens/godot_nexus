@@ -1,4 +1,4 @@
-namespace App.Utilities
+namespace FSharpPlus
 
 /// Usage Example:
 ///

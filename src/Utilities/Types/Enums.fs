@@ -1,4 +1,4 @@
-namespace App.Utilities
+namespace FSharpPlus
 
 [<Struct>]
 type public ThreadSafety =

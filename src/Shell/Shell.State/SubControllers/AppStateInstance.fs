@@ -2,7 +2,6 @@ namespace App.Shell.State
 
 open FSharpPlus
 open App.Core.Domain
-open App.Utilities
 
 /// Encapsulates the functionality to mutate the app state.
 type internal AppStateInstance (state: AppState) =

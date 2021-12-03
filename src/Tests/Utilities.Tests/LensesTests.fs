@@ -1,7 +1,7 @@
-module public App.Utilities.Tests.LensesTests
+module public FSharpPlus.Tests.LensesTests
 
 open NUnit.Framework
-open App.Utilities
+open FSharpPlus
 
 type public One = { Val: string }
 type public Two = { OneVal: One; OtherVal: int }

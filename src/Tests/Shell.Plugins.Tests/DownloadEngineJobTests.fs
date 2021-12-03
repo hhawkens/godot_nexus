@@ -5,7 +5,7 @@ open System.Threading
 open NUnit.Framework
 open App.Core.Domain
 open App.Shell.Plugins
-open App.Utilities
+open FSharpPlus
 
 module public DownloadEngineJobTests =
 

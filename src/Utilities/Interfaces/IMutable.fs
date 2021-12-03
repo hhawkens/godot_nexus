@@ -1,4 +1,4 @@
-namespace App.Utilities
+namespace FSharpPlus
 
 type public PropertyName = string
 

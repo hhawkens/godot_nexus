@@ -1,7 +1,7 @@
 namespace App.Core.Domain.Tests
 
 open App.Core.Domain
-open App.Utilities
+open FSharpPlus
 
 type private TestJobStatusMachine = JobStatusMachine<int, string>
 type private TestJobEndStatus = JobEndStatus<int, string>

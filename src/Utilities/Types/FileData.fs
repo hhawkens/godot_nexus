@@ -1,7 +1,6 @@
-namespace App.Utilities
+namespace FSharpPlus
 
 open System.IO
-open FSharpPlus
 
 /// Immutable light weight alternative to System.IO.FileInfo.
 type public FileData = private {

@@ -2,7 +2,7 @@ namespace App.Shell.Addons
 
 open System
 open App.Shell.State
-open App.Utilities
+open FSharpPlus
 
 type public DefaultAddon =
     {

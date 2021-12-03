@@ -1,7 +1,7 @@
 namespace App.Benchmark
 
 open BenchmarkDotNet.Attributes
-open App.Utilities
+open FSharpPlus
 
 [<MemoryDiagnoser>]
 type public LensComparison () =

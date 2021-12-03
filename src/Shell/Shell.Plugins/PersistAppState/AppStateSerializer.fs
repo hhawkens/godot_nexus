@@ -2,7 +2,7 @@ module internal App.Shell.Plugins.AppStateSerializer
 
 open System.IO
 open App.Core.Domain
-open App.Utilities
+open FSharpPlus
 open Newtonsoft.Json
 open Newtonsoft.Json.Bson
 

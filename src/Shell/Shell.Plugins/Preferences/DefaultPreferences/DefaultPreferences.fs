@@ -3,7 +3,7 @@ module internal App.Shell.Plugins.DefaultPreferences
 open System.IO
 open App.Core.Domain
 open App.Core.PluginDefinitions
-open App.Utilities
+open FSharpPlus
 
 [<Literal>]
 let private enginesPath = "engines"

@@ -1,6 +1,4 @@
-module public App.Utilities.Compare
-
-open FSharpPlus
+module public FSharpPlus.Compare
 
 /// Returns all differences (on public properties) between two objects of the same Type
 let public allPropertyDiffs (a: 't) (b: 't) =

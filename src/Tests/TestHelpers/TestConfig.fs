@@ -2,7 +2,7 @@ module public App.TestHelpers.TestConfig
 
 open System.IO
 open App.Core.Domain
-open App.Utilities
+open FSharpPlus
 
 [<Literal>]
 let private enginesPath = "engines"

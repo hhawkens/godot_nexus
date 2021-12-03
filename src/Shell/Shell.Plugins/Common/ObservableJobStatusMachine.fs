@@ -1,7 +1,7 @@
 namespace App.Shell.Plugins
 
 open App.Core.Domain
-open App.Utilities
+open FSharpPlus
 
 type internal ObservableJobStatusMachine<'success, 'error> (threadSafety, job) =
 

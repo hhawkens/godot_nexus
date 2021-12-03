@@ -5,7 +5,6 @@ open System.IO
 open FSharpPlus
 open App.Core.Domain
 open App.Shell.Plugins
-open App.Utilities
 open NUnit.Framework
 
 let private sut = OpenProject.plugin

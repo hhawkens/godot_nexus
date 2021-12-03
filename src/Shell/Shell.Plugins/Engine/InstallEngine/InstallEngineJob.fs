@@ -5,7 +5,6 @@ open System.IO.Compression
 open System.Text.RegularExpressions
 open FSharpPlus
 open App.Core.Domain
-open App.Utilities
 
 type public InstallEngineJob
     (engineZipFile: EngineZipFile,

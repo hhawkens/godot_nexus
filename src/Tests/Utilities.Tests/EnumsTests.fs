@@ -1,6 +1,6 @@
-module public App.Utilities.Tests.EnumsTests
+module public FSharpPlus.Tests.EnumsTests
 
-open App.Utilities
+open FSharpPlus
 open NUnit.Framework
 
 type public TestEnum =

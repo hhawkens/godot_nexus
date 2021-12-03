@@ -3,7 +3,7 @@ module internal App.Shell.Plugins.ConfigSerializer
 open System.IO
 open App.Core.Domain
 open App.Core.PluginDefinitions
-open App.Utilities
+open FSharpPlus
 open SharpConfig
 
 [<Literal>]

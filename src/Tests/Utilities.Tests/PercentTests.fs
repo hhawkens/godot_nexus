@@ -1,6 +1,6 @@
-module public App.Utilities.Tests.PercentTests
+module public FSharpPlus.Tests.PercentTests
 
-open App.Utilities
+open FSharpPlus
 open NUnit.Framework
 
 [<Literal>]

@@ -1,4 +1,4 @@
-namespace App.Utilities
+namespace FSharpPlus
 
 open System.Collections
 open System.Collections.Generic

@@ -4,7 +4,6 @@ open System.Diagnostics
 open FSharpPlus
 open App.Core.Domain
 open App.Core.PluginDefinitions
-open App.Utilities
 
 let private getProcessStartInfoToOpenProject (engineInstall: EngineInstall) (project: Project) =
     match engineInstall.ExecutableFile.StillExists, project.File.Val.StillExists with

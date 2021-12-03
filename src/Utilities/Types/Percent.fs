@@ -1,4 +1,4 @@
-namespace App.Utilities
+namespace FSharpPlus
 
 /// Represents a percent value, clamped between 0.0 and 1.0.
 type public Percent = private Percent of float with

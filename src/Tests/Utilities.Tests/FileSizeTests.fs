@@ -1,6 +1,6 @@
-module public App.Utilities.Tests.FileSizeTests
+module public FSharpPlus.Tests.FileSizeTests
 
-open App.Utilities
+open FSharpPlus
 open NUnit.Framework
 
 [<Test>]

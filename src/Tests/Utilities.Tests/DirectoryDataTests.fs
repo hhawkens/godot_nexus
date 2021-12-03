@@ -1,9 +1,8 @@
-module public App.Utilities.Tests.DirectoryDataTests
+module public FSharpPlus.Tests.DirectoryDataTests
 
 open System.IO
 open FSharpPlus
 open NUnit.Framework
-open App.Utilities
 open App.TestHelpers
 
 [<Literal>]

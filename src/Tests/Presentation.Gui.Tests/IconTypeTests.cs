@@ -1,4 +1,4 @@
-using App.Utilities;
+using FSharpPlus;
 using NUnit.Framework;
 
 namespace App.Presentation.Gui.Tests

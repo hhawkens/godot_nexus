@@ -3,7 +3,6 @@ module public App.SystemTests.ExplicitVisibilityTests
 open System
 open System.IO
 open System.Text.RegularExpressions
-open App.Utilities
 open NUnit.Framework
 open FSharpPlus
 open App.TestHelpers

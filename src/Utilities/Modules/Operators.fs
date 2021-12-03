@@ -1,10 +1,10 @@
-namespace App.Utilities
+namespace FSharpPlus
 
 open FSharpPlus
 open Microsoft.FSharp.Quotations.Patterns
 
 [<AutoOpen>]
-module public Operators =
+module public Operator =
 
     /// Used to debug piped values. Value will be printed + can be stopped via Debugger.
     let public debug a = tap (fun _ -> printfn $"Debug: {a}") a
@@ -87,7 +87,7 @@ module public Operators =
 
 
 [<AutoOpen>]
-type public Operators =
+type public Operator =
 
     /// Forcefully unpacks Result type, assuming it is a success. Throws exception on failure.
     static member public unwrap result =

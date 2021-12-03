@@ -1,4 +1,4 @@
-module public App.Utilities.Enums
+module public FSharpPlus.Enums
 
 open System
 

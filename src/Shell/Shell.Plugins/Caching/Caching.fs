@@ -3,7 +3,7 @@ namespace App.Shell.Plugins
 open System.IO
 open App.Core.Domain
 open App.Core.PluginDefinitions
-open App.Utilities
+open FSharpPlus
 
 type public Caching () =
 

@@ -1,7 +1,6 @@
 namespace App.Shell.Addons
 
 open FSharpPlus
-open App.Utilities
 
 type internal AddonController () =
 

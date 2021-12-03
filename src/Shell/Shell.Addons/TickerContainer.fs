@@ -1,6 +1,6 @@
 namespace App.Shell.Addons
 
-open App.Utilities
+open FSharpPlus
 
 type internal TickerContainer (tickTask) =
 

@@ -1,5 +1,5 @@
 [<AutoOpen>]
-module public App.Utilities.MonadExtensions
+module public FSharpPlus.MonadExtensions
 
 type public Result<'s, 'e> with
 

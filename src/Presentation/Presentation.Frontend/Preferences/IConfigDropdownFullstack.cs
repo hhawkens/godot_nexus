@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using App.Core.Domain;
-using App.Utilities;
+using FSharpPlus;
 
 namespace App.Presentation.Frontend
 {
@@ -26,7 +26,7 @@ namespace App.Presentation.Frontend
 		public IReadOnlyList<string> Options => options;
 
 		/// <inheritdoc />
-		public int ActiveIndex => Array.IndexOf(options, Value);
+		public int ActiveIndex => System.Array.IndexOf(options, Value);
 
 		/// <inheritdoc />
 		public override bool IsDefault => Value == DefaultValue;

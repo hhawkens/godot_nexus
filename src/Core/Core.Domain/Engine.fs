@@ -1,6 +1,6 @@
 namespace App.Core.Domain
 
-open App.Utilities
+open FSharpPlus
 
 /// Engine version of Godot that has not been installed yet (but can be downloaded online).
 type public EngineOnline = private {

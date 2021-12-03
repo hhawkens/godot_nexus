@@ -1,6 +1,6 @@
 /// Utility functions using reflection.
 /// Can circumvent language checks and limits, so use with care (e.g. for testing).
-module public App.Utilities.Reflec
+module public FSharpPlus.Reflec
 
 open System.Reflection
 open Microsoft.FSharp.Reflection

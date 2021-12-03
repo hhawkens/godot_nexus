@@ -3,7 +3,7 @@ namespace App.Shell.Plugins
 open System
 open System.Threading
 open App.Core.Domain
-open App.Utilities
+open FSharpPlus
 
 type public DownloadEngineJob
     (cacheDirectory: CacheDirectory,

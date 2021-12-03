@@ -1,4 +1,4 @@
-namespace App.Utilities
+namespace FSharpPlus
 
 /// Describes a type that can convert an object of one type to an object
 /// of another type.

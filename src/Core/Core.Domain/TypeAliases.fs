@@ -1,6 +1,6 @@
 namespace App.Core.Domain
 
-open App.Utilities
+open FSharpPlus
 
 /// Represents compressed engine files.
 type public EngineZipFile = EngineZipFile of FileData with

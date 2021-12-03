@@ -1,7 +1,7 @@
-module public App.Utilities.Tests.SetOnceTests
+module public FSharpPlus.Tests.SetOnceTests
 
 open System
-open App.Utilities
+open FSharpPlus
 open NUnit.Framework
 
 [<Literal>]

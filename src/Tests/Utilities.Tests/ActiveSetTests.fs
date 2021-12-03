@@ -1,6 +1,5 @@
-namespace App.Utilities.Tests
+namespace FSharpPlus.Tests
 
-open App.Utilities
 open FSharpPlus
 
 module public ActiveSetTests =

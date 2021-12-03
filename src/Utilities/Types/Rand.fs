@@ -1,4 +1,4 @@
-module public App.Utilities.Rand
+module public FSharpPlus.Rand
 
 open System
 

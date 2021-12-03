@@ -3,7 +3,7 @@ module public App.Shell.Plugins.Tests.AddExistingProject_v3Tests
 open System.IO
 open App.Core.Domain
 open App.Shell.Plugins
-open App.Utilities
+open FSharpPlus
 open NUnit.Framework
 
 let sut = AddExistingProject_v3.plugin

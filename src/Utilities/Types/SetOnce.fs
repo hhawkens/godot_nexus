@@ -1,4 +1,4 @@
-namespace App.Utilities
+namespace FSharpPlus
 
 [<Struct>]
 /// Flag indicating whether some value was set or not.

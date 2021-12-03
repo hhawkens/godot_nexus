@@ -4,7 +4,6 @@ open System.IO
 open System.Text.RegularExpressions
 open FSharpPlus
 open NUnit.Framework
-open App.Utilities
 open App.TestHelpers
 
 [<Literal>]
@@ -14,6 +13,11 @@ let private __ = Path.DirectorySeparatorChar
 let private namespaceRegex = @"\bnamespace\s+([\w\d.]+?)\s" |> Regex
 let private moduleRegex = @"\bmodule\s+(?:\w+\s)*((?:[\w]+\.)+)" |> Regex
 
+let private getExpectedNamespace (projectName: string) =
+    if projectName = "Utilities" then "FSharpPlus"
+    else if projectName = "Utilities.Tests" then "FSharpPlus.Tests"
+    else $"{RootNameSpace}.{projectName}"
+
 let private findError (projectName: string) (sourceFile: FileData) (regex: Regex) =
     let content = File.ReadAllText sourceFile.FullPath
     let match' = regex.Match(content)
@@ -22,7 +26,7 @@ let private findError (projectName: string) (sourceFile: FileData) (regex: Regex
         let namespaceText =
             if namespaceText.EndsWith "." then namespaceText.Substring(0, namespaceText.Length - 1)
             else namespaceText
-        let expected = $"{RootNameSpace}.{projectName}"
+        let expected = getExpectedNamespace projectName
         if expected <> namespaceText then
             Some $"Expected: {expected} - Actual: {namespaceText} - File: {sourceFile.FullPath}"
         else None
@@ -53,9 +57,7 @@ let public ``Check If All Code Files Use The Correct Name Space`` () =
                 (DirectoryData.from projectFile).FindFilesRecWhere (fun f ->
                     let isSourceFile = f.Extension = ".cs" || f.Extension = ".fs"
                     let isNotGenerated = not <| f.FullPath.Contains $"{__}obj{__}"
-                    let isNoException =
-                        not <| f.Name.ToLower().Contains "fsharpplus" &&
-                        not <| f.Name.ToLower().Contains "linq"
+                    let isNoException = not <| f.Name.ToLower().Contains "linq"
                     isSourceFile && isNotGenerated && isNoException)
             findAllNamespaceErrors projectFile sourceFiles)
         |> flatten

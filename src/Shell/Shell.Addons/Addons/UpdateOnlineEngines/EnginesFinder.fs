@@ -3,7 +3,6 @@ module internal App.Shell.Addons.EnginesFinder
 open AngleSharp.Html.Dom
 open FSharpPlus
 open App.Core.Domain
-open App.Utilities
 
 [<Literal>]
 let internal ErrorMsg = "Could not find Godot engines online"

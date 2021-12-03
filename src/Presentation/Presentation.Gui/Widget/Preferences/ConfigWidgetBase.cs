@@ -1,6 +1,6 @@
 using App.Presentation.Frontend;
 using Gtk;
-using App.Utilities;
+using FSharpPlus;
 
 namespace App.Presentation.Gui
 {
@@ -41,7 +41,7 @@ namespace App.Presentation.Gui
 		protected new void Add(Widget widget)
 		{
 			base.Add(widget);
-			Operators.assertThat($"Expected >=2 children in widget, actual: {Children.Length}", Children.Length >= 2);
+			Operator.assertThat($"Expected >=2 children in widget, actual: {Children.Length}", Children.Length >= 2);
 			ReorderChild(widget, Children.Length - 2);
 		}
 

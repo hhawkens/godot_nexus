@@ -1,6 +1,6 @@
 namespace App.Core.Domain
 
-open App.Utilities
+open FSharpPlus
 
 /// Describes what a running job is doing.
 type public JobRunning = {

@@ -3,7 +3,6 @@ module public App.Shell.Plugins.AddExistingProject_v3
 open System.IO
 open System.Text.RegularExpressions
 open App.Core.PluginDefinitions
-open App.Utilities
 open FSharpPlus
 open App.Core.Domain
 

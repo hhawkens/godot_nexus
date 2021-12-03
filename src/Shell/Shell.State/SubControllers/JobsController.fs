@@ -1,7 +1,7 @@
 namespace App.Shell.State
 
 open App.Core.Domain
-open App.Utilities
+open FSharpPlus
 
 /// Manages all jobs the application is running.
 type public IJobsController =

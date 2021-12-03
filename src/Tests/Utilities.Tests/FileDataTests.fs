@@ -1,7 +1,7 @@
-module public App.Utilities.Tests.FileDataTests
+module public FSharpPlus.Tests.FileDataTests
 
 open System.IO
-open App.Utilities
+open FSharpPlus
 open NUnit.Framework
 
 [<Literal>]

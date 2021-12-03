@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net5.0</TargetFramework>
         <AssemblyName>App.$(MSBuildProjectName)</AssemblyName>
-        <RootNamespace>App.$(MSBuildProjectName)</RootNamespace>
+        <RootNamespace>FSharpPlus</RootNamespace>
         <IsPackable>false</IsPackable>
         <Authors>Oliver Hawk</Authors>
     </PropertyGroup>

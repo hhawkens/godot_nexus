@@ -1,7 +1,7 @@
 namespace App.Shell.Plugins
 
 open App.Core.Domain
-open App.Utilities
+open FSharpPlus
 open Newtonsoft.Json
 
 // The use of "unwrap" in this file is ok because this code is used by C#, which throws anyway

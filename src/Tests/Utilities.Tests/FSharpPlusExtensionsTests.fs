@@ -1,4 +1,4 @@
-module public App.Utilities.Tests.FSharpPlusExtensionsTests
+module public FSharpPlus.Tests.FSharpPlusExtensionsTests
 
 open NUnit.Framework
 open FSharpPlus

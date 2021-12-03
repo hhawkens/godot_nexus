@@ -1,4 +1,4 @@
-namespace App.Utilities.Tests
+namespace FSharpPlus.Tests
 
 [<Struct>]
 type public TestTheme =

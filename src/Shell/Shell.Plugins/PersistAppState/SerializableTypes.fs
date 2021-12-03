@@ -1,7 +1,7 @@
 namespace App.Shell.Plugins
 
 open App.Core.Domain
-open App.Utilities
+open FSharpPlus
 
 type public SerializableEngine (data: EngineData, url: string, fileSize: FileSize) =
     member val public Data = data

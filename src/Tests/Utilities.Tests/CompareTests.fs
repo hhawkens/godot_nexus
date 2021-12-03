@@ -1,6 +1,6 @@
-module public App.Utilities.Tests.CompareTests
+module public FSharpPlus.Tests.CompareTests
 
-open App.Utilities
+open FSharpPlus
 open NUnit.Framework
 
 type public TestType = {Name: string; Age: int}

@@ -1,5 +1,5 @@
 [<AutoOpen; System.Runtime.CompilerServices.Extension>]
-module public App.Utilities.BaseTypeExtensions
+module public FSharpPlus.BaseTypeExtensions
 
 open System.Text.RegularExpressions
 open System.Runtime.CompilerServices
