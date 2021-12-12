@@ -10,7 +10,7 @@ open App.TestHelpers
 let private RootNameSpace = "App"
 
 let private __ = Path.DirectorySeparatorChar
-let private namespaceRegex = @"\bnamespace\s+([\w\d.]+?)\s" |> Regex
+let private namespaceRegex = @"\bnamespace\s+([\w\d.]+?)[\s;]" |> Regex
 let private moduleRegex = @"\bmodule\s+(?:\w+\s)*((?:[\w]+\.)+)" |> Regex
 
 let private getExpectedNamespace (projectName: string) =
