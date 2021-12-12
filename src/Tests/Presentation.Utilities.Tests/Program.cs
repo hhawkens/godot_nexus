@@ -1,9 +1,8 @@
-namespace App.Presentation.Utilities.Tests
+namespace App.Presentation.Utilities.Tests;
+
+public static class Program
 {
-	public static class Program
+	public static void Main()
 	{
-		public static void Main()
-		{
-		}
 	}
 }

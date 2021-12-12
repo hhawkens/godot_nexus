@@ -1,15 +1,14 @@
-namespace App.Presentation.Gui
+namespace App.Presentation.Gui;
+
+/// Defines images that can be used within custom widgets
+public enum IconType
 {
-	/// Defines images that can be used within custom widgets
-	public enum IconType
-	{
-		Projects,
-		Engines,
-		General,
-		GoPrevious,
-		Preferences,
-		Reset,
-		GodotMonochrome,
-		Goto
-	}
+	Projects,
+	Engines,
+	General,
+	GoPrevious,
+	Preferences,
+	Reset,
+	GodotMonochrome,
+	Goto
 }

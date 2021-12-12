@@ -4,88 +4,87 @@ using App.Shell.State;
 using FSharpPlus;
 using Microsoft.FSharp.Core;
 
-namespace App.Presentation.Frontend
+namespace App.Presentation.Frontend;
+
+/// View model abstraction for the UI of the preferences panel.
+public class PreferencesFullstack : BackendBase<IPreferencesStateController>, IPreferencesFullstack
 {
-	/// View model abstraction for the UI of the preferences panel.
-	public class PreferencesFullstack : BackendBase<IPreferencesStateController>, IPreferencesFullstack
+	public GeneralConfigContainerFrontend GeneralConfig { get; }
+	public UiConfigContainerFrontend UiConfig { get; }
+
+	private readonly Action<Error> errorThrower;
+	private readonly ConfigDirectoryFullstack enginesPathFullstack;
+	private readonly ConfigDirectoryFullstack projectsPathFullstack;
+	private readonly ConfigDropdownFullstack<Theme> themeFullstack;
+
+	public PreferencesFullstack(
+		Preferences initialPreferences,
+		Action<Error> errorThrower)
 	{
-		public GeneralConfigContainerFrontend GeneralConfig { get; }
-		public UiConfigContainerFrontend UiConfig { get; }
+		this.errorThrower = errorThrower;
 
-		private readonly Action<Error> errorThrower;
-		private readonly ConfigDirectoryFullstack enginesPathFullstack;
-		private readonly ConfigDirectoryFullstack projectsPathFullstack;
-		private readonly ConfigDropdownFullstack<Theme> themeFullstack;
+		var prefs = initialPreferences;
+		enginesPathFullstack = CreateEnginesPathConfig(prefs.General.EnginesPath);
+		projectsPathFullstack = CreateProjectsPathConfig(prefs.General.ProjectsPath);
+		GeneralConfig = new GeneralConfigContainerFrontend(nameof(prefs.General),
+			enginesPathFullstack,
+			projectsPathFullstack);
 
-		public PreferencesFullstack(
-			Preferences initialPreferences,
-			Action<Error> errorThrower)
-		{
-			this.errorThrower = errorThrower;
+		themeFullstack = CreateThemeConfig(prefs.UI.Theme);
+		UiConfig = new UiConfigContainerFrontend(nameof(prefs.UI),
+			themeFullstack);
 
-			var prefs = initialPreferences;
-			enginesPathFullstack = CreateEnginesPathConfig(prefs.General.EnginesPath);
-			projectsPathFullstack = CreateProjectsPathConfig(prefs.General.ProjectsPath);
-			GeneralConfig = new GeneralConfigContainerFrontend(nameof(prefs.General),
-				enginesPathFullstack,
-				projectsPathFullstack);
+		enginesPathFullstack.ModelValueUpdateRequired += EnginesPathFullstackChanged;
+		projectsPathFullstack.ModelValueUpdateRequired += ProjectsPathFullstackChanged;
+		themeFullstack.ModelValueUpdateRequired += ThemeFullstackChanged;
+	}
 
-			themeFullstack = CreateThemeConfig(prefs.UI.Theme);
-			UiConfig = new UiConfigContainerFrontend(nameof(prefs.UI),
-				themeFullstack);
+	/// <inheritdoc />
+	protected override void BeforeDispose() { }
 
-			enginesPathFullstack.ModelValueUpdateRequired += EnginesPathFullstackChanged;
-			projectsPathFullstack.ModelValueUpdateRequired += ProjectsPathFullstackChanged;
-			themeFullstack.ModelValueUpdateRequired += ThemeFullstackChanged;
-		}
+	/// <inheritdoc />
+	public override void NotifyModelUpdated(IPreferencesStateController model)
+	{
+		var general = model.Preferences.General;
+		var ui = model.Preferences.UI;
+		enginesPathFullstack.ModelValueUpdatedHandler(general.EnginesPath.CurrentValue.FullPath);
+		projectsPathFullstack.ModelValueUpdatedHandler(general.ProjectsPath.CurrentValue.FullPath);
+		themeFullstack.ModelValueUpdatedHandler(ui.Theme.CurrentValue);
+	}
 
-		/// <inheritdoc />
-		protected override void BeforeDispose() { }
+	private void EnginesPathFullstackChanged(object? sender, string e) =>
+		TryRequestModelUpdate(x => x.SetEnginesPathConfig(e));
 
-		/// <inheritdoc />
-		public override void NotifyModelUpdated(IPreferencesStateController model)
-		{
-			var general = model.Preferences.General;
-			var ui = model.Preferences.UI;
-			enginesPathFullstack.ModelValueUpdatedHandler(general.EnginesPath.CurrentValue.FullPath);
-			projectsPathFullstack.ModelValueUpdatedHandler(general.ProjectsPath.CurrentValue.FullPath);
-			themeFullstack.ModelValueUpdatedHandler(ui.Theme.CurrentValue);
-		}
+	private void ProjectsPathFullstackChanged(object? sender, string e) =>
+		TryRequestModelUpdate(x => x.SetProjectsPathConfig(e));
 
-		private void EnginesPathFullstackChanged(object? sender, string e) =>
-			TryRequestModelUpdate(x => x.SetEnginesPathConfig(e));
+	private void ThemeFullstackChanged(object? sender, Theme e) =>
+		TryRequestModelUpdate(x => x.SetThemeConfig(e));
 
-		private void ProjectsPathFullstackChanged(object? sender, string e) =>
-			TryRequestModelUpdate(x => x.SetProjectsPathConfig(e));
+	private void TryRequestModelUpdate<T>(Func<IPreferencesStateController, FSharpResult<T, string>> update) =>
+		RequestModelUpdate(x => ThrowIfError(update(x)));
 
-		private void ThemeFullstackChanged(object? sender, Theme e) =>
-			TryRequestModelUpdate(x => x.SetThemeConfig(e));
+	private void ThrowIfError<T>(FSharpResult<T, string> result)
+	{
+		if (result.IsError)
+			errorThrower(Error.General(result.ErrorValue));
+	}
 
-		private void TryRequestModelUpdate<T>(Func<IPreferencesStateController, FSharpResult<T, string>> update) =>
-			RequestModelUpdate(x => ThrowIfError(update(x)));
+	private static ConfigDirectoryFullstack CreateEnginesPathConfig(ConfigData<DirectoryData> model)
+	{
+		const string configName = nameof(Preferences.General.EnginesPath);
+		return new ConfigDirectoryFullstack(configName.SplitPascalCase(), model);
+	}
 
-		private void ThrowIfError<T>(FSharpResult<T, string> result)
-		{
-			if (result.IsError)
-				errorThrower(Error.General(result.ErrorValue));
-		}
+	private static ConfigDirectoryFullstack CreateProjectsPathConfig(ConfigData<DirectoryData> model)
+	{
+		const string configName = nameof(Preferences.General.ProjectsPath);
+		return new ConfigDirectoryFullstack(configName.SplitPascalCase(), model);
+	}
 
-		private static ConfigDirectoryFullstack CreateEnginesPathConfig(ConfigData<DirectoryData> model)
-		{
-			const string configName = nameof(Preferences.General.EnginesPath);
-			return new ConfigDirectoryFullstack(configName.SplitPascalCase(), model);
-		}
-
-		private static ConfigDirectoryFullstack CreateProjectsPathConfig(ConfigData<DirectoryData> model)
-		{
-			const string configName = nameof(Preferences.General.ProjectsPath);
-			return new ConfigDirectoryFullstack(configName.SplitPascalCase(), model);
-		}
-
-		private static ConfigDropdownFullstack<Theme> CreateThemeConfig(ConfigData<Theme> model)
-		{
-			const string configName = nameof(Preferences.UI.Theme);
-			return new ConfigDropdownFullstack<Theme>(configName.SplitPascalCase(), model);
-		}
+	private static ConfigDropdownFullstack<Theme> CreateThemeConfig(ConfigData<Theme> model)
+	{
+		const string configName = nameof(Preferences.UI.Theme);
+		return new ConfigDropdownFullstack<Theme>(configName.SplitPascalCase(), model);
 	}
 }

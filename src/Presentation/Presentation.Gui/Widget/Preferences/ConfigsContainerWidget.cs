@@ -2,41 +2,40 @@ using System;
 using App.Presentation.Frontend;
 using Gtk;
 
-namespace App.Presentation.Gui
+namespace App.Presentation.Gui;
+
+public class ConfigsContainerWidget : Box
 {
-	public class ConfigsContainerWidget : Box
+	private const int LabelStartMargin = 25;
+
+	public ConfigsContainerWidget(IConfigContainerFrontend viewModel)
+		: base(Orientation.Vertical, Styling.SubLevelSpacing)
 	{
-		private const int LabelStartMargin = 25;
+		StyleContext.AddClass("border-round");
 
-		public ConfigsContainerWidget(IConfigContainerFrontend viewModel)
-			: base(Orientation.Vertical, Styling.SubLevelSpacing)
+		var headingLabel = Label.New(viewModel.Heading);
+		headingLabel.Xalign = 0;
+		headingLabel.MarginStart = LabelStartMargin;
+		headingLabel.MarginTop = Styling.SubLevelSpacing;
+		headingLabel.MarginBottom = Styling.SubLevelSpacing * 2;
+		headingLabel.StyleContext.AddClass("heading-light");
+		Add(headingLabel);
+
+		Widget? lastEntryWidget = null;
+		foreach (var entry in viewModel.Entries)
 		{
-			StyleContext.AddClass("border-round");
-
-			var headingLabel = Label.New(viewModel.Heading);
-			headingLabel.Xalign = 0;
-			headingLabel.MarginStart = LabelStartMargin;
-			headingLabel.MarginTop = Styling.SubLevelSpacing;
-			headingLabel.MarginBottom = Styling.SubLevelSpacing * 2;
-			headingLabel.StyleContext.AddClass("heading-light");
-			Add(headingLabel);
-
-			Widget? lastEntryWidget = null;
-			foreach (var entry in viewModel.Entries)
+			ConfigWidgetBase entryWidget = entry switch
 			{
-				ConfigWidgetBase entryWidget = entry switch
-				{
-					IConfigDirectoryFullstack dir => new ConfigDirectoryWidget(dir),
-					IConfigDropdownFullstack dd => new ConfigDropdownWidget(dd),
-					_ => throw new ArgumentOutOfRangeException(nameof(viewModel))
-				};
+				IConfigDirectoryFullstack dir => new ConfigDirectoryWidget(dir),
+				IConfigDropdownFullstack dd => new ConfigDropdownWidget(dd),
+				_ => throw new ArgumentOutOfRangeException(nameof(viewModel))
+			};
 
-				lastEntryWidget = entryWidget;
-				Add(entryWidget);
-			}
-
-			if (lastEntryWidget != null)
-				lastEntryWidget.MarginBottom = Styling.SubLevelSpacing;
+			lastEntryWidget = entryWidget;
+			Add(entryWidget);
 		}
+
+		if (lastEntryWidget != null)
+			lastEntryWidget.MarginBottom = Styling.SubLevelSpacing;
 	}
 }
